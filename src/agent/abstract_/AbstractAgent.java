@@ -2,10 +2,12 @@ package agent.abstract_;
 
 public interface AbstractAgent {
     
-    // TODO function comments
-    void sense();   // Poll each of the sensors to build sensor array.
+    // Poll each of the sensors to build sensor array.
+    PerceptionArray sense();   
     
-    void think();   // Find corresponding action to triggers.
+    // Find corresponding action to triggers.
+    ActionArray think(PerceptionArray apa);   
     
-    void act();     // Execute activated actions.
+    // Execute activated actions.
+    void act(ActionArray aaa);     
 }
