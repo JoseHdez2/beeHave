@@ -27,9 +27,11 @@ Clase que modela una simulación.
 ## Métodos
 
 * `initialize()`
-  * Inicializa la simulación (`turn = 0`, etc.).
-  * Se llama cuando
+  * Inicializa la simulación (`turn = 0`, etc.) en estado pausado.
+  * Se llama cuando 
 * `pause()`
-  * Para la simulación.
-* `run()`
-  * Corre
+  * Pausa la simulación.
+* `continue()`
+  * Corre una simulación pausada.
+* `stop()`
+  * Finaliza la simulación y realiza y muestra los cálculos pertinentes.
