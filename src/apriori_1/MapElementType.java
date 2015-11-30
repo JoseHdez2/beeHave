@@ -5,7 +5,7 @@ package apriori_1;
  *  En orden alfabético para facilitar su edición.
  */
 // TODO: Es posible que sea subdividido en enums especificos a cada familia de Elementos (AGENT, OBJECT, etc).
-public enum MapElementId {
+public enum MapElementType {
     AGENT_BEE_QUEEN,
     AGENT_WASP,
     OBJECT_FOOD_HONEY,
