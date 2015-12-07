@@ -1,4 +1,4 @@
-package apriori_1;
+package environment;
 
 import java.util.ArrayList;
 

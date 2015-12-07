@@ -1,4 +1,6 @@
-package apriori_1;
+package app;
+
+import environment.Environment;
 
 /**
  *  Clase que modela una simulación.
@@ -25,19 +27,15 @@ public abstract class Simulation {
     float interactiveTurnSeconds;
     // Tiempo en segundos durante el cual se mostrará cada turno en pantalla.
     
-    
-    /**
-     * Inicializa la simulacion ("turn" = 0, etc) en estado pausado.
-     * Llama al initialize() del "env"(Entorno) en cascada.
-     */
     abstract void initialize();
-    // Inicializa 
+    // Inicializa la simulacion ("turn" = 0, etc) en estado pausado.
+    // Llama al initialize() del "env"(Entorno) en cascada.
     
     abstract void pause();
     // Pausa la simulación.
     
     abstract void run();
-    // Ejecuta el bucle inicial de la
+    // Ejecuta el bucle inicial de la simulación.
     // Ejecuta cada turno de la simulación, y además...
     // Si "interactive" es true, muestra el entorno por pantalla durante "interactiveTurnSeconds".
     // Si "interactive" es true, revisa si ha llegado una peticion de parada y no sigue.

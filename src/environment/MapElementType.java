@@ -1,4 +1,4 @@
-package apriori_1;
+package environment;
 
 /**
  *  Enum de los distintos tipos posibles de elementos (MapElement) que aparecerán en el entorno (Environment).

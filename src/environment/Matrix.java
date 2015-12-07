@@ -1,4 +1,4 @@
-package apriori_1;
+package environment;
 
 public class Matrix<T> {
     
