@@ -15,9 +15,9 @@ public class Frame {
 	private int height;
 	private JFrame frame;
 	
-//	public static void main(String [] args){
-//		Frame testFrame = new Frame();
-//	}
+	//	public static void main(String [] args){
+	//		Frame testFrame = new Frame();
+	//	}
 	
 	public Frame() {
 		final int WIDTH = 400;
