@@ -8,8 +8,6 @@ import java.util.ArrayList;
  */
 public class Environment {
     
-    // TODO: ¿Conviene tener a los elementos dinámicos separados de los estáticos?
-    
     ArrayList<MapElement> elems;
     // Elementos dinámicos en el entorno.
     // Los elementos dinámicos no se guardan en la matriz sino aparte,
