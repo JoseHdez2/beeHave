@@ -45,6 +45,16 @@ public class EnvironmentPanel extends JPanel {
         
         Random rand = new Random();
         agentPos.setLocation(rand.nextInt(x), rand.nextInt(y));
+        generateFoodPortion();
+        generateFoodPortion();
+    }
+    
+    /**
+     * Create a single food item randomly in the environment.
+     */
+    public void generateFoodPortion(){
+        Random rand = new Random();
+        foodPositions.add(new Point(rand.nextInt(x), rand.nextInt(y)));
     }
     
     @Override
