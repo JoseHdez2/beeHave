@@ -1,15 +1,15 @@
 package test;
 
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class SimFrame extends JFrame {
     
@@ -25,20 +25,30 @@ public class SimFrame extends JFrame {
         add(envPanel);
         
         JPanel optionsPanel = new JPanel();
-        optionsPanel.setLayout(new FlowLayout());
+//        optionsPanel.setLayout(new GridLayout(0,1));
         optionsPanel.add(new JLabel("Opciones"));
         
+        JPanel foodPanel = new JPanel();
+        optionsPanel.add(foodPanel);
+        
+        JLabel foodText = new JLabel("Porciones:");
+        foodPanel.add(foodText);
+        
+        // TextInput for specifying number of pieces of food.
+        JTextField foodField = new JTextField(2);
+        foodPanel.add(foodField);
+        
+        // Button for generating N pieces of food.
         JButton foodButton = new JButton("Generar comida");
         foodButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                envPanel.generateFoodPortion();
+                int n = Integer.parseInt(foodField.getText());
+                for (int i = 0; i < n; i++) envPanel.generateFoodPortion();
                 envPanel.repaint();
             }
         });
-        add(foodButton);
-        
-        optionsPanel.add(new JButton("Boton"));
+        foodPanel.add(foodButton);
         
         add(optionsPanel);
     }

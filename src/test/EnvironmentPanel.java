@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -38,6 +40,32 @@ public class EnvironmentPanel extends JPanel {
                 JLabel label = new JLabel("");
                 label.setOpaque(true);
                 label.setBackground(color);
+                
+                label.addMouseListener(new MouseListener(){
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        for (int j = 0; j < elements.height(); j++){
+                            for (int i = 0; i < elements.width(); i++){
+                                if (e.getSource() == elements.get(i, j)) elements.get(i, j).setBackground(Color.RED);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {}
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {}
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {}
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {}
+                    
+                });
+                
                 elements.set(i, j, label);
                 add(elements.get(i, j));
             }
