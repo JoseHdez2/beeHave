@@ -1,4 +1,4 @@
-package agent;
+package agent.v1;
 
 /**
  *  Clase basada en la teoría de agentes.

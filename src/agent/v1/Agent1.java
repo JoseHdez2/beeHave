@@ -1,4 +1,4 @@
-package agent;
+package agent.v1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 /**
  *  Clase basada en la teoría de agentes.
+ *  
+ *  Representación abstracta de como actúa un agente.
  */
 public abstract class Agent1 {
     
