@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 public class EnvironmentPanel extends JPanel {
     
     private int x, y;
-    Matrix<JLabel> elements;
+    Matrix<EnvironmentLabel> elements;
     ArrayList<ArrayList<JLabel>> labels = new ArrayList<ArrayList<JLabel>>();
     
     Point agentPos = new Point(); // Agent's position in x and y.
@@ -32,12 +32,12 @@ public class EnvironmentPanel extends JPanel {
         setLayout(new GridLayout(width,height));
         this.x = width;
         this.y = height;
-        this.elements = new Matrix<JLabel>(new JLabel[x][y]);
+        this.elements = new Matrix<EnvironmentLabel>(new EnvironmentLabel[x][y]);
 
         for (int j = 0; j < elements.height(); j++){
             for (int i = 0; i < elements.width(); i++){
                 Color color = (i+j)%2 == 0 ? new Color(150,150,150) : new Color(200,200,200);
-                JLabel label = new JLabel("");
+                EnvironmentLabel label = new EnvironmentLabel("",i,j);
                 label.setOpaque(true);
                 label.setBackground(color);
                 
@@ -45,11 +45,9 @@ public class EnvironmentPanel extends JPanel {
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        for (int j = 0; j < elements.height(); j++){
-                            for (int i = 0; i < elements.width(); i++){
-                                if (e.getSource() == elements.get(i, j)) elements.get(i, j).setBackground(Color.RED);
-                            }
-                        }
+                        EnvironmentLabel el = ((EnvironmentLabel)e.getSource());
+                        foodPositions.add(new Point(el.x, el.y));
+                        el.getParent().repaint();
                     }
 
                     @Override

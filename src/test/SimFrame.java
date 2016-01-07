@@ -4,7 +4,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,8 +24,6 @@ public class SimFrame extends JFrame {
         add(envPanel);
         
         JPanel optionsPanel = new JPanel();
-//        optionsPanel.setLayout(new GridLayout(0,1));
-        optionsPanel.add(new JLabel("Opciones"));
         
         JPanel foodPanel = new JPanel();
         optionsPanel.add(foodPanel);
