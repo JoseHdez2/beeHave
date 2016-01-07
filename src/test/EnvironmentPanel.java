@@ -3,9 +3,11 @@ package test;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -18,29 +20,48 @@ public class EnvironmentPanel extends JPanel {
     Matrix<JLabel> elements;
     ArrayList<ArrayList<JLabel>> labels = new ArrayList<ArrayList<JLabel>>();
     
+    Point agentPos = new Point(); // Agent's position in x and y.
+    ImageIcon agentIcon = new ImageIcon("media/image/agent.png"); // Icon representing the agent.
+    
+    ArrayList<Point> foodPositions = new ArrayList<Point>();
+    ImageIcon foodIcon = new ImageIcon("media/image/meat.png"); // Icon representing food.
+    
     EnvironmentPanel(int width, int height){
         setLayout(new GridLayout(width,height));
         this.x = width;
         this.y = height;
         this.elements = new Matrix<JLabel>(new JLabel[x][y]);
 
-        for (int i = 0; i < elements.height(); i++){
-            for (int j = 0; j < elements.width(); j++){
-                Random rand = new Random();
-                int r = rand.nextInt(255);
-                int g = rand.nextInt(255);
-                int b = rand.nextInt(255);
-                JLabel label = new JLabel("hola");
+        for (int j = 0; j < elements.height(); j++){
+            for (int i = 0; i < elements.width(); i++){
+                Color color = (i+j)%2 == 0 ? new Color(150,150,150) : new Color(200,200,200);
+                JLabel label = new JLabel("");
                 label.setOpaque(true);
-                label.setBackground(new Color(r,g,b));
+                label.setBackground(color);
                 elements.set(i, j, label);
                 add(elements.get(i, j));
             }
         }
+        
+        Random rand = new Random();
+        agentPos.setLocation(rand.nextInt(x), rand.nextInt(y));
     }
     
     @Override
     public void paint(Graphics g) {
+        for (int j = 0; j < elements.height(); j++){
+            for (int i = 0; i < elements.width(); i++){
+                // Erase previous frame.
+                elements.get(i, j).setIcon(null);
+                
+                // Draw food.
+                for (Point food : foodPositions)
+                    if (i == food.x && j == food.y) elements.get(i, j).setIcon(foodIcon);
+                
+                // Draw agent.
+                if (i == agentPos.x && j == agentPos.y) elements.get(i, j).setIcon(agentIcon);
+            }
+        }
         super.paint(g);
     }
 }
