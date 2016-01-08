@@ -3,6 +3,8 @@
  */
 package test;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Random;
  *
  */
 public class RandomMove implements MovementType {
-
+	private ArrayList<Point> visited;
 
 	public static final RandomEnum<moveDirection> enumList =
 	        new RandomEnum<moveDirection>(moveDirection.class);
@@ -28,38 +30,52 @@ public class RandomMove implements MovementType {
             return values[RND.nextInt(values.length)];
         }
     }
-	
+	public RandomMove(){
+		visited = new ArrayList<Point>();
+	}
 	@Override
 	public moveDirection nextMove (EnvironmentPanel panel) {
 		moveDirection movement = enumList.random();
-		if(movement == moveDirection.LEFT && panel.agentPos.y == 0){
+		if((movement == moveDirection.LEFT && panel.agentPos.y == 0) 
+				|| movement == moveDirection.LEFT && visited.contains(new Point(panel.agentPos.x, panel.agentPos.y - 1)) ){
 			panel.agentPos.setLocation(panel.agentPos.x, panel.agentPos.y + 1);
+			visited.add(new Point(panel.agentPos.x, panel.agentPos.y + 1));
 			return moveDirection.RIGHT;
 		}
-		else if (movement == moveDirection.RIGHT && panel.agentPos.y == panel.getY()) {
+		else if ((movement == moveDirection.RIGHT && panel.agentPos.y == panel.getY()) 
+				|| movement == moveDirection.RIGHT && visited.contains(new Point(panel.agentPos.x, panel.agentPos.y + 1))) {
 			panel.agentPos.setLocation(panel.agentPos.x, panel.agentPos.y - 1);
+			visited.add(new Point(panel.agentPos.x, panel.agentPos.y - 1));
 			return moveDirection.LEFT;
 		}
-		else if (movement == moveDirection.UP && panel.agentPos.x == 0) {
+		else if ((movement == moveDirection.UP && panel.agentPos.x == 0)
+				|| movement == moveDirection.UP && visited.contains(new Point(panel.agentPos.x - 1, panel.agentPos.y))){
 			panel.agentPos.setLocation(panel.agentPos.x + 1, panel.agentPos.y);
+			visited.add(new Point(panel.agentPos.x + 1, panel.agentPos.y));
 			return moveDirection.DOWN;
 		}
-		else if (movement == moveDirection.DOWN && panel.agentPos.x == panel.getX()) {
+		else if ((movement == moveDirection.DOWN && panel.agentPos.x == panel.getX())
+				|| movement == moveDirection.DOWN && visited.contains(new Point(panel.agentPos.x + 1, panel.agentPos.y))){
 			panel.agentPos.setLocation(panel.agentPos.x - 1, panel.agentPos.y);
+			visited.add(new Point(panel.agentPos.x - 1, panel.agentPos.y));
 			return moveDirection.UP;
 		}
 		switch (movement) {
 		case DOWN:
 			panel.agentPos.setLocation(panel.agentPos.x + 1, panel.agentPos.y);
+			visited.add(new Point(panel.agentPos.x + 1, panel.agentPos.y));
 			return moveDirection.DOWN;
 		case UP:
 			panel.agentPos.setLocation(panel.agentPos.x - 1, panel.agentPos.y);
+			visited.add(new Point(panel.agentPos.x - 1, panel.agentPos.y));
 			return moveDirection.UP;
 		case LEFT:
 			panel.agentPos.setLocation(panel.agentPos.x, panel.agentPos.y - 1);
+			visited.add(new Point(panel.agentPos.x, panel.agentPos.y - 1));
 			return moveDirection.LEFT;
 		case RIGHT:
 			panel.agentPos.setLocation(panel.agentPos.x, panel.agentPos.y + 1);
+			visited.add(new Point(panel.agentPos.x, panel.agentPos.y + 1));
 			return moveDirection.RIGHT;
 		default:
 			break;

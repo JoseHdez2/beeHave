@@ -7,13 +7,14 @@ public class Agent {
 	private Point position;
 	public Agent() {
 		pathFinding = new RandomMove();
-		position.setLocation(0, 0);
 	}
 	
 	public void moveAgent(EnvironmentPanel panel){
+		position = panel.agentPos;
 		while(!panel.foodPositions.contains(position)){
 			pathFinding.nextMove(panel);
 		}
+		System.out.println("Ei");
 	}
 
 }
