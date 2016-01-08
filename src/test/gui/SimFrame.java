@@ -14,15 +14,25 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
+import test.agent.Agent;
+import test.agent.RandomMove;
+
 public class SimFrame extends JFrame {
     
     public EnvironmentPanel envPanel;
     
-    final String strAgent = "Agente";
-    final String strFood = "Comida";
+    final String strEleAgent = "Agente";
+    final String strEleFood = "Comida";
+    final String strMovRandom = "Aleatorio";
+    final String strMovDepth = "DFS (profundidad)";
+    final String strMovBreadth = "BFS (anchura)";
+    final String strSimPlay = "Correr simulacion";
+    final String strSimStop = "Parar simulacion";
     
     // Timer for simulation steps.
-    Timer simTimer;
+    Timer simTimer = new Timer(1000, null);
+    JTextField simStepDurField; // Simulation step duration text field.
+    JButton simPlayButton;  // Button for starting/stopping the simulation.
     
     public SimFrame(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,21 +79,20 @@ public class SimFrame extends JFrame {
         JPanel clickEffectPanel = new JPanel();
         menuPanel.add(clickEffectPanel);
         
-        JRadioButton clickFoodButton = new JRadioButton(strFood);
+        JRadioButton clickFoodButton = new JRadioButton(strEleFood);
+        clickEffectPanel.add(clickFoodButton);
         clickFoodButton.setMnemonic(KeyEvent.VK_C);
-        clickFoodButton.setActionCommand(strFood);
+        clickFoodButton.setActionCommand(strEleFood);
         
-        JRadioButton clickAgentButton = new JRadioButton(strAgent);
+        JRadioButton clickAgentButton = new JRadioButton(strEleAgent);
+        clickEffectPanel.add(clickAgentButton);
         clickAgentButton.setMnemonic(KeyEvent.VK_A);
-        clickAgentButton.setActionCommand(strAgent);
+        clickAgentButton.setActionCommand(strEleAgent);
 
         // Group the radio buttons.
         ButtonGroup clickEffectButtonGroup = new ButtonGroup();
         clickEffectButtonGroup.add(clickFoodButton);
         clickEffectButtonGroup.add(clickAgentButton);
-        
-        clickEffectPanel.add(clickFoodButton);
-        clickEffectPanel.add(clickAgentButton);
         
         // Register a listener for the radio buttons.
         clickFoodButton.addActionListener(clickEffectButtonListener);
@@ -93,44 +102,110 @@ public class SimFrame extends JFrame {
         clickEffectButtonGroup.setSelected(clickFoodButton.getModel(), true);
 
         /*
+         * Agent movement type panel.
+         */
+        
+        JPanel agentMoveTypePanel = new JPanel();
+        menuPanel.add(agentMoveTypePanel);
+        
+        JRadioButton moveRandomButton = new JRadioButton(strMovRandom);
+        agentMoveTypePanel.add(moveRandomButton);
+        moveRandomButton.setMnemonic(KeyEvent.VK_R);
+        moveRandomButton.setActionCommand(strMovRandom);
+        
+        JRadioButton moveDepthButton = new JRadioButton(strMovDepth);
+        agentMoveTypePanel.add(moveDepthButton);
+        moveDepthButton.setMnemonic(KeyEvent.VK_D);
+        moveDepthButton.setActionCommand(strMovDepth);
+        
+        JRadioButton moveBreadthButton = new JRadioButton(strMovBreadth);
+        agentMoveTypePanel.add(moveBreadthButton);
+        moveBreadthButton.setMnemonic(KeyEvent.VK_B);
+        moveBreadthButton.setActionCommand(strMovBreadth);
+
+        // Group the radio buttons.
+        ButtonGroup moveTypeButtonGroup = new ButtonGroup();
+        moveTypeButtonGroup.add(moveRandomButton);
+        moveTypeButtonGroup.add(moveDepthButton);
+        moveTypeButtonGroup.add(moveBreadthButton);
+        
+        // Register a listener for the radio buttons.
+        moveRandomButton.addActionListener(moveTypeButtonListener);
+        moveDepthButton.addActionListener(moveTypeButtonListener);
+        moveBreadthButton.addActionListener(moveTypeButtonListener);
+        
+        // Radio button that will be selected on startup.
+        moveTypeButtonGroup.setSelected(moveRandomButton.getModel(), true);
+        
+        /*
          * Simulation time panel.
          */
         
         JPanel simTimePanel = new JPanel();
         menuPanel.add(simTimePanel);
         
+        JLabel simStepDurLabel = new JLabel("Step duration (ms):");
+        simTimePanel.add(simStepDurLabel);
+        
+        simStepDurField = new JTextField(((Integer)simTimer.getDelay()).toString(), 4);
+        simTimePanel.add(simStepDurField);
+        
+        simPlayButton = new JButton(strSimPlay);
+        simPlayButton.addActionListener(simulationPlayButtonListener);
+        simTimePanel.add(simPlayButton);
+        simTimer = new Timer(simTimer.getDelay(), simulationTimerListener);
+        
         JButton simStepButton = new JButton("Simular turno");
-        simStepButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                envPanel.simulationStep();
-                envPanel.repaint();
-            }
-        });
-        simTimePanel.add(simStepButton);
+        simStepButton.addActionListener(simulationTimerListener);
+        menuPanel.add(simStepButton);
+        
         setVisible(true);
     }
     
     // Listener for the click effect radio buttons.
     ActionListener clickEffectButtonListener = new ActionListener(){
-
         @Override
         public void actionPerformed(ActionEvent e) {
             switch(e.getActionCommand()){
-            case strAgent: envPanel.clickEffect = EnvironmentEntity.AGENT; break;
-            case strFood: envPanel.clickEffect = EnvironmentEntity.FOOD; break;
+            case strEleAgent: envPanel.clickEffect = EnvironmentEntity.AGENT; break;
+            case strEleFood: envPanel.clickEffect = EnvironmentEntity.FOOD; break;
             }
-        }
-        
+        }  
+    };
+    
+    // Listener for the click effect radio buttons.
+    ActionListener moveTypeButtonListener = new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            switch(e.getActionCommand()){
+            case strMovRandom: envPanel.agent.pathFinding = new RandomMove(); break;
+            // case strMovDepth: envPanel.agent.pathFinding = new DFSMove(); break;
+            // case strMovBreadth: envPanel.agent.pathFinding = new BFSMove(); break;
+            }
+        }  
     };
     
     // Listener for each fired step of the simulation.
     ActionListener simulationTimerListener = new ActionListener(){
-
         @Override
         public void actionPerformed(ActionEvent e) {
             envPanel.simulationStep();  // Perform a step of the simulation.
         }
-        
+    };
+    
+    // Listener for event fired when 'play/stop simulation' button is clicked.
+    ActionListener simulationPlayButtonListener = new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(simTimer.isRunning()){
+                simTimer.stop();
+                simPlayButton.setText(strSimPlay);
+            }
+            else {
+                simTimer.setDelay(Integer.parseInt(simStepDurField.getText()));
+                simTimer.start();
+                simPlayButton.setText(strSimStop);
+            }
+        }
     };
 }

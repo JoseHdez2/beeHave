@@ -6,7 +6,7 @@ import test.gui.EnvironmentPanel;
 
 public class Agent {
 	
-    private MovementType pathFinding;
+    public MovementType pathFinding;
 	
 	public Point pos;
 	
