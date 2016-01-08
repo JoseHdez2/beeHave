@@ -12,6 +12,7 @@ public class Agent {
 	
 	public Agent() {
 		pathFinding = new RandomMove();
+		pos = new Point(1,1);
 	}
 	
 	public void moveAgent(EnvironmentPanel panel){
