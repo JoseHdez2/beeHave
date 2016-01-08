@@ -1,9 +1,10 @@
 /**
  * 
  */
-package test;
+package test.agent;
 
-import test.MovementType.moveDirection;
+import test.agent.MovementType.moveDirection;
+import test.gui.EnvironmentPanel;
 import environment.Matrix;
 
 import java.util.Random;

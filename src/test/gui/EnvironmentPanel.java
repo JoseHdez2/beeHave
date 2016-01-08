@@ -1,4 +1,4 @@
-package test;
+package test.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -22,10 +22,10 @@ public class EnvironmentPanel extends JPanel {
     Matrix<EnvironmentLabel> elements;
     ArrayList<ArrayList<JLabel>> labels = new ArrayList<ArrayList<JLabel>>();
     
-    Point agentPos = new Point(); // Agent's position in x and y.
+    public Point agentPos = new Point(); // Agent's position in x and y.
     ImageIcon agentIcon = new ImageIcon("media/image/agent.png"); // Icon representing the agent.
     
-    ArrayList<Point> foodPositions = new ArrayList<Point>();
+    public ArrayList<Point> foodPositions = new ArrayList<Point>();
     ImageIcon foodIcon = new ImageIcon("media/image/meat.png"); // Icon representing food.
     
     public EnvironmentEntity clickEffect = EnvironmentEntity.FOOD;

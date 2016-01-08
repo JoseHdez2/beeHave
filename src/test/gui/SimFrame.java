@@ -1,4 +1,4 @@
-package test;
+package test.gui;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,12 +16,12 @@ import javax.swing.JTextField;
 
 public class SimFrame extends JFrame {
     
-    EnvironmentPanel envPanel;
+    public EnvironmentPanel envPanel;
     
     final String strAgent = "Agente";
     final String strFood = "Comida";
     
-    SimFrame(){
+    public SimFrame(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("beeHave test");
         setVisible(true);

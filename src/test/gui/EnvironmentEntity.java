@@ -1,4 +1,4 @@
-package test;
+package test.gui;
 
 /**
  * Entities that can be placed in the map.

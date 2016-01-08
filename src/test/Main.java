@@ -1,5 +1,8 @@
 package test;
 
+import test.agent.Agent;
+import test.gui.SimFrame;
+
 public class Main {
     
     public static void main(String[] args) {
@@ -8,6 +11,7 @@ public class Main {
        Agent agent = new Agent();
        agent.moveAgent(sf.envPanel);
        System.out.println("Hola");
+       sf.repaint();
     }
     
 }

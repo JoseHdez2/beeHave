@@ -1,6 +1,8 @@
-package test;
+package test.agent;
 
 import java.awt.Point;
+
+import test.gui.EnvironmentPanel;
 
 public class Agent {
 	private MovementType pathFinding;
@@ -13,6 +15,7 @@ public class Agent {
 		position = panel.agentPos;
 		while(!panel.foodPositions.contains(position)){
 			pathFinding.nextMove(panel);
+//			panel.repaint();
 		}
 		System.out.println("Ei");
 	}
