@@ -21,7 +21,7 @@ import test.agent.Agent;
 public class EnvironmentPanel extends JPanel {
     
     private int x, y;
-    Matrix<EnvironmentLabel> elements;
+    public Matrix<EnvironmentLabel> elements;
     ArrayList<ArrayList<JLabel>> labels = new ArrayList<ArrayList<JLabel>>();
     
     // public Point agentPos = new Point(); // Agent's position in x and y.
