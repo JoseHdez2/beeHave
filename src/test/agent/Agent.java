@@ -10,7 +10,7 @@ public class Agent {
 	
 	public Point pos;
 	
-	public Agent() {
+	public Agent(String string) {
 		pathFinding = new RandomMove();
 		pos = new Point(1,1);
 	}
