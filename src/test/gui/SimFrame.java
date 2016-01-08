@@ -93,6 +93,22 @@ public class SimFrame extends JFrame {
         // Radio button that will be selected on startup.
         clickEffectButtonGroup.setSelected(clickFoodButton.getModel(), true);
 
+        /*
+         * Simulation time panel.
+         */
+        
+        JPanel simTimePanel = new JPanel();
+        menuPanel.add(simTimePanel);
+        
+        JButton simStepButton = new JButton("Simular turno");
+        simStepButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                envPanel.simulationStep();
+                envPanel.repaint();
+            }
+        });
+        simTimePanel.add(simStepButton);
     }
     
     // Listener for the click effect radio buttons.
@@ -113,7 +129,7 @@ public class SimFrame extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            envPanel.simulationStep();
+            envPanel.simulationStep();  // Perform a step of the simulation.
         }
         
     };

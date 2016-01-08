@@ -8,7 +8,7 @@ public class Agent {
 	
     private MovementType pathFinding;
 	
-	public Point pos;
+	public Point pos = new Point();
 	
 	public Agent(String string) {
 		pathFinding = new RandomMove();
