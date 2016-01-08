@@ -102,6 +102,7 @@ public class EnvironmentPanel extends JPanel {
      */
     public void simulationStep(){
         agent.moveAgent(this);
+        repaint();  // Repaint to show changes.
     }
     
     @Override

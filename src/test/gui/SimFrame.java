@@ -20,14 +20,17 @@ public class SimFrame extends JFrame {
     
     final String strAgent = "Agente";
     final String strFood = "Comida";
+    final String strSimPlay = "Correr simulacion";
+    final String strSimStop = "Parar simulacion";
     
     // Timer for simulation steps.
-    Timer simTimer;
+    Timer simTimer = new Timer(1000, null);
+    JTextField simStepDurField; // Simulation step duration text field.
+    JButton simPlayButton;  // Button for starting/stopping the simulation.
     
     public SimFrame(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("beeHave test");
-        setVisible(true);
         setSize(800, 600);
         setLayout(new GridLayout(1,2));
         
@@ -100,15 +103,22 @@ public class SimFrame extends JFrame {
         JPanel simTimePanel = new JPanel();
         menuPanel.add(simTimePanel);
         
+        JLabel simStepDurLabel = new JLabel("Step duration (ms):");
+        simTimePanel.add(simStepDurLabel);
+        
+        simStepDurField = new JTextField(((Integer)simTimer.getDelay()).toString(), 4);
+        simTimePanel.add(simStepDurField);
+        
+        simPlayButton = new JButton(strSimPlay);
+        simPlayButton.addActionListener(simulationPlayButtonListener);
+        simTimePanel.add(simPlayButton);
+        simTimer = new Timer(simTimer.getDelay(), simulationTimerListener);
+        
         JButton simStepButton = new JButton("Simular turno");
-        simStepButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                envPanel.simulationStep();
-                envPanel.repaint();
-            }
-        });
-        simTimePanel.add(simStepButton);
+        simStepButton.addActionListener(simulationTimerListener);
+        menuPanel.add(simStepButton);
+        
+        setVisible(true);
     }
     
     // Listener for the click effect radio buttons.
@@ -126,11 +136,25 @@ public class SimFrame extends JFrame {
     
     // Listener for each fired step of the simulation.
     ActionListener simulationTimerListener = new ActionListener(){
-
         @Override
         public void actionPerformed(ActionEvent e) {
             envPanel.simulationStep();  // Perform a step of the simulation.
         }
-        
+    };
+    
+    // Listener for event fired when 'play/stop simulation' button is clicked.
+    ActionListener simulationPlayButtonListener = new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(simTimer.isRunning()){
+                simTimer.stop();
+                simPlayButton.setText(strSimPlay);
+            }
+            else {
+                simTimer.setDelay(Integer.parseInt(simStepDurField.getText()));
+                simTimer.start();
+                simPlayButton.setText(strSimStop);
+            }
+        }
     };
 }
