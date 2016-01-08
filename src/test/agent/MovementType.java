@@ -24,8 +24,7 @@ public interface MovementType {
 	
 
 	/**
-	 * 
-	 * 
-	 **/
-	moveDirection nextMove(EnvironmentPanel panel);
+	 * Decide the next step for the agent and execute it.
+	 */
+	moveDirection nextMove(Agent agent, EnvironmentPanel panel);
 }

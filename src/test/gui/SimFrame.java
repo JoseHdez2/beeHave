@@ -6,13 +6,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 public class SimFrame extends JFrame {
     
@@ -21,6 +21,9 @@ public class SimFrame extends JFrame {
     final String strAgent = "Agente";
     final String strFood = "Comida";
     
+    // Timer for simulation steps.
+    Timer simTimer;
+    
     public SimFrame(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("beeHave test");
@@ -28,10 +31,11 @@ public class SimFrame extends JFrame {
         setSize(800, 600);
         setLayout(new GridLayout(1,2));
         
-        envPanel = new EnvironmentPanel(10, 10);
+        envPanel = new EnvironmentPanel(10, 10);    // Create environment with a 10x10 grid.
         add(envPanel);
         
         JPanel menuPanel = new JPanel();
+        add(menuPanel);
         
         /*
          * Food generation panel.
@@ -88,8 +92,7 @@ public class SimFrame extends JFrame {
         
         // Radio button that will be selected on startup.
         clickEffectButtonGroup.setSelected(clickFoodButton.getModel(), true);
-        
-        add(menuPanel);
+
     }
     
     // Listener for the click effect radio buttons.
@@ -105,4 +108,13 @@ public class SimFrame extends JFrame {
         
     };
     
+    // Listener for each fired step of the simulation.
+    ActionListener simulationTimerListener = new ActionListener(){
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            envPanel.simulationStep();
+        }
+        
+    };
 }

@@ -13,6 +13,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import test.agent.Agent;
+
 /**
  *  Panel que representa el entorno (cuadricula).
  */
@@ -22,7 +24,8 @@ public class EnvironmentPanel extends JPanel {
     Matrix<EnvironmentLabel> elements;
     ArrayList<ArrayList<JLabel>> labels = new ArrayList<ArrayList<JLabel>>();
     
-    public Point agentPos = new Point(); // Agent's position in x and y.
+    // public Point agentPos = new Point(); // Agent's position in x and y.
+    Agent agent = new Agent();
     ImageIcon agentIcon = new ImageIcon("media/image/agent.png"); // Icon representing the agent.
     
     public ArrayList<Point> foodPositions = new ArrayList<Point>();
@@ -51,7 +54,7 @@ public class EnvironmentPanel extends JPanel {
         }
         
         Random rand = new Random();
-        agentPos.setLocation(rand.nextInt(x), rand.nextInt(y));
+        agent.pos.setLocation(rand.nextInt(x), rand.nextInt(y));
         generateFoodPortion();
         generateFoodPortion();
     }
@@ -74,7 +77,7 @@ public class EnvironmentPanel extends JPanel {
         public void mouseClicked(MouseEvent e) {
             EnvironmentLabel el = ((EnvironmentLabel)e.getSource());
             switch(clickEffect){
-            case AGENT: agentPos.setLocation(el.x, el.y); break;
+            case AGENT: agent.pos.setLocation(el.x, el.y); break;
             case FOOD: foodPositions.add(new Point(el.x, el.y)); break;
             }
             el.getParent().repaint();
@@ -94,6 +97,13 @@ public class EnvironmentPanel extends JPanel {
         
     };
     
+    /**
+     * Perform a step of the simulation.
+     */
+    public void simulationStep(){
+        agent.moveAgent(this);
+    }
+    
     @Override
     public void paint(Graphics g) {
         for (int j = 0; j < elements.height(); j++){
@@ -106,7 +116,7 @@ public class EnvironmentPanel extends JPanel {
                     if (i == food.x && j == food.y) elements.get(i, j).setIcon(foodIcon);
                 
                 // Draw agent.
-                if (i == agentPos.x && j == agentPos.y) elements.get(i, j).setIcon(agentIcon);
+                if (i == agent.pos.x && j == agent.pos.y) elements.get(i, j).setIcon(agentIcon);
             }
         }
         super.paint(g);

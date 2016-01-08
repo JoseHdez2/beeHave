@@ -35,49 +35,50 @@ public class RandomMove implements MovementType {
 	public RandomMove(){
 		visited = new ArrayList<Point>();
 	}
+	
 	@Override
-	public moveDirection nextMove (EnvironmentPanel panel) {
+	public moveDirection nextMove (Agent agent, EnvironmentPanel panel) {
 		moveDirection movement = enumList.random();
-		if((movement == moveDirection.LEFT && panel.agentPos.y == 0) 
-				|| movement == moveDirection.LEFT && visited.contains(new Point(panel.agentPos.x, panel.agentPos.y - 1)) ){
-			panel.agentPos.setLocation(panel.agentPos.x, panel.agentPos.y + 1);
-			visited.add(new Point(panel.agentPos.x, panel.agentPos.y + 1));
+		if((movement == moveDirection.LEFT && agent.pos.y == 0) 
+				|| movement == moveDirection.LEFT && visited.contains(new Point(agent.pos.x, agent.pos.y - 1)) ){
+			agent.pos.setLocation(agent.pos.x, agent.pos.y + 1);
+			visited.add(new Point(agent.pos.x, agent.pos.y + 1));
 			return moveDirection.RIGHT;
 		}
-		else if ((movement == moveDirection.RIGHT && panel.agentPos.y == panel.getY()) 
-				|| movement == moveDirection.RIGHT && visited.contains(new Point(panel.agentPos.x, panel.agentPos.y + 1))) {
-			panel.agentPos.setLocation(panel.agentPos.x, panel.agentPos.y - 1);
-			visited.add(new Point(panel.agentPos.x, panel.agentPos.y - 1));
+		else if ((movement == moveDirection.RIGHT && agent.pos.y == panel.getY()) 
+				|| movement == moveDirection.RIGHT && visited.contains(new Point(agent.pos.x, agent.pos.y + 1))) {
+			agent.pos.setLocation(agent.pos.x, agent.pos.y - 1);
+			visited.add(new Point(agent.pos.x, agent.pos.y - 1));
 			return moveDirection.LEFT;
 		}
-		else if ((movement == moveDirection.UP && panel.agentPos.x == 0)
-				|| movement == moveDirection.UP && visited.contains(new Point(panel.agentPos.x - 1, panel.agentPos.y))){
-			panel.agentPos.setLocation(panel.agentPos.x + 1, panel.agentPos.y);
-			visited.add(new Point(panel.agentPos.x + 1, panel.agentPos.y));
+		else if ((movement == moveDirection.UP && agent.pos.x == 0)
+				|| movement == moveDirection.UP && visited.contains(new Point(agent.pos.x - 1, agent.pos.y))){
+			agent.pos.setLocation(agent.pos.x + 1, agent.pos.y);
+			visited.add(new Point(agent.pos.x + 1, agent.pos.y));
 			return moveDirection.DOWN;
 		}
-		else if ((movement == moveDirection.DOWN && panel.agentPos.x == panel.getX())
-				|| movement == moveDirection.DOWN && visited.contains(new Point(panel.agentPos.x + 1, panel.agentPos.y))){
-			panel.agentPos.setLocation(panel.agentPos.x - 1, panel.agentPos.y);
-			visited.add(new Point(panel.agentPos.x - 1, panel.agentPos.y));
+		else if ((movement == moveDirection.DOWN && agent.pos.x == panel.getX())
+				|| movement == moveDirection.DOWN && visited.contains(new Point(agent.pos.x + 1, agent.pos.y))){
+			agent.pos.setLocation(agent.pos.x - 1, agent.pos.y);
+			visited.add(new Point(agent.pos.x - 1, agent.pos.y));
 			return moveDirection.UP;
 		}
 		switch (movement) {
 		case DOWN:
-			panel.agentPos.setLocation(panel.agentPos.x + 1, panel.agentPos.y);
-			visited.add(new Point(panel.agentPos.x + 1, panel.agentPos.y));
+			agent.pos.setLocation(agent.pos.x + 1, agent.pos.y);
+			visited.add(new Point(agent.pos.x + 1, agent.pos.y));
 			return moveDirection.DOWN;
 		case UP:
-			panel.agentPos.setLocation(panel.agentPos.x - 1, panel.agentPos.y);
-			visited.add(new Point(panel.agentPos.x - 1, panel.agentPos.y));
+			agent.pos.setLocation(agent.pos.x - 1, agent.pos.y);
+			visited.add(new Point(agent.pos.x - 1, agent.pos.y));
 			return moveDirection.UP;
 		case LEFT:
-			panel.agentPos.setLocation(panel.agentPos.x, panel.agentPos.y - 1);
-			visited.add(new Point(panel.agentPos.x, panel.agentPos.y - 1));
+			agent.pos.setLocation(agent.pos.x, agent.pos.y - 1);
+			visited.add(new Point(agent.pos.x, agent.pos.y - 1));
 			return moveDirection.LEFT;
 		case RIGHT:
-			panel.agentPos.setLocation(panel.agentPos.x, panel.agentPos.y + 1);
-			visited.add(new Point(panel.agentPos.x, panel.agentPos.y + 1));
+			agent.pos.setLocation(agent.pos.x, agent.pos.y + 1);
+			visited.add(new Point(agent.pos.x, agent.pos.y + 1));
 			return moveDirection.RIGHT;
 		default:
 			break;

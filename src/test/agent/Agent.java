@@ -5,18 +5,23 @@ import java.awt.Point;
 import test.gui.EnvironmentPanel;
 
 public class Agent {
-	private MovementType pathFinding;
-	private Point position;
+	
+    private MovementType pathFinding;
+	
+	public Point pos;
+	
 	public Agent() {
 		pathFinding = new RandomMove();
 	}
 	
 	public void moveAgent(EnvironmentPanel panel){
-		position = panel.agentPos;
-		while(!panel.foodPositions.contains(position)){
-			pathFinding.nextMove(panel);
-//			panel.repaint();
-		}
+	    
+	    // Skip moving (do nothing) if we're already on food.
+	    // TODO: find the food item and remove from list: an 'eat' turn.
+	    if (panel.foodPositions.contains(pos)) return; 
+	    
+	    // The pathfinding module decides the next step and executes it.
+		pathFinding.nextMove(this, panel);
 		System.out.println("Ei");
 	}
 
