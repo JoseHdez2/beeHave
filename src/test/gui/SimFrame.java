@@ -27,7 +27,6 @@ public class SimFrame extends JFrame {
     public SimFrame(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("beeHave test");
-        setVisible(true);
         setSize(800, 600);
         setLayout(new GridLayout(1,2));
         
@@ -109,6 +108,7 @@ public class SimFrame extends JFrame {
             }
         });
         simTimePanel.add(simStepButton);
+        setVisible(true);
     }
     
     // Listener for the click effect radio buttons.

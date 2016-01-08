@@ -8,9 +8,9 @@ public class Agent {
 	
     private MovementType pathFinding;
 	
-	public Point pos = new Point();
+	public Point pos;
 	
-	public Agent(String string) {
+	public Agent() {
 		pathFinding = new RandomMove();
 		pos = new Point(1,1);
 	}
@@ -23,7 +23,6 @@ public class Agent {
 	    
 	    // The pathfinding module decides the next step and executes it.
 		pathFinding.nextMove(this, panel);
-		System.out.println("Ei");
 	}
 
 }
