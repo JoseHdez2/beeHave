@@ -28,6 +28,8 @@ public class EnvironmentPanel extends JPanel {
     ArrayList<Point> foodPositions = new ArrayList<Point>();
     ImageIcon foodIcon = new ImageIcon("media/image/meat.png"); // Icon representing food.
     
+    public EnvironmentEntity clickEffect = EnvironmentEntity.FOOD;
+    
     EnvironmentPanel(int width, int height){
         setLayout(new GridLayout(width,height));
         this.x = width;
@@ -41,28 +43,7 @@ public class EnvironmentPanel extends JPanel {
                 label.setOpaque(true);
                 label.setBackground(color);
                 
-                label.addMouseListener(new MouseListener(){
-
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        EnvironmentLabel el = ((EnvironmentLabel)e.getSource());
-                        foodPositions.add(new Point(el.x, el.y));
-                        el.getParent().repaint();
-                    }
-
-                    @Override
-                    public void mousePressed(MouseEvent e) {}
-
-                    @Override
-                    public void mouseReleased(MouseEvent e) {}
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {}
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {}
-                    
-                });
+                label.addMouseListener(clickEffectListener);
                 
                 elements.set(i, j, label);
                 add(elements.get(i, j));
@@ -82,6 +63,36 @@ public class EnvironmentPanel extends JPanel {
         Random rand = new Random();
         foodPositions.add(new Point(rand.nextInt(x), rand.nextInt(y)));
     }
+    
+    /**
+     * Mouse listener for when a tile of the grid is clicked.
+     * Determines which effect is produced by looking at the clickEffect attribute of this class.
+     */
+    MouseListener clickEffectListener = new MouseListener(){
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            EnvironmentLabel el = ((EnvironmentLabel)e.getSource());
+            switch(clickEffect){
+            case AGENT: agentPos.setLocation(el.x, el.y); break;
+            case FOOD: foodPositions.add(new Point(el.x, el.y)); break;
+            }
+            el.getParent().repaint();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {}
+
+        @Override
+        public void mouseReleased(MouseEvent e) {}
+
+        @Override
+        public void mouseEntered(MouseEvent e) {}
+
+        @Override
+        public void mouseExited(MouseEvent e) {}
+        
+    };
     
     @Override
     public void paint(Graphics g) {
