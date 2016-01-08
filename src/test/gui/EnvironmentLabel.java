@@ -1,4 +1,4 @@
-package test;
+package test.gui;
 
 import javax.swing.JLabel;
 
