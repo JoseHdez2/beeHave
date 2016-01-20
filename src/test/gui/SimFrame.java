@@ -4,7 +4,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,13 +12,16 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-
-import test.agent.Agent;
 import test.agent.RandomMove;
 
 public class SimFrame extends JFrame {
     
-    public EnvironmentPanel envPanel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public EnvironmentPanel envPanel;
     
     final String strEleAgent = "Agente";
     final String strEleFood = "Comida";
@@ -167,8 +169,8 @@ public class SimFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             switch(e.getActionCommand()){
-            case strEleAgent: envPanel.clickEffect = EnvironmentEntity.AGENT; break;
-            case strEleFood: envPanel.clickEffect = EnvironmentEntity.FOOD; break;
+            case strEleAgent: envPanel.setClickEffect(EnvironmentEntity.AGENT); break;
+            case strEleFood: envPanel.setClickEffect(EnvironmentEntity.FOOD); break;
             }
         }  
     };
@@ -178,7 +180,7 @@ public class SimFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             switch(e.getActionCommand()){
-            case strMovRandom: envPanel.agent.pathFinding = new RandomMove(); break;
+            case strMovRandom: envPanel.getAgent().pathFinding = new RandomMove(); break;
             // case strMovDepth: envPanel.agent.pathFinding = new DFSMove(); break;
             // case strMovBreadth: envPanel.agent.pathFinding = new BFSMove(); break;
             }

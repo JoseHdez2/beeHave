@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,25 +19,28 @@ import test.agent.Agent;
  */
 public class EnvironmentPanel extends JPanel {
     
-    private int x, y;
-    public Matrix<EnvironmentLabel> elements;
-    ArrayList<ArrayList<JLabel>> labels = new ArrayList<ArrayList<JLabel>>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int x, y;
+    private Matrix<EnvironmentLabel> elements;
+    private ArrayList<ArrayList<JLabel>> labels;
     
     // public Point agentPos = new Point(); // Agent's position in x and y.
-    Agent agent = new Agent();
-    ImageIcon agentIcon = new ImageIcon("media/image/agent.png"); // Icon representing the agent.
-    
-    public ArrayList<Point> foodPositions = new ArrayList<Point>();
-    ImageIcon foodIcon = new ImageIcon("media/image/meat.png"); // Icon representing food.
-    
-    public EnvironmentEntity clickEffect = EnvironmentEntity.FOOD;
+    private Agent agent = new Agent();
+    private ImageIcon agentIcon = new ImageIcon("media/image/agent.png"); // Icon representing the agent.
+    private ArrayList<Point> foodPositions = new ArrayList<Point>();
+    private ImageIcon foodIcon = new ImageIcon("media/image/meat.png"); // Icon representing food.
+    private EnvironmentEntity clickEffect = EnvironmentEntity.FOOD;
     
     EnvironmentPanel(int width, int height){
-        setLayout(new GridLayout(width,height));
+        
+    	setLayout(new GridLayout(width,height));
         this.x = width;
         this.y = height;
         this.elements = new Matrix<EnvironmentLabel>(new EnvironmentLabel[x][y]);
-
+        setLabels(new ArrayList<ArrayList<JLabel>>());
         for (int j = 0; j < elements.height(); j++){
             for (int i = 0; i < elements.width(); i++){
                 Color color = (i+j)%2 == 0 ? new Color(150,150,150) : new Color(200,200,200);
@@ -122,4 +124,116 @@ public class EnvironmentPanel extends JPanel {
         }
         super.paint(g);
     }
+
+	/**
+	 * @return the elements
+	 */
+	public Matrix<EnvironmentLabel> getElements() {
+		return elements;
+	}
+
+	/**
+	 * @param elements the elements to set
+	 */
+	public void setElements(Matrix<EnvironmentLabel> elements) {
+		this.elements = elements;
+	}
+
+	/**
+	 * @return the labels
+	 */
+	public ArrayList<ArrayList<JLabel>> getLabels() {
+		return labels;
+	}
+
+	/**
+	 * @param labels the labels to set
+	 */
+	public void setLabels(ArrayList<ArrayList<JLabel>> labels) {
+		this.labels = labels;
+	}
+
+	/**
+	 * @return the agent
+	 */
+	public Agent getAgent() {
+		return agent;
+	}
+
+	/**
+	 * @param agent the agent to set
+	 */
+	public void setAgent(Agent agent) {
+		this.agent = agent;
+	}
+
+	/**
+	 * @return the agentIcon
+	 */
+	public ImageIcon getAgentIcon() {
+		return agentIcon;
+	}
+
+	/**
+	 * @param agentIcon the agentIcon to set
+	 */
+	public void setAgentIcon(ImageIcon agentIcon) {
+		this.agentIcon = agentIcon;
+	}
+
+	/**
+	 * @return the foodPositions
+	 */
+	public ArrayList<Point> getFoodPositions() {
+		return foodPositions;
+	}
+
+	/**
+	 * @param foodPositions the foodPositions to set
+	 */
+	public void setFoodPositions(ArrayList<Point> foodPositions) {
+		this.foodPositions = foodPositions;
+	}
+
+	/**
+	 * @return the foodIcon
+	 */
+	public ImageIcon getFoodIcon() {
+		return foodIcon;
+	}
+
+	/**
+	 * @param foodIcon the foodIcon to set
+	 */
+	public void setFoodIcon(ImageIcon foodIcon) {
+		this.foodIcon = foodIcon;
+	}
+
+	/**
+	 * @return the clickEffect
+	 */
+	public EnvironmentEntity getClickEffect() {
+		return clickEffect;
+	}
+
+	/**
+	 * @param clickEffect the clickEffect to set
+	 */
+	public void setClickEffect(EnvironmentEntity clickEffect) {
+		this.clickEffect = clickEffect;
+	}
+
+	/**
+	 * @return the clickEffectListener
+	 */
+	public MouseListener getClickEffectListener() {
+		return clickEffectListener;
+	}
+
+	/**
+	 * @param clickEffectListener the clickEffectListener to set
+	 */
+	public void setClickEffectListener(MouseListener clickEffectListener) {
+		this.clickEffectListener = clickEffectListener;
+	}
 }

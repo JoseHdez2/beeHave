@@ -10,7 +10,11 @@ import javax.swing.JLabel;
  */
 public class EnvironmentLabel extends JLabel{
     
-    public int x = 0, y = 0;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public int x = 0, y = 0;
     
     public EnvironmentLabel(String string, int i, int j){
        this.x = i;
