@@ -4,7 +4,6 @@
 package test.agent;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * @author adexe
@@ -22,39 +21,51 @@ public class FlowerCluster {
 		setVisibilityGroup(ZERO);
 	}
 	
-	
+	/**
+	 * @return the groupOfFlowers
+	 */	
 	public ArrayList<Flower> getGroupOfFlowers() {
 		return groupOfFlowers;
 	}
+	
+	/**
+	 * @param groupOfFlowers the groupOfFlowers to set
+	 */	
 	public void setGroupOfFlowers(ArrayList<Flower> groupOfFlowers) {
 		if (getGroupOfFlowers() != null) {
-			addGroupOfFlowers(groupOfFlowers);
+			getGroupOfFlowers().addAll(groupOfFlowers);
 			return;
 		}
 		this.groupOfFlowers = groupOfFlowers;
+		//After setting up the group of flowers, reload pollen and visibility of the group
 		calcPollenGroup();
 		calcVisibilityGroup();
 	}
 	
+	/**
+	 * @param newFlower the newFlower to set
+	 */		
 	public void addFlower(Flower newFlower){
 		getGroupOfFlowers().add(newFlower);
 	}
-	
-	public void addGroupOfFlowers(ArrayList<Flower> newGroupOfFlowers){
-		for (Flower iteratorFlower : newGroupOfFlowers) {
-			getGroupOfFlowers().add(iteratorFlower);
-		}
-		calcPollenGroup();
-		calcVisibilityGroup();
-	}
+
+	/**
+	 * @return the pollenGroup
+	 */
 	public int getPollenGroup() {
 		return this.pollenGroup;
 	}
 	
-	public void setPollenGroup(int n){
-		this.pollenGroup = n;
+	/**
+	 * @param pollenGroup the pollenGroup to set
+	 */	
+	public void setPollenGroup(int pollenGroup){
+		this.pollenGroup = pollenGroup;
 	}
-	
+
+	/**
+	 * Calculate the sum of pollen from all flowers in the group
+	 */	
 	public void calcPollenGroup() {
 		int auxPollenGroup = getPollenGroup();
 		for (Flower iteratorFlower : getGroupOfFlowers()) {
@@ -62,15 +73,24 @@ public class FlowerCluster {
 		}
 		setPollenGroup(auxPollenGroup);
 	}
-
+	
+	/**
+	 * @return the visibilityGroup
+	 */	
 	public int getVisibilityGroup() {
 		return this.visibilityGroup;
 	}
-	
-	public void setVisibilityGroup(int v) {
-		this.visibilityGroup = v;
+
+	/**
+	 * @param visibilityGroup the visibilityGroup to set
+	 */	
+	public void setVisibilityGroup(int visibilityGroup) {
+		this.visibilityGroup = visibilityGroup;
 	}
 	
+	/**
+	 * Calculate the sum of visibility from all flowers in the group
+	 */	
 	public void calcVisibilityGroup() {
 		int auxVisibilityGroup = getVisibilityGroup();
 		for (Flower iteratorFlower : getGroupOfFlowers()) {
