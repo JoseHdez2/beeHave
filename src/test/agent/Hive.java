@@ -12,6 +12,8 @@ public class Hive {
 		setPos(ZERO, ZERO);
 		setBeesInside(null);
 	}
+	
+	
 
 	/**
 	 * @return the pos
