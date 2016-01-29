@@ -41,8 +41,8 @@ public class EnvironmentPanel extends JPanel {
         this.y = height;
         this.elements = new Matrix<EnvironmentLabel>(new EnvironmentLabel[x][y]);
         setLabels(new ArrayList<ArrayList<JLabel>>());
-        for (int j = 0; j < elements.height(); j++){
-            for (int i = 0; i < elements.width(); i++){
+        for (int j = 0; j < elements.getHeight(); j++){
+            for (int i = 0; i < elements.getWidth(); i++){
                 Color color = (i+j)%2 == 0 ? new Color(150,150,150) : new Color(200,200,200);
                 EnvironmentLabel label = new EnvironmentLabel("",i,j);
                 label.setOpaque(true);
@@ -109,8 +109,8 @@ public class EnvironmentPanel extends JPanel {
     
     @Override
     public void paint(Graphics g) {
-        for (int j = 0; j < elements.height(); j++){
-            for (int i = 0; i < elements.width(); i++){
+        for (int j = 0; j < elements.getHeight(); j++){
+            for (int i = 0; i < elements.getWidth(); i++){
                 // Erase previous frame.
                 elements.get(i, j).setIcon(null);
                 
@@ -119,7 +119,7 @@ public class EnvironmentPanel extends JPanel {
                     if (i == food.x && j == food.y) elements.get(i, j).setIcon(foodIcon);
                 
                 // Draw agent.
-                if (i == agent.pos.x && j == agent.pos.y) elements.get(i, j).setIcon(agentIcon);
+                if (i == agent.pos.getX() && j == agent.pos.getY()) elements.get(i, j).setIcon(agentIcon);
             }
         }
         super.paint(g);

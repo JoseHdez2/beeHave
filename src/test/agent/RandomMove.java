@@ -3,45 +3,41 @@
  */
 package test.agent;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
-
 import test.gui.EnvironmentPanel;
+import test.gui.Position;
 
 /**
  * @author eebritos
  *
  */
-
-
-
 public class RandomMove implements MovementType {
-	private ArrayList<Point> visited;
+	private ArrayList<Position> visited;
 	private Random randomGenerator;
 
 	public RandomMove(){
-		visited = new ArrayList<Point>();
+		visited = new ArrayList<Position>();
 		randomGenerator = new Random();	
 	}
 	
-	public boolean isIn(ArrayList<Point> list,int x,int y) {
-	   for (Point element : list) {
-		if (element.x == x && element.y == y) {
+	public boolean isIn(ArrayList<Position> list,int x,int y) {
+	   for (Position element : list) {
+		if (element.getX() == x && element.getY() == y) {
 			return true;
 		}
 	   }
 	   return false;
 	}
 	
-	public ArrayList<moveDirection> legalMovements( ArrayList<Point> visitedList, int height, int width, Agent agent){
+	public ArrayList<moveDirection> legalMovements( ArrayList<Position> visitedList, int height, int width, Agent agent){
 		ArrayList<moveDirection> result = new ArrayList<moveDirection>();
-		if(agent.pos.y >= height-1 && agent.pos.x >= width -1){
-			if (isIn(visited, agent.pos.x, agent.pos.y - 1)) {
+		if(agent.getPosY() >= height-1 && agent.getPosX() >= width -1){
+			if (isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
 				result.add(moveDirection.UP);
 				return result;
 			}
-			else if (isIn(visited, agent.pos.x - 1, agent.pos.y)) {
+			else if (isIn(visited, agent.getPosX() - 1, agent.getPosY())) {
 				result.add(moveDirection.LEFT);
 				return result;
 			}
@@ -49,12 +45,12 @@ public class RandomMove implements MovementType {
 			result.add(moveDirection.LEFT);
 			return result;
 		}
-		else if(agent.pos.y == 0 && agent.pos.x == 0){
-			if (isIn(visited, agent.pos.x, agent.pos.y + 1)) {
+		else if(agent.getPosY() == 0 && agent.getPosX() == 0){
+			if (isIn(visited, agent.getPosX(), agent.getPosY() + 1)) {
 				result.add(moveDirection.DOWN);
 				return result;
 			}
-			else if (isIn(visited, agent.pos.x + 1, agent.pos.y)) {
+			else if (isIn(visited, agent.getPosX() + 1, agent.getPosY())) {
 				result.add(moveDirection.RIGHT);
 				return result;
 			}
@@ -62,12 +58,12 @@ public class RandomMove implements MovementType {
 			result.add(moveDirection.RIGHT);
 			return result;
 		}
-		else if(agent.pos.y == 0 && agent.pos.x >= width - 1){
-			if (isIn(visited, agent.pos.x , agent.pos.y - 1 )) {
+		else if(agent.getPosY() == 0 && agent.getPosX() >= width - 1){
+			if (isIn(visited, agent.getPosX() , agent.getPosY() - 1 )) {
 				result.add(moveDirection.DOWN);
 				return result;
 			}
-			else if (isIn(visited, agent.pos.x, agent.pos.y + 1)) {
+			else if (isIn(visited, agent.getPosX(), agent.getPosY() + 1)) {
 				result.add(moveDirection.LEFT);
 				return result;
 			}
@@ -75,12 +71,12 @@ public class RandomMove implements MovementType {
 			result.add(moveDirection.LEFT);
 			return result;		
 		}
-		else if(agent.pos.y >= height - 1 && agent.pos.x == 0){
-			if (isIn(visited, agent.pos.x + 1, agent.pos.y)) {
+		else if(agent.getPosY() >= height - 1 && agent.getPosX() == 0){
+			if (isIn(visited, agent.getPosX() + 1, agent.getPosY())) {
 				result.add(moveDirection.UP);
 				return result;
 			}
-			else if (isIn(visited, agent.pos.x, agent.pos.y - 1)) {
+			else if (isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
 				result.add(moveDirection.RIGHT);
 				return result;
 			}
@@ -88,112 +84,112 @@ public class RandomMove implements MovementType {
 			result.add(moveDirection.RIGHT);
 			return result;
 		}
-		else if (agent.pos.y >= height - 1) {
-			if (!isIn(visited, agent.pos.x + 1, agent.pos.y)) {
+		else if (agent.getPosY() >= height - 1) {
+			if (!isIn(visited, agent.getPosX() + 1, agent.getPosY())) {
 				result.add(moveDirection.RIGHT);
 				return result;
 			}
-			if (!isIn(visited, agent.pos.x - 1, agent.pos.y)) {
+			if (!isIn(visited, agent.getPosX() - 1, agent.getPosY())) {
 				result.add(moveDirection.LEFT);
 				return result;
 			}
-			if (!isIn(visited, agent.pos.x, agent.pos.y - 1)) {
+			if (!isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
 				result.add(moveDirection.UP);
 				return result;
 			}			
 			
 		}
-		else if (agent.pos.x >= width - 1) {
-			if (!isIn(visited, agent.pos.x - 1, agent.pos.y)) {
+		else if (agent.getPosX() >= width - 1) {
+			if (!isIn(visited, agent.getPosX() - 1, agent.getPosY())) {
 				result.add(moveDirection.LEFT);
 				return result;
 			}
-			if (!isIn(visited, agent.pos.x, agent.pos.y + 1)) {
+			if (!isIn(visited, agent.getPosX(), agent.getPosY() + 1)) {
 				result.add(moveDirection.DOWN);
 				return result;
 			}
-			if (!isIn(visited, agent.pos.x, agent.pos.y - 1)) {
+			if (!isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
 				result.add(moveDirection.UP);
 				return result;
 			}			
 
 		}
-		else if (agent.pos.x == 0) {
-			if (!isIn(visited, agent.pos.x, agent.pos.y - 1)) {
+		else if (agent.getPosX() == 0) {
+			if (!isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
 				result.add(moveDirection.UP);
 				return result;
 			}
-			if (!isIn(visited, agent.pos.x + 1, agent.pos.y)) {
+			if (!isIn(visited, agent.getPosX() + 1, agent.getPosY())) {
 				result.add(moveDirection.RIGHT);
 				return result;
 			}
-			if (!isIn(visited, agent.pos.x, agent.pos.y + 1)) {
+			if (!isIn(visited, agent.getPosX(), agent.getPosY() + 1)) {
 				result.add(moveDirection.DOWN);
 				return result;
 			}
 			
 		}
-		else if (agent.pos.y == 0) {
-			if (!isIn(visited, agent.pos.x + 1, agent.pos.y)) {
+		else if (agent.getPosY() == 0) {
+			if (!isIn(visited, agent.getPosX() + 1, agent.getPosY())) {
 				result.add(moveDirection.RIGHT);
 			}
-			if (!isIn(visited, agent.pos.x, agent.pos.y + 1)) {
+			if (!isIn(visited, agent.getPosX(), agent.getPosY() + 1)) {
 				result.add(moveDirection.DOWN);
 			}
-			if (!isIn(visited, agent.pos.x - 1, agent.pos.y)) {
+			if (!isIn(visited, agent.getPosX() - 1, agent.getPosY())) {
 				result.add(moveDirection.LEFT);
 			}
 			
 		}
-		if (!isIn(visited, agent.pos.x + 1, agent.pos.y)) {
+		if (!isIn(visited, agent.getPosX() + 1, agent.getPosY())) {
 			result.add(moveDirection.RIGHT);
 			return result;
 		}
-		if (!isIn(visited, agent.pos.x, agent.pos.y + 1)) {
+		if (!isIn(visited, agent.getPosX(), agent.getPosY() + 1)) {
 			result.add(moveDirection.UP);
 			return result;
 		}
-		if (!isIn(visited, agent.pos.x - 1, agent.pos.y)) {
+		if (!isIn(visited, agent.getPosX() - 1, agent.getPosY())) {
 			result.add(moveDirection.LEFT);
 			return result;
 		}
-		if (!isIn(visited, agent.pos.x, agent.pos.y - 1)) {
+		if (!isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
 			result.add(moveDirection.DOWN);
 			return result;
 		}
 		if (result.isEmpty()) {
-			if (agent.pos.y == 0 && agent.pos.x == 0) {
+			if (agent.getPosY() == 0 && agent.getPosX() == 0) {
 				result.add(moveDirection.UP);
 				result.add(moveDirection.LEFT);
 			}
-			else if (agent.pos.y >= height - 1 && agent.pos.x >= width - 1) {
+			else if (agent.getPosY() >= height - 1 && agent.getPosX() >= width - 1) {
 				result.add(moveDirection.DOWN);
 				result.add(moveDirection.RIGHT);
 			}
-			else if(agent.pos.y == 0 && agent.pos.x >= width-1){
+			else if(agent.getPosY() == 0 && agent.getPosX() >= width-1){
 				result.add(moveDirection.DOWN);
 				result.add(moveDirection.LEFT);
 			}
-			else if(agent.pos.y >= height - 1 && agent.pos.x == 0){
+			else if(agent.getPosY() >= height - 1 && agent.getPosX() == 0){
 				result.add(moveDirection.UP);
 				result.add(moveDirection.RIGHT);
 			}
-			else if (agent.pos.y >= height - 1) {
+			else if (agent.getPosY() >= height - 1) {
 				result.add(moveDirection.RIGHT);
 				result.add(moveDirection.LEFT);
 				result.add(moveDirection.UP);
 			}
-			else if (agent.pos.x >= width - 1) {
+			else if (agent.getPosX() >= width - 1) {
 				result.add(moveDirection.LEFT);
 				result.add(moveDirection.DOWN);
 				result.add(moveDirection.UP);
 			}
-			else if (agent.pos.x == 0) {
+			else if (agent.getPosX() == 0) {
 				result.add(moveDirection.LEFT);
 				result.add(moveDirection.RIGHT);
 				result.add(moveDirection.DOWN);
 			}
-			else if (agent.pos.y == 0) {
+			else if (agent.getPosY() == 0) {
 				result.add(moveDirection.RIGHT);
 				result.add(moveDirection.UP);
 				result.add(moveDirection.LEFT);
@@ -208,27 +204,27 @@ public class RandomMove implements MovementType {
 	
 	@Override
 	public moveDirection nextMove (Agent agent, EnvironmentPanel panel) {
-		ArrayList<moveDirection> lmovementsArray = legalMovements(visited, panel.getElements().height(), panel.getElements().width(), agent);
+		ArrayList<moveDirection> lmovementsArray = legalMovements(visited, panel.getElements().getHeight(), panel.getElements().getWidth(), agent);
 		int index = randomGenerator.nextInt(lmovementsArray.size());
 		moveDirection movement = lmovementsArray.get(index);
-		visited.add(agent.pos.getLocation());
+		visited.add(agent.pos);
 
 		switch (movement) {
 		case DOWN:
-			agent.pos.setLocation(agent.pos.x , agent.pos.y+ 1);
-			visited.add(new Point(agent.pos.x, agent.pos.y));
+			agent.pos.setLocation(agent.getPosX() , agent.getPosY()+ 1);
+			visited.add(new Position(agent.getPosX(), agent.getPosY()));
 			return moveDirection.DOWN;
 		case UP:
-			agent.pos.setLocation(agent.pos.x , agent.pos.y- 1);
-			visited.add(new Point(agent.pos.x , agent.pos.y));
+			agent.pos.setLocation(agent.getPosX() , agent.getPosY()- 1);
+			visited.add(new Position(agent.getPosX() , agent.getPosY()));
 			return moveDirection.UP;
 		case LEFT:
-			agent.pos.setLocation(agent.pos.x - 1, agent.pos.y );
-			visited.add(new Point(agent.pos.x, agent.pos.y ));
+			agent.pos.setLocation(agent.getPosX() - 1, agent.getPosY() );
+			visited.add(new Position(agent.getPosX(), agent.getPosY() ));
 			return moveDirection.LEFT;
 		case RIGHT:
-			agent.pos.setLocation(agent.pos.x + 1, agent.pos.y );
-			visited.add(new Point(agent.pos.x, agent.pos.y ));
+			agent.pos.setLocation(agent.getPosX() + 1, agent.getPosY() );
+			visited.add(new Position(agent.getPosX(), agent.getPosY() ));
 			return moveDirection.RIGHT;
 		default:
 			break;

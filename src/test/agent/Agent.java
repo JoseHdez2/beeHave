@@ -1,13 +1,12 @@
 package test.agent;
 
-import java.awt.Point;
 import test.gui.EnvironmentPanel;
+import test.gui.Position;
 
 
 
 public class Agent {
 	
-
 	public static enum behaviourType{
 		SCOUT,
 		RETURN,
@@ -16,13 +15,13 @@ public class Agent {
 	
 	private behaviourType behaviour;
     public MovementType pathFinding;
-	public Point hivePos;
-	public Point pos;
+	public Position hivePos;
+	public Position pos;
 	
 	
 	public Agent() {
 		pathFinding = new RandomMove();
-		pos = new Point(1,1);
+		pos = new Position(1,1);
 	}
 	
 	public void moveAgent(EnvironmentPanel panel){
@@ -60,6 +59,30 @@ public class Agent {
 		this.behaviour = behaviour;
 	}
 	
+	public void setLocation(Integer x, Integer y){
+		getPos().setLocation(x, y);
+	}
+
+	/**
+	 * @return the pos
+	 */
+	public Position getPos() {
+		return pos;
+	}
+
+	/**
+	 * @param pos the pos to set
+	 */
+	public void setPos(Position pos) {
+		this.pos = pos;
+	}
 	
+	public int getPosX(){
+		return getPos().getX();
+	}
+	
+	public int getPosY(){
+		return getPos().getY();
+	}
 
 }

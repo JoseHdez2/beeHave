@@ -43,5 +43,10 @@ public class Position {
 	public void setY(Integer y) {
 		this.y = y;
 	}
+	
+	public void setLocation(Integer x, Integer Y){
+		setX(x);
+		setY(Y);
+	}
 
 }

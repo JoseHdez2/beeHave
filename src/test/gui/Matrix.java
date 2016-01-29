@@ -1,12 +1,17 @@
 package test.gui;
 
+
 public class Matrix<T> {
     
-    T[][] data;
+
+    private T[][] data;
+
+
     
     public Matrix(T[][] data){
         this.data = data;
     }
+    
     
     /**
      * Nota: Se empieza a contar desde cero.
@@ -31,22 +36,22 @@ public class Matrix<T> {
     /**
      * @return El número de columnas en esta matriz.
      */
-    public int width(){
+    public int getWidth(){
         return data.length;
     }
     
     /**
      * @return El número de filas en esta matriz.
      */
-    public int height(){
+    public int getHeight(){
         return data[0].length;
     }
     
     public String toString(){
         String str = "";
         
-        for (int j = 0; j < this.height(); j++){
-            for (int i = 0; i < this.width(); i++){
+        for (int j = 0; j < this.getHeight(); j++){
+            for (int i = 0; i < this.getWidth(); i++){
                 str += this.get(i,j).toString();
             }
             str += "\n";
@@ -54,4 +59,6 @@ public class Matrix<T> {
         
         return str;
     }
+    
+
 }
