@@ -1,12 +1,14 @@
-package test.gui;
+package test.util.typedef;
 
 import java.awt.Point;
 import java.util.HashMap;
 
+/**
+ * Hash that is initialized with a default value for keys that haven't been written on.
+ * (Matrix implementation)
+ */
 public class DefaultHashMap<K,V> extends HashMap<K,V> {
-	  /**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	protected V defaultValue;
 	  public DefaultHashMap(V defaultValue, int height, int width) {

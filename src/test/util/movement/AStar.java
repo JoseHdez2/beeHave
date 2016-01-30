@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import test.gui.DefaultHashMap;
+import test.util.typedef.DefaultHashMap;
 
 
 

@@ -115,24 +115,6 @@ public class EnvironmentModel extends JPanel {
         agent.moveAgent(this);
         repaint();  // Repaint to show changes.
     }
-    
-    @Override
-    public void paint(Graphics g) {
-        for (int j = 0; j < elements.getHeight(); j++){
-            for (int i = 0; i < elements.getWidth(); i++){
-                // Erase previous frame.
-                elements.get(i, j).setIcon(null);
-                
-                // Draw food.
-                for (Point food : foodPositions)
-                    if (i == food.x && j == food.y) elements.get(i, j).setIcon(foodIcon);
-                
-                // Draw agent.
-                if (i == agent.pos.getX() && j == agent.pos.getY()) elements.get(i, j).setIcon(agentIcon);
-            }
-        }
-        super.paint(g);
-    }
 
 	/**
 	 * @return the elements
