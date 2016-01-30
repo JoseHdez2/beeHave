@@ -36,8 +36,8 @@ public class AStar {
 		setCameFrom(new HashMap<Point, Point>());
 		setCurrent(new Point());
 		getOpenSet().add(start);
-		setgScore(new DefaultHashMap<Point, Integer>(INFINITY));
-		setfScore(new DefaultHashMap<Point, Integer>(INFINITY));
+		setgScore(new DefaultHashMap<Point, Integer>(INFINITY,  getMatrixHeight(), getMatrixWidth()));
+		setfScore(new DefaultHashMap<Point, Integer>(INFINITY, getMatrixHeight(), getMatrixWidth()));
 		getgScore().put(start, ZERO);
 		getfScore().put(start, Manhattan.getDistance((int) start.getX(),(int) start.getY(),(int) goal.getX(),(int) goal.getY()));
 	}
@@ -149,11 +149,6 @@ public class AStar {
 	 */
 	public void setgScore(DefaultHashMap<Point, Integer> gScore) {
 		this.gScore = gScore;
-		for (int i = 0; i < getMatrixHeight(); i++) {
-			for (int j = 0; j < getMatrixWidth(); j++) {
-				getfScore().putDefault(new Point(i, j));
-			}
-		}
 	}
 
 	/**
@@ -168,11 +163,6 @@ public class AStar {
 	 */
 	public void setfScore(DefaultHashMap<Point, Integer> fScore) {
 		this.fScore = fScore;
-		for (int i = 0; i < getMatrixHeight(); i++) {
-			for (int j = 0; j < getMatrixWidth(); j++) {
-				getfScore().putDefault(new Point(i, j));
-			}
-		}
 	}
 
 	/**
