@@ -1,10 +1,14 @@
 /**
  * 
  */
-package test.agent;
+package test.model.movement;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import test.agent.Agent;
+import test.agent.MovementType;
+import test.agent.MovementType.moveDirection;
 import test.gui.EnvironmentPanel;
 import test.util.typedef.Position;
 

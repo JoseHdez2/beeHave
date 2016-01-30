@@ -5,6 +5,8 @@ package test.agent;
 
 import java.awt.Point;
 
+import test.model.movement.RandomNum;
+
 /**
  * @author adexe
  *

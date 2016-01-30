@@ -12,8 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-import test.agent.RandomMove;
+
 import test.model.environment.EntityType;
+import test.model.movement.RandomMove;
 
 public class SimFrame extends JFrame {
     

@@ -1,4 +1,4 @@
-package test.agent;
+package test.model.movement;
 
 import java.util.Random;
 
