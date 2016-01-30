@@ -39,7 +39,6 @@ public class AStar {
 	public ArrayList<Point> run(Point start, Point goal){
 		int min = INFINITY;
 		while (!getOpenSet().isEmpty()) {
-			System.out.println("Bucleeeee");
 			for (Point point : openSet) {
 				if (getfScore().get(point) <= min) {
 					min = (int) getfScore().get(point);
