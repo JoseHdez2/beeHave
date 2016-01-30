@@ -7,7 +7,7 @@ import test.util.typedef.Position;
 public class AgentWasp extends Agent {
 
     public AgentWasp(Position pos) {
-        super(pos, Entity.type.AGENT_WASP);
+        super(Entity.type.AGENT_WASP, pos);
 
     }
 

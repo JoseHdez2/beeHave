@@ -28,7 +28,7 @@ public abstract class Entity {
     /**
      * Constructor.
      */
-    protected Entity(Position pos, Entity.type entityType){
+    protected Entity(Entity.type entityType, Position pos){
         this.pos = pos;
         this.entityType = entityType;
         this.icon = EntityTypeMapper.getIcon(entityType);

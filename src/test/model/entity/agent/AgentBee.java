@@ -16,7 +16,7 @@ public class AgentBee extends Agent {
      */
     
     public AgentBee(Position pos, BehaviourType behaviour) {
-        super(pos, Entity.type.AGENT_BEE);
+        super(Entity.type.AGENT_BEE, pos);
         this.behaviour = behaviour;
     }
     
@@ -35,10 +35,7 @@ public class AgentBee extends Agent {
     public MovementType pathFinding;    // Current pathfinding algorithm the AgentBee is using.
     public Position hivePos;    // Position
     
-    public void AgentBee(EnvironmentPanel panel) {
-        pathFinding = new RandomMove();
-        setPos(new Position(1,1));
-    }
+    
     
     public void moveAgent(EnvironmentPanel panel){
         

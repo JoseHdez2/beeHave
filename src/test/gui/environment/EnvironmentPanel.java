@@ -25,6 +25,9 @@ import test.util.typedef.Position;
  */
 public class EnvironmentPanel extends JLayeredPane {
     
+    // TODO: default serial id
+    private static final long serialVersionUID = 1L;
+    
     private int x, y;
     public Matrix<JPanel> tiles;
     public Matrix<EnvironmentLabel> elements;
@@ -39,10 +42,10 @@ public class EnvironmentPanel extends JLayeredPane {
     
     // public Point agentPos = new Point(); // Agent's position in x and y.
     AgentBee agent = new AgentBee(new Position(0,0));
-    ImageIcon agentIcon = new ImageIcon("media/image/agent2.png"); // Icon representing the agent.
+    ImageIcon agentIcon = new ImageIcon("res/image/bee.png"); // Icon representing the agent.
     
     public ArrayList<Point> foodPositions = new ArrayList<Point>();
-    ImageIcon foodIcon = new ImageIcon("media/image/meat.png"); // Icon representing food.
+    ImageIcon foodIcon = new ImageIcon("res/image/daisy.png"); // Icon representing food.
     
     public Entity.type clickEffect = Entity.type.OBJECT_FLOWER;
     
@@ -81,6 +84,7 @@ public class EnvironmentPanel extends JLayeredPane {
         agent.setPos(new Position(rand.nextInt(x), rand.nextInt(y)));
         generateFoodPortion();
         generateFoodPortion();
+        this.repaint();
     }
     
     /**
@@ -103,6 +107,9 @@ public class EnvironmentPanel extends JLayeredPane {
             switch(clickEffect){
             case AGENT_BEE: agent.setPos(new Position(el.x, el.y)); break;
             case OBJECT_FLOWER: foodPositions.add(new Point(el.x, el.y)); break;
+            case AGENT_WASP: break;
+            case OBJECT_BEEHIVE: break;
+            default: break;
             }
             el.getParent().repaint();
         }

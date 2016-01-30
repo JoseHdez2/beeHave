@@ -9,8 +9,8 @@ public abstract class Agent extends Entity{
     /**
      * Constructor.
      */
-    protected Agent(Position pos, Entity.type entityType){
-        super(pos, entityType);
+    protected Agent(Entity.type entityType, Position pos){
+        super(entityType, pos);
     }
     
     /**

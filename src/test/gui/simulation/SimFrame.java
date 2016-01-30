@@ -24,6 +24,9 @@ import test.gui.i18n.I18n;
 
 public class SimFrame extends JFrame {
     
+    // TODO: default serial version id
+    private static final long serialVersionUID = 1L;
+
     public EnvironmentPanel envPanel;
     
     final String strEleAgent = "strEleAgent";
@@ -62,7 +65,7 @@ public class SimFrame extends JFrame {
         foodPanel.add(foodText);
         
         // TextInput for specifying number of pieces of food.
-        JTextField foodField = new JTextField("1",2);
+        JTextField foodField = new JTextField("1", 2);
         foodPanel.add(foodField);
         
         // Button for generating N pieces of food.

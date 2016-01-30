@@ -4,7 +4,6 @@
 package test.model.entity.object;
 
 import test.model.entity.Entity;
-import test.model.entity.Entity.type;
 import test.util.math.RandomNum;
 import test.util.typedef.Position;
 
@@ -18,7 +17,7 @@ public class ObjectFlower extends EnvObject {
 	private static int ZERO = 0;
 	
 	public ObjectFlower(Position pos) {
-	    super(pos, Entity.type.OBJECT_FLOWER);
+	    super(Entity.type.OBJECT_FLOWER, pos);
 		setPollen(RandomNum.randInt(0,100));
 		setVisibility(RandomNum.randInt(0,10));
 	}

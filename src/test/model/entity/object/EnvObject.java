@@ -1,7 +1,6 @@
 package test.model.entity.object;
 
 import test.model.entity.Entity;
-import test.model.entity.Entity.type;
 import test.util.typedef.Position;
 
 /**
@@ -12,8 +11,8 @@ import test.util.typedef.Position;
  */
 public abstract class EnvObject extends Entity {
     
-    protected EnvObject(Position pos, Entity.type entityType) {
-        super(pos, entityType);
+    protected EnvObject(Entity.type entityType, Position pos) {
+        super(entityType, pos);
     }
 
 }

@@ -9,12 +9,11 @@ import javax.swing.JLabel;
  *  This allows us to not run through the entire grid whenever a JLabel is clicked to find out its x and y values.
  */
 public class EnvironmentLabel extends JLabel{
+
+    // TODO: default
+    private static final long serialVersionUID = 1L;
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	public int x = 0, y = 0;
+    public int x = 0, y = 0;
     
     public EnvironmentLabel(String string, int i, int j){
        this.x = i;
