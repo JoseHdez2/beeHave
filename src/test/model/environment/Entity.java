@@ -10,7 +10,7 @@ import test.util.typedef.Position;
  */
 public abstract class Entity {
     
-    public enum type{
+    public enum type {
         AGENT,
         OBJECT
     }
@@ -21,9 +21,9 @@ public abstract class Entity {
     /**
      * Constructor.
      */
-    protected Entity(Position pos, Entity.type type){
+    protected Entity(Position pos, Entity.type entityType){
         this.pos = pos;
-        this.entityType = type;
+        this.entityType = entityType;
     }
     
     /*

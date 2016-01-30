@@ -13,7 +13,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
+import test.model.agent.Agent;
+import test.model.environment.Entity;
 import test.model.environment.EntityType;
+import test.model.environment.EnvObject;
 import test.model.movement.RandomMove;
 
 public class SimFrame extends JFrame {
@@ -171,8 +174,8 @@ public class SimFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             switch(e.getActionCommand()){
-            case strEleAgent: envPanel.setClickEffect(EntityType.AGENT); break;
-            case strEleFood: envPanel.setClickEffect(EntityType.FOOD); break;
+            case strEleAgent: envPanel.setClickEffect(Agent.type.BEE); break;
+            case strEleFood: envPanel.setClickEffect(EnvObject.type.FLOWER); break;
             }
         }  
     };

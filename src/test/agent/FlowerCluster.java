@@ -5,18 +5,20 @@ package test.agent;
 
 import java.util.ArrayList;
 
+import test.model.environment.ObjectFlower;
+
 /**
  * @author adexe
  *
  */
 public class FlowerCluster {
-	private ArrayList<Flower> groupOfFlowers;
+	private ArrayList<ObjectFlower> groupOfFlowers;
 	private int pollenGroup;
 	private int visibilityGroup;
 	private static int ZERO = 0;
 
 	public FlowerCluster() {
-		setGroupOfFlowers(new ArrayList<Flower>());
+		setGroupOfFlowers(new ArrayList<ObjectFlower>());
 		setPollenGroup(ZERO);
 		setVisibilityGroup(ZERO);
 	}
@@ -24,14 +26,14 @@ public class FlowerCluster {
 	/**
 	 * @return the groupOfFlowers
 	 */	
-	public ArrayList<Flower> getGroupOfFlowers() {
+	public ArrayList<ObjectFlower> getGroupOfFlowers() {
 		return groupOfFlowers;
 	}
 	
 	/**
 	 * @param groupOfFlowers the groupOfFlowers to set
 	 */	
-	public void setGroupOfFlowers(ArrayList<Flower> groupOfFlowers) {
+	public void setGroupOfFlowers(ArrayList<ObjectFlower> groupOfFlowers) {
 		if (getGroupOfFlowers() != null) {
 			getGroupOfFlowers().addAll(groupOfFlowers);
 			return;
@@ -45,7 +47,7 @@ public class FlowerCluster {
 	/**
 	 * @param newFlower the newFlower to set
 	 */		
-	public void addFlower(Flower newFlower){
+	public void addFlower(ObjectFlower newFlower){
 		getGroupOfFlowers().add(newFlower);
 	}
 
@@ -68,7 +70,7 @@ public class FlowerCluster {
 	 */	
 	public void calcPollenGroup() {
 		int auxPollenGroup = getPollenGroup();
-		for (Flower iteratorFlower : getGroupOfFlowers()) {
+		for (ObjectFlower iteratorFlower : getGroupOfFlowers()) {
 			auxPollenGroup += iteratorFlower.getPollen();
 		}
 		setPollenGroup(auxPollenGroup);
@@ -93,7 +95,7 @@ public class FlowerCluster {
 	 */	
 	public void calcVisibilityGroup() {
 		int auxVisibilityGroup = getVisibilityGroup();
-		for (Flower iteratorFlower : getGroupOfFlowers()) {
+		for (ObjectFlower iteratorFlower : getGroupOfFlowers()) {
 			auxVisibilityGroup += iteratorFlower.getVisibility();
 		}
 		setVisibilityGroup(auxVisibilityGroup);

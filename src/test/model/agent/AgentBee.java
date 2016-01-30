@@ -15,7 +15,7 @@ public class AgentBee extends Agent {
      */
     
     public AgentBee(Position pos, BehaviourType behaviour) {
-        super(pos);
+        super(pos, Agent.type.BEE);
         this.behaviour = behaviour;
     }
     

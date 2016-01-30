@@ -6,18 +6,19 @@ import test.util.typedef.Position;
 
 public abstract class Agent extends Entity{
     
-    public enum type{
+    public enum type {
         BEE,
         WASP
     }
     
-    Agent.type agentType;
+    Agent.type agentType;   // Type of Agent.
     
     /**
      * Constructor.
      */
-    protected Agent(Position pos){
+    protected Agent(Position pos, Agent.type agentType){
         super(pos, Entity.type.AGENT);
+        this.agentType = agentType;
     }
     
     /**
