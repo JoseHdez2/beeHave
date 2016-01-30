@@ -13,11 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import app.util.Sys;
-import test.gui.typedef.ClickEffect;
 import test.gui.typedef.EnvironmentLabel;
 import test.model.agent.Agent;
 import test.model.agent.AgentBee;
 import test.model.agent.AgentWasp;
+import test.model.environment.EntityTypeMapper;
 import test.model.environment.Entity;
 import test.model.environment.EnvObject;
 import test.model.environment.ObjectBeehive;
@@ -44,9 +44,10 @@ public class EnvironmentPanel2 extends JPanel {
     private ArrayList<Point> foodPositions;
     private ImageIcon foodIcon; // Icon representing food.
     
-    
-    // Singleton class that handles the creation of entities with the mouse.
-    private ClickEffect clickEffect;
+    // Default initial entity type for clickEffect.
+    static private Entity.type defaultEntityType;
+    // Singleton object that handles the creation of entities with the mouse.
+    private EntityTypeMapper entityTypeMapper;
     
     EnvironmentPanel2(int width, int height){
         initialize(width, height);
@@ -69,10 +70,10 @@ public class EnvironmentPanel2 extends JPanel {
     }
     
     public void initialize(int width, int height){
-        setAgent(new Agent()); 
-        setAgentIcon(new ImageIcon("media/image/bee.png")); // Icon representing the agent.
+        agent = new AgentBee(); 
+        agentIcon = new ImageIcon("media/image/bee.png"); // Icon representing the agent.
         setFoodPositions(new ArrayList<Point>());
-        setFoodIcon(new ImageIcon("media/image/daisy.png")); // Icon representing food.
+        foodIcon = new ImageIcon("media/image/daisy.png"); // Icon representing food.
         setClickEffect(EntityType.FOOD);
         setX(width);
         setY(height);
@@ -97,7 +98,7 @@ public class EnvironmentPanel2 extends JPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             EnvironmentLabel el = ((EnvironmentLabel)e.getSource());
-            switch(clickEffect){
+            switch(entityTypeMapper){
             case AGENT: agent.pos.setLocation(el.x, el.y); break;
             case FOOD: foodPositions.add(new Point(el.x, el.y)); break;
             }
@@ -128,11 +129,7 @@ public class EnvironmentPanel2 extends JPanel {
     
     
     public void setClickEffect(EntityType clickEffect) {
-        this.clickEffect = clickEffect;
-    }
-    
-    public void setClickEffect(EntityType clickEffect) {
-        this.clickEffect = clickEffect;
+        this.entityTypeMapper = clickEffect;
     }
     
     @Override
@@ -151,5 +148,13 @@ public class EnvironmentPanel2 extends JPanel {
             }
         }
         super.paint(g);
+    }
+    
+    // TODO: quitar
+    /**
+     * @return the foodPositions
+     */
+    public ArrayList<Point> getFoodPositions() {
+        return foodPositions;
     }
 }

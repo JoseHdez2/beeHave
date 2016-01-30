@@ -1,5 +1,7 @@
 package test.model.environment;
 
+import javax.swing.ImageIcon;
+
 import test.util.typedef.Position;
 
 /**
@@ -13,12 +15,15 @@ public abstract class Entity {
     public enum type {
         AGENT_BEE,
         AGENT_WASP,
+        OBJECT_BEEHIVE,
         OBJECT_FLOWER,
-        OBJECT_BEEHIVE
     }
     
     protected Entity.type entityType;   // Type of entity.
     protected Position pos;       // Position in the environment.
+    
+    // TODO: 'cleaner' but less optimal (we load the same icon multiple times). 
+    ImageIcon icon; // Image that represents this entity.
     
     /**
      * Constructor.
@@ -26,6 +31,7 @@ public abstract class Entity {
     protected Entity(Position pos, Entity.type entityType){
         this.pos = pos;
         this.entityType = entityType;
+        this.icon = EntityTypeMapper.getIcon(entityType);
     }
     
     /*
@@ -36,15 +42,15 @@ public abstract class Entity {
         return entityType;
     }
 
-    public void setEntityType(Entity.type entityType) {
-        this.entityType = entityType;
-    }
-
     public Position getPos() {
         return pos;
     }
 
     public void setPos(Position pos) {
         this.pos = pos;
+    }
+
+    public ImageIcon getIcon() {
+        return icon;
     }
 }

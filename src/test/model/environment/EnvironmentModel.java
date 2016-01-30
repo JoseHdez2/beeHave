@@ -30,27 +30,14 @@ import test.util.typedef.Position;
 @SuppressWarnings("serial")
 public class EnvironmentModel extends JPanel {
     
-    /**
-	 * 
-	 */
-	private int x, y;
-    private Matrix<EnvironmentLabel> elements;
-    private ArrayList<ArrayList<JLabel>> labels;
+	private int x, y;  // Dimensions of the environment.
     
-    // public Point agentPos = new Point(); // Agent's position in x and y.
-    
-    // New stuff
     private ArrayList<Agent> agents;    // All agents that exist in the environment.
     private ArrayList<EnvObject> objects;   // All objects that exist in the environment.
     
-    private ImageIcon agentIcon = new ImageIcon("media/image/bee.png"); // Icon representing the agent.
-    private ImageIcon foodIcon = new ImageIcon("media/image/daisy.png"); // Icon representing food.
-    private Entity.type clickEffect = Entity.type.AGENT;
+    private Entity.type clickEffect = Entity.type.AGENT_BEE;
     
     EnvironmentModel(){
-//        agent = new AgentBee(new Position(1,1));
-        
-        // New stuff
         agents = new ArrayList<Agent>();
         objects = new ArrayList<EnvObject>();
     }
