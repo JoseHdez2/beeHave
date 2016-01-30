@@ -29,9 +29,9 @@ public class EnvironmentPanel extends JPanel {
     
     // public Point agentPos = new Point(); // Agent's position in x and y.
     private Agent agent = new Agent();
-    private ImageIcon agentIcon = new ImageIcon("media/image/agent.png"); // Icon representing the agent.
+    private ImageIcon agentIcon = new ImageIcon("media/image/bee.png"); // Icon representing the agent.
     private ArrayList<Point> foodPositions = new ArrayList<Point>();
-    private ImageIcon foodIcon = new ImageIcon("media/image/meat.png"); // Icon representing food.
+    private ImageIcon foodIcon = new ImageIcon("media/image/daisy.png"); // Icon representing food.
     private EnvironmentEntity clickEffect = EnvironmentEntity.FOOD;
     
     EnvironmentPanel(int width, int height){

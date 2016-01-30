@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class AStar {
 	
 	private static int ZERO = 0;
-	private static int INFINITY = 99999;
+	private static int INFINITY = Integer.MAX_VALUE;
 	private ArrayList<Point> closedSet;
 	private ArrayList<Point> openSet;
 	private HashMap<Point, Point> cameFrom;
