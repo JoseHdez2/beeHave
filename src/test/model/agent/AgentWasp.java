@@ -1,9 +1,19 @@
 package test.model.agent;
 
-public class AgentWasp {
-	
-	public AgentWasp() {
-		// TODO Auto-generated constructor stub
-	}
+import test.gui.EnvironmentPanel2;
+import test.util.typedef.Position;
+
+public class AgentWasp extends Agent {
+
+    public AgentWasp(Position pos) {
+        super(pos, Agent.type.WASP);
+
+    }
+
+    @Override
+    public void simulationStep(EnvironmentPanel2 environment) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }
