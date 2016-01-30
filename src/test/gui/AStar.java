@@ -21,13 +21,7 @@ public class AStar {
 	private int matrixWidth;
 	private int matrixHeight;
 
-    public static void main(String[] args) {
-        Point goal = new Point(156,130);
-        Point start = new Point (0,0);
-        AStar test = new AStar(10000, 10000, start, goal);
-        System.out.println(test.run(start, goal).toString());
-    }
-	
+
 	public AStar(int width, int height, Point start, Point goal) {	
 		setMatrixHeight(height);
 		setMatrixWidth(width);
