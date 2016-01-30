@@ -6,10 +6,8 @@ package test.model.movement;
 import java.util.ArrayList;
 import java.util.Random;
 
-import test.agent.Agent;
-import test.agent.MovementType;
-import test.agent.MovementType.moveDirection;
 import test.gui.EnvironmentPanel;
+import test.model.agent.Agent;
 import test.util.typedef.Position;
 
 /**
@@ -206,28 +204,27 @@ public class RandomMove implements MovementType {
 		return result;
 	}
 	
-	@Override
-	public moveDirection nextMove (Agent agent, EnvironmentPanel panel) {
+	public moveDirection nextMove(Agent agent, EnvironmentPanel panel) {
 		ArrayList<moveDirection> lmovementsArray = legalMovements(visited, panel.getElements().getHeight(), panel.getElements().getWidth(), agent);
 		int index = randomGenerator.nextInt(lmovementsArray.size());
 		moveDirection movement = lmovementsArray.get(index);
-		visited.add(agent.pos);
+		visited.add(agent.getPos());
 
 		switch (movement) {
 		case DOWN:
-			agent.pos.setLocation(agent.getPosX() , agent.getPosY()+ 1);
+			agent.getPos().setLocation(agent.getPosX() , agent.getPosY()+ 1);
 			visited.add(new Position(agent.getPosX(), agent.getPosY()));
 			return moveDirection.DOWN;
 		case UP:
-			agent.pos.setLocation(agent.getPosX() , agent.getPosY()- 1);
+			agent.getPos().setLocation(agent.getPosX() , agent.getPosY()- 1);
 			visited.add(new Position(agent.getPosX() , agent.getPosY()));
 			return moveDirection.UP;
 		case LEFT:
-			agent.pos.setLocation(agent.getPosX() - 1, agent.getPosY() );
+			agent.getPos().setLocation(agent.getPosX() - 1, agent.getPosY() );
 			visited.add(new Position(agent.getPosX(), agent.getPosY() ));
 			return moveDirection.LEFT;
 		case RIGHT:
-			agent.pos.setLocation(agent.getPosX() + 1, agent.getPosY() );
+			agent.getPos().setLocation(agent.getPosX() + 1, agent.getPosY() );
 			visited.add(new Position(agent.getPosX(), agent.getPosY() ));
 			return moveDirection.RIGHT;
 		default:

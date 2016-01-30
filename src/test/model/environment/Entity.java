@@ -8,7 +8,41 @@ import test.util.typedef.Position;
  *  Abstract entity, that can be either an Agent (can act) or an Object (doesn't act).
  *  Has a position in an environment.
  */
-public class Entity {
-    EntityType type;    // Type of entity.
-    Position pos;       // Position in the environment.
+public abstract class Entity {
+    
+    public enum type{
+        AGENT,
+        OBJECT
+    }
+    
+    protected Entity.type entityType;   // Type of entity.
+    protected Position pos;       // Position in the environment.
+    
+    /**
+     * Constructor.
+     */
+    protected Entity(Position pos, Entity.type type){
+        this.pos = pos;
+        this.entityType = type;
+    }
+    
+    /*
+     * Getters and setters.
+     */
+
+    public Entity.type getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(Entity.type entityType) {
+        this.entityType = entityType;
+    }
+
+    public Position getPos() {
+        return pos;
+    }
+
+    public void setPos(Position pos) {
+        this.pos = pos;
+    }
 }

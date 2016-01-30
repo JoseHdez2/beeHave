@@ -1,9 +1,10 @@
 /**
  * 
  */
-package test.agent;
+package test.model.movement;
 
 import test.gui.EnvironmentPanel;
+import test.model.agent.Agent;
 
 /**
  * @author eebritos

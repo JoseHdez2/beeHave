@@ -1,4 +1,4 @@
-package test.model.movement;
+package test.util.math;
 
 import java.util.Random;
 

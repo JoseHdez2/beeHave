@@ -1,7 +1,6 @@
 package test.model.environment;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -13,9 +12,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import test.agent.Agent;
 import test.gui.EnvironmentLabel;
+import test.model.agent.Agent;
+import test.model.agent.AgentBee;
 import test.util.typedef.Matrix;
+import test.util.typedef.Position;
 
 
 /**
@@ -37,14 +38,25 @@ public class EnvironmentModel extends JPanel {
     private ArrayList<ArrayList<JLabel>> labels;
     
     // public Point agentPos = new Point(); // Agent's position in x and y.
-    private Agent agent = new Agent();
+    
+    // New stuff
+    private ArrayList<Agent> agents;    // All agents that exist in the environment.
+    private ArrayList<EnvObject> objects;   // All objects that exist in the environment.
+    
     private ImageIcon agentIcon = new ImageIcon("media/image/bee.png"); // Icon representing the agent.
-    private ArrayList<Point> foodPositions = new ArrayList<Point>();
     private ImageIcon foodIcon = new ImageIcon("media/image/daisy.png"); // Icon representing food.
-    private EntityType clickEffect = EntityType.FOOD;
+    private Entity.type clickEffect = Entity.type.AGENT;
+    
+    EnvironmentModel(){
+//        agent = new AgentBee(new Position(1,1));
+        
+        // New stuff
+        agents = new ArrayList<Agent>();
+        objects = new ArrayList<EnvObject>();
+    }
     
     EnvironmentModel(int width, int height){
-        
+        this();
     	setLayout(new GridLayout(width,height));
         this.x = width;
         this.y = height;
@@ -63,11 +75,12 @@ public class EnvironmentModel extends JPanel {
                 add(elements.get(i, j));
             }
         }
-        
+        /*
         Random rand = new Random();
         agent.pos.setLocation(rand.nextInt(x), rand.nextInt(y));
         generateFoodPortion();
         generateFoodPortion();
+        */
     }
     
     /**
