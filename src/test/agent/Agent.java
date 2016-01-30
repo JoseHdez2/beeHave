@@ -10,7 +10,7 @@ public class Agent {
 		SCOUT,
 		RETURN,
 		INFORM,
-		IDLE,
+		IDLE
 	}
 	
 	private behaviourType behaviour;
