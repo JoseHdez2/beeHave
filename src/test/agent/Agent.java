@@ -29,6 +29,7 @@ public class Agent {
 	    
 		if (getBehaviour() == behaviourType.SCOUT) {
 			pathFinding = new RandomMove();
+			
 		}
 		
 	    // Skip moving (do nothing) if we're already on food.
@@ -40,7 +41,10 @@ public class Agent {
 	    }
 	    
 	    // The pathfinding module decides the next step and executes it.
+
 		pathFinding.nextMove(this, panel);
+
+	    
 	}
 	
 	public void returnToHive(){
