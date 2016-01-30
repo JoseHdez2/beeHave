@@ -1,5 +1,7 @@
 package test.gui;
 
+
+
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,10 +18,20 @@ public class AStar {
 	private DefaultHashMap<Point, Integer> gScore;
 	private DefaultHashMap<Point, Integer> fScore;
 	private Point current;
+	private int matrixWidth;
+	private int matrixHeight;
 
+    public static void main(String[] args) {
+        Point goal = new Point(9,9);
+        Point start = new Point (0,0);
+        AStar test = new AStar(10, 10, start, goal);
+        System.out.println(test.run(start, goal).toString());
+    }
 	
-	public AStar(Matrix<EnvironmentLabel> elements, Point start, Point goal) {
-
+	public AStar(int width, int height, Point start, Point goal) {
+		
+		setMatrixHeight(height);
+		setMatrixWidth(width);
 		setClosedSet(new ArrayList<Point>());
 		setOpenSet(new ArrayList<Point>());
 		setCameFrom(new HashMap<Point, Point>());
@@ -31,9 +43,10 @@ public class AStar {
 		getfScore().put(start, Manhattan.getDistance((int) start.getX(),(int) start.getY(),(int) goal.getX(),(int) goal.getY()));
 	}
 	
-	public void run(Matrix<EnvironmentLabel> elements, Point start, Point goal){
+	public ArrayList<Point> run(Point start, Point goal){
 		int min = INFINITY;
 		while (!getOpenSet().isEmpty()) {
+			System.out.println("Bucleeeee");
 			for (Point point : openSet) {
 				if (getfScore().get(point) < min) {
 					min = (int) getfScore().get(point);
@@ -41,7 +54,8 @@ public class AStar {
 				}
 			}
 			if (current == goal) {
-				reconstructPath(getCameFrom(), goal);
+				return reconstructPath(getCameFrom(), goal);
+				
 			}
 			getOpenSet().remove(getCurrent());
 			getClosedSet().add(getCurrent());
@@ -66,8 +80,9 @@ public class AStar {
 				getfScore().put(neighbor, getgScore().get(neighbor) + Manhattan.getDistance((int) neighbor.getX(),(int) neighbor.getY(),(int) goal.getX(),(int) goal.getY()));
 			}
 			
-			throw new RuntimeException("Error en el A*");
+		
 		}
+		return null;
 		
 	}
 	
@@ -82,11 +97,25 @@ public class AStar {
 	
 	private ArrayList<Point> getNeighbors(Point current2) {
 		ArrayList<Point> aux = new ArrayList<Point>();
+		if ((int)current2.getX() == 0) {
+			aux.add(new Point((int) current2.getX() + 1,(int)current2.getY()));
+			aux.add(new Point((int) current2.getX(),(int)current2.getY() + 1));
+			aux.add(new Point((int) current2.getX(),(int)current2.getY() - 1));
+		}
+		else if ((int)current2.getY() == 0) {
+			aux.add(new Point((int) current2.getX() + 1,(int)current2.getY()));
+			aux.add(new Point((int) current2.getX(),(int)current2.getY() + 1));
+			aux.add(new Point((int) current2.getX() - 1,(int)current2.getY()));
+		}
+		else if ((int)current2.getY() == 0 && (int)current2.getX() == 0) {
+			aux.add(new Point((int) current2.getX() + 1,(int)current2.getY()));
+			aux.add(new Point((int) current2.getX(),(int)current2.getY() + 1));
+		}
 		aux.add(new Point((int) current2.getX() + 1,(int)current2.getY()));
 		aux.add(new Point((int) current2.getX(),(int)current2.getY() + 1));
 		aux.add(new Point((int) current2.getX() - 1,(int)current2.getY()));
 		aux.add(new Point((int) current2.getX(),(int)current2.getY() - 1));
-		return null;
+		return aux;
 	}
 
 	/**
@@ -114,7 +143,7 @@ public class AStar {
 	/**
 	 * @return the gScore
 	 */
-	public HashMap<Point, Integer> getgScore() {
+	public DefaultHashMap<Point, Integer> getgScore() {
 		return gScore;
 	}
 
@@ -123,12 +152,17 @@ public class AStar {
 	 */
 	public void setgScore(DefaultHashMap<Point, Integer> gScore) {
 		this.gScore = gScore;
+		for (int i = 0; i < getMatrixHeight(); i++) {
+			for (int j = 0; j < getMatrixWidth(); j++) {
+				getfScore().putDefault(new Point(i, j));
+			}
+		}
 	}
 
 	/**
 	 * @return the fScore
 	 */
-	public HashMap<Point, Integer> getfScore() {
+	public DefaultHashMap<Point, Integer> getfScore() {
 		return fScore;
 	}
 
@@ -137,6 +171,11 @@ public class AStar {
 	 */
 	public void setfScore(DefaultHashMap<Point, Integer> fScore) {
 		this.fScore = fScore;
+		for (int i = 0; i < getMatrixHeight(); i++) {
+			for (int j = 0; j < getMatrixWidth(); j++) {
+				getfScore().putDefault(new Point(i, j));
+			}
+		}
 	}
 
 	/**
@@ -172,6 +211,34 @@ public class AStar {
 	 */
 	public void setCurrent(Point current) {
 		this.current = current;
+	}
+
+	/**
+	 * @return the matrixWidth
+	 */
+	public int getMatrixWidth() {
+		return matrixWidth;
+	}
+
+	/**
+	 * @param matrixWidth the matrixWidth to set
+	 */
+	public void setMatrixWidth(int matrixWidth) {
+		this.matrixWidth = matrixWidth;
+	}
+
+	/**
+	 * @return the matrixHeight
+	 */
+	public int getMatrixHeight() {
+		return matrixHeight;
+	}
+
+	/**
+	 * @param matrixHeight the matrixHeight to set
+	 */
+	public void setMatrixHeight(int matrixHeight) {
+		this.matrixHeight = matrixHeight;
 	}
 
 }

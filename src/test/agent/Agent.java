@@ -10,7 +10,8 @@ public class Agent {
 	public static enum behaviourType{
 		SCOUT,
 		RETURN,
-		INFORM
+		INFORM,
+		IDLE,
 	}
 	
 	private behaviourType behaviour;
@@ -35,6 +36,7 @@ public class Agent {
 		
 	    if (panel.getFoodPositions().contains(pos)){
 	    	setBehaviour(behaviourType.RETURN);
+	    	returnToHive();
 	    }
 	    
 	    // The pathfinding module decides the next step and executes it.
