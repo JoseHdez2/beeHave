@@ -11,8 +11,8 @@ final public class IntMatrix extends Matrix<Double>{
      */
     public IntMatrix(Double[][] data) {
         super(data);
-        this.M = this.width;
-        this.N = this.height;
+        this.M = this.width();
+        this.N = this.height();
     }
     
     // create M-by-N IntMatrix of 0's

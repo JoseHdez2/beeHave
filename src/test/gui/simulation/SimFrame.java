@@ -45,7 +45,7 @@ public class SimFrame extends JFrame {
     public SimFrame(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("beeHave test");
-        setSize(800, 600);
+        setSize(1200, 600);
         setLayout(new GridLayout(1,2));
         
         envPanel = new EnvironmentPanel(10, 10);    // Create environment with a 10x10 grid.

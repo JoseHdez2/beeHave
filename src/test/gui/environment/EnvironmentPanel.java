@@ -32,10 +32,6 @@ public class EnvironmentPanel extends JLayeredPane {
     public Matrix<JPanel> tiles;
     public Matrix<EnvironmentLabel> elements;
     ArrayList<ArrayList<JLabel>> labels = new ArrayList<ArrayList<JLabel>>();
-    JPanel panelBack = new JPanel();
-    JPanel panelElem = new JPanel();
-    
-    final int LAYER_BG = 0; final int LAYER_ELEM = 1;
     
     // If false, show background image. Else show checkerboard pattern.
     boolean showGrid = true;
@@ -59,15 +55,9 @@ public class EnvironmentPanel extends JLayeredPane {
         
         this.setSize(gridTileSize * x, gridTileSize * y);
         
-        /*
-        panelBack.setLayout(new GridLayout(x, y));
-        add(panelBack, LAYER_BG);
-        panelElem.setLayout(new GridLayout(x, y));
-        add(panelElem, LAYER_ELEM);*/
-        
         // Add background tiles
-        for (int j = 0; j < elements.getHeight(); j++){
-            for (int i = 0; i < elements.getWidth(); i++){
+        for (int j = 0; j < elements.height(); j++){
+            for (int i = 0; i < elements.width(); i++){
                 Color color = (i+j)%2 == 0 ? new Color(150,150,150) : new Color(200,200,200);
                 EnvironmentLabel label = new EnvironmentLabel("b",i,j);
                 if (showGrid) label.setOpaque(true);
@@ -138,8 +128,8 @@ public class EnvironmentPanel extends JLayeredPane {
     
     @Override
     public void paint(Graphics g) {
-        for (int j = 0; j < elements.getHeight(); j++){
-            for (int i = 0; i < elements.getWidth(); i++){
+        for (int j = 0; j < elements.height(); j++){
+            for (int i = 0; i < elements.width(); i++){
                 // Erase previous frame.
                 elements.get(i, j).setIcon(null);
                 

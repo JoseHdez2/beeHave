@@ -55,6 +55,7 @@ public class AgentBee extends Agent {
         pathFinding.nextMove(this, panel);
     }
     
+    
     public void returnToHive(){
         
     }

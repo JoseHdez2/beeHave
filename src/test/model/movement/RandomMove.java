@@ -205,7 +205,7 @@ public class RandomMove implements MovementType {
 	}
 	
 	public moveDirection nextMove(Agent agent, EnvironmentPanel panel) {
-		ArrayList<moveDirection> lmovementsArray = legalMovements(visited, panel.getElements().getHeight(), panel.getElements().getWidth(), agent);
+		ArrayList<moveDirection> lmovementsArray = legalMovements(visited, panel.getElements().height(), panel.getElements().width(), agent);
 		int index = randomGenerator.nextInt(lmovementsArray.size());
 		moveDirection movement = lmovementsArray.get(index);
 		visited.add(agent.getPos());
@@ -218,7 +218,6 @@ public class RandomMove implements MovementType {
 		case UP:
 			agent.getPos().setLocation(agent.getPosX() , agent.getPosY()- 1);
 			visited.add(new Position(agent.getPosX() , agent.getPosY()));
-			return moveDirection.UP;
 		case LEFT:
 			agent.getPos().setLocation(agent.getPosX() - 1, agent.getPosY() );
 			visited.add(new Position(agent.getPosX(), agent.getPosY() ));
