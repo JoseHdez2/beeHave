@@ -22,9 +22,9 @@ public class AStar {
 	private int matrixHeight;
 
     public static void main(String[] args) {
-        Point goal = new Point(9,9);
+        Point goal = new Point(156,130);
         Point start = new Point (0,0);
-        AStar test = new AStar(10, 10, start, goal);
+        AStar test = new AStar(10000, 10000, start, goal);
         System.out.println(test.run(start, goal).toString());
     }
 	
@@ -47,12 +47,12 @@ public class AStar {
 		while (!getOpenSet().isEmpty()) {
 			System.out.println("Bucleeeee");
 			for (Point point : openSet) {
-				if (getfScore().get(point) < min) {
+				if (getfScore().get(point) <= min) {
 					min = (int) getfScore().get(point);
 					setCurrent(point);
 				}
 			}
-			if (current == goal) {
+			if (current.equals(goal)) {
 				return reconstructPath(getCameFrom(), goal);
 				
 			}
@@ -94,19 +94,23 @@ public class AStar {
 	
 	private ArrayList<Point> getNeighbors(Point current2) {
 		ArrayList<Point> aux = new ArrayList<Point>();
-		if ((int)current2.getX() == 0) {
+		if ((int)current2.getY() == 0 && (int)current2.getX() == 0) {
 			aux.add(new Point((int) current2.getX() + 1,(int)current2.getY()));
 			aux.add(new Point((int) current2.getX(),(int)current2.getY() + 1));
-			aux.add(new Point((int) current2.getX(),(int)current2.getY() - 1));
+			return aux;
 		}
+		
 		else if ((int)current2.getY() == 0) {
 			aux.add(new Point((int) current2.getX() + 1,(int)current2.getY()));
 			aux.add(new Point((int) current2.getX(),(int)current2.getY() + 1));
 			aux.add(new Point((int) current2.getX() - 1,(int)current2.getY()));
+			return aux;
 		}
-		else if ((int)current2.getY() == 0 && (int)current2.getX() == 0) {
+		else if ((int)current2.getX() == 0) {
 			aux.add(new Point((int) current2.getX() + 1,(int)current2.getY()));
 			aux.add(new Point((int) current2.getX(),(int)current2.getY() + 1));
+			aux.add(new Point((int) current2.getX(),(int)current2.getY() - 1));
+			return aux;
 		}
 		aux.add(new Point((int) current2.getX() + 1,(int)current2.getY()));
 		aux.add(new Point((int) current2.getX(),(int)current2.getY() + 1));
