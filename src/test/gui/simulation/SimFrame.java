@@ -1,5 +1,6 @@
 package test.gui.simulation;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,30 +14,28 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
+import javax.swing.border.TitledBorder;
 
-import test.gui.environment.EnvironmentPanel;
-import test.model.entity.agent.Agent;
-import test.model.entity.object.EnvObject;
+import test.model.entity.Entity;
 import test.model.movement.RandomMove;
+import test.gui.environment.EnvironmentPanel;
+import test.gui.i18n.GUI_Helper;
+import test.gui.i18n.I18n;
 
 public class SimFrame extends JFrame {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public EnvironmentPanel envPanel;
+    public EnvironmentPanel envPanel;
     
-    final String strEleAgent = "Agente";
-    final String strEleFood = "Comida";
-    final String strMovRandom = "Aleatorio";
-    final String strMovDepth = "DFS (profundidad)";
-    final String strMovBreadth = "BFS (anchura)";
-    final String strSimPlay = "Correr simulacion";
-    final String strSimStop = "Parar simulacion";
-
-    Timer simTimer = new Timer(1000, null); // Timer for simulation steps.
+    final String strEleAgent = "strEleAgent";
+    final String strEleFood = "strEleFood";
+    final String strMovRandom = "strMovRandom";
+    final String strMovDepth = "strMovDepth";
+    final String strMovBreadth = "strMovBreadth";
+    final String strSimPlay = "strSimPlay";
+    final String strSimStop = "strSimStop";
+    
+    // Timer for simulation steps.
+    Timer simTimer = new Timer(1000, null);
     JTextField simStepDurField; // Simulation step duration text field.
     JButton simPlayButton;  // Button for starting/stopping the simulation.
     
@@ -59,7 +58,7 @@ public class SimFrame extends JFrame {
         JPanel foodPanel = new JPanel();
         menuPanel.add(foodPanel);
         
-        JLabel foodText = new JLabel("Porciones:");
+        JLabel foodText = new JLabel(I18n.getString("FoodGen.Portions"));
         foodPanel.add(foodText);
         
         // TextInput for specifying number of pieces of food.
@@ -67,7 +66,7 @@ public class SimFrame extends JFrame {
         foodPanel.add(foodField);
         
         // Button for generating N pieces of food.
-        JButton foodButton = new JButton("Generar comida");
+        JButton foodButton = new JButton(I18n.getString("FoodGen.Button"));
         foodButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -85,15 +84,17 @@ public class SimFrame extends JFrame {
         JPanel clickEffectPanel = new JPanel();
         menuPanel.add(clickEffectPanel);
         
+        String strEleFood = I18n.getString("ClickEffect.Food");
         JRadioButton clickFoodButton = new JRadioButton(strEleFood);
         clickEffectPanel.add(clickFoodButton);
         clickFoodButton.setMnemonic(KeyEvent.VK_C);
-        clickFoodButton.setActionCommand(strEleFood);
+        clickFoodButton.setActionCommand(this.strEleFood);
         
+        String strEleAgent = I18n.getString("ClickEffect.Agent");
         JRadioButton clickAgentButton = new JRadioButton(strEleAgent);
         clickEffectPanel.add(clickAgentButton);
         clickAgentButton.setMnemonic(KeyEvent.VK_A);
-        clickAgentButton.setActionCommand(strEleAgent);
+        clickAgentButton.setActionCommand(this.strEleAgent);
 
         // Group the radio buttons.
         ButtonGroup clickEffectButtonGroup = new ButtonGroup();
@@ -112,22 +113,26 @@ public class SimFrame extends JFrame {
          */
         
         JPanel agentMoveTypePanel = new JPanel();
+        agentMoveTypePanel.setBorder(new TitledBorder(I18n.getString("MoveType")));
         menuPanel.add(agentMoveTypePanel);
         
+        String strMovRandom = I18n.getString("MoveType.Random");
         JRadioButton moveRandomButton = new JRadioButton(strMovRandom);
         agentMoveTypePanel.add(moveRandomButton);
         moveRandomButton.setMnemonic(KeyEvent.VK_R);
-        moveRandomButton.setActionCommand(strMovRandom);
+        moveRandomButton.setActionCommand(this.strMovRandom);
         
+        String strMovDepth = I18n.getString("MoveType.Depth");
         JRadioButton moveDepthButton = new JRadioButton(strMovDepth);
         agentMoveTypePanel.add(moveDepthButton);
         moveDepthButton.setMnemonic(KeyEvent.VK_D);
-        moveDepthButton.setActionCommand(strMovDepth);
+        moveDepthButton.setActionCommand(this.strMovDepth);
         
+        String strMovBreadth = I18n.getString("MoveType.Breadth");
         JRadioButton moveBreadthButton = new JRadioButton(strMovBreadth);
         agentMoveTypePanel.add(moveBreadthButton);
         moveBreadthButton.setMnemonic(KeyEvent.VK_B);
-        moveBreadthButton.setActionCommand(strMovBreadth);
+        moveBreadthButton.setActionCommand(this.strMovBreadth);
 
         // Group the radio buttons.
         ButtonGroup moveTypeButtonGroup = new ButtonGroup();
@@ -148,22 +153,26 @@ public class SimFrame extends JFrame {
          */
         
         JPanel simTimePanel = new JPanel();
+//        simTimePanel.set
+        simTimePanel.setBorder(new TitledBorder(I18n.getString("SimTimePanel")));
+        simTimePanel.setToolTipText(I18n.getToolTipString("SimTimePanel"));
         menuPanel.add(simTimePanel);
         
-        JLabel simStepDurLabel = new JLabel("Step duration (ms):");
+        JLabel simStepDurLabel = GUI_Helper.createJLabel("StepDurLabel");
         simTimePanel.add(simStepDurLabel);
         
         simStepDurField = new JTextField(((Integer)simTimer.getDelay()).toString(), 4);
         simTimePanel.add(simStepDurField);
         
-        simPlayButton = new JButton(strSimPlay);
+        simPlayButton = GUI_Helper.createJButton("SimTime.Play");
         simPlayButton.addActionListener(simulationPlayButtonListener);
         simTimePanel.add(simPlayButton);
+
         simTimer = new Timer(simTimer.getDelay(), simulationTimerListener);
         
-        JButton simStepButton = new JButton("Simular turno");
+        JButton simStepButton = GUI_Helper.createJButton("SimTime.SimStep");
         simStepButton.addActionListener(simulationTimerListener);
-        menuPanel.add(simStepButton);
+        simTimePanel.add(simStepButton, BorderLayout.SOUTH);
         
         setVisible(true);
     }
@@ -173,8 +182,8 @@ public class SimFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             switch(e.getActionCommand()){
-            case strEleAgent: envPanel.setClickEffect(Agent.type.AGENT_BEE); break;
-            case strEleFood: envPanel.setClickEffect(EnvObject.type.OBJECT_FLOWER); break;
+            case strEleAgent: envPanel.clickEffect = Entity.type.AGENT_BEE; break;
+            case strEleFood: envPanel.clickEffect = Entity.type.OBJECT_FLOWER; break;
             }
         }  
     };
@@ -205,12 +214,12 @@ public class SimFrame extends JFrame {
         public void actionPerformed(ActionEvent e) {
             if(simTimer.isRunning()){
                 simTimer.stop();
-                simPlayButton.setText(strSimPlay);
+                simPlayButton.setText(I18n.getString("SimTime.Play"));
             }
             else {
                 simTimer.setDelay(Integer.parseInt(simStepDurField.getText()));
                 simTimer.start();
-                simPlayButton.setText(strSimStop);
+                simPlayButton.setText(I18n.getString("SimTime.Stop"));
             }
         }
     };

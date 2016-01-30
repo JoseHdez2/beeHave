@@ -11,65 +11,72 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import test.model.entity.Entity;
-import test.model.entity.Entity.type;
-import test.model.entity.agent.Agent;
 import test.model.entity.agent.AgentBee;
-import test.util.math.RandomNum;
 import test.util.typedef.Matrix;
 import test.util.typedef.Position;
+
 
 /**
  *  Panel que representa el entorno (cuadricula).
  */
-public class EnvironmentPanel extends JPanel {
+public class EnvironmentPanel extends JLayeredPane {
     
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
     private int x, y;
-    private Matrix<EnvironmentLabel> elements;
-    private ArrayList<ArrayList<JLabel>> labels;
+    public Matrix<JPanel> tiles;
+    public Matrix<EnvironmentLabel> elements;
+    ArrayList<ArrayList<JLabel>> labels = new ArrayList<ArrayList<JLabel>>();
+    JPanel panelBack = new JPanel();
+    JPanel panelElem = new JPanel();
     
-    private ArrayList<Agent> allAgents;
-    private AgentBee agent;
-    private ImageIcon agentIcon; // Icon representing the agent.
-    private ArrayList<Point> foodPositions;
-    private ImageIcon foodIcon; // Icon representing food.
+    final int LAYER_BG = 0; final int LAYER_ELEM = 1;
     
-    // Default initial value for clickEffect.
-    static private Entity.type defaultEntityType = type.AGENT_BEE;
-    // Effect when mouse is clicked.
-    private Entity.type clickEffect;
+    // If false, show background image. Else show checkerboard pattern.
+    boolean showGrid = true;
     
-    private EnvironmentPanel(){
-        foodPositions = new ArrayList<Point>();
-        setClickEffect(defaultEntityType);
-        labels = new ArrayList<ArrayList<JLabel>>();
-    }
+    // public Point agentPos = new Point(); // Agent's position in x and y.
+    AgentBee agent = new AgentBee(new Position(0,0));
+    ImageIcon agentIcon = new ImageIcon("media/image/agent2.png"); // Icon representing the agent.
+    
+    public ArrayList<Point> foodPositions = new ArrayList<Point>();
+    ImageIcon foodIcon = new ImageIcon("media/image/meat.png"); // Icon representing food.
+    
+    public Entity.type clickEffect = Entity.type.OBJECT_FLOWER;
+    
+    int gridTileSize = 50; // Tile width and height, in pixels.
     
     public EnvironmentPanel(int width, int height){
-        this();
+        setLayout(new GridLayout(width,height));
         this.x = width;
         this.y = height;
-        agent = new AgentBee(new Position(RandomNum.randInt(0, x), RandomNum.randInt(0, y)));
-        elements = new Matrix<EnvironmentLabel>(new EnvironmentLabel[x][y]);
+        this.elements = new Matrix<EnvironmentLabel>(new EnvironmentLabel[x][y]);
         
-        setLayout(new GridLayout(width,height));
+        this.setSize(gridTileSize * x, gridTileSize * y);
+        
+        /*
+        panelBack.setLayout(new GridLayout(x, y));
+        add(panelBack, LAYER_BG);
+        panelElem.setLayout(new GridLayout(x, y));
+        add(panelElem, LAYER_ELEM);*/
+        
+        // Add background tiles
         for (int j = 0; j < elements.getHeight(); j++){
             for (int i = 0; i < elements.getWidth(); i++){
                 Color color = (i+j)%2 == 0 ? new Color(150,150,150) : new Color(200,200,200);
-                EnvironmentLabel label = new EnvironmentLabel("",i,j);
-                label.setOpaque(true);
+                EnvironmentLabel label = new EnvironmentLabel("b",i,j);
+                if (showGrid) label.setOpaque(true);
                 label.setBackground(color);
+                
                 label.addMouseListener(clickEffectListener);
+                
                 elements.set(i, j, label);
-                add(elements.get(i, j));
+                add(elements.get(i, j));  // Add into background layer
             }
         }
+        
         Random rand = new Random();
         agent.setPos(new Position(rand.nextInt(x), rand.nextInt(y)));
         generateFoodPortion();
@@ -94,11 +101,8 @@ public class EnvironmentPanel extends JPanel {
         public void mouseClicked(MouseEvent e) {
             EnvironmentLabel el = ((EnvironmentLabel)e.getSource());
             switch(clickEffect){
-            case AGENT_BEE: agent.setPos((new Position(el.x, el.y))); break;
+            case AGENT_BEE: agent.setPos(new Position(el.x, el.y)); break;
             case OBJECT_FLOWER: foodPositions.add(new Point(el.x, el.y)); break;
-            case AGENT_WASP: break;
-            case OBJECT_BEEHIVE: break;
-            default: break;
             }
             el.getParent().repaint();
         }
@@ -121,13 +125,8 @@ public class EnvironmentPanel extends JPanel {
      * Perform a step of the simulation.
      */
     public void simulationStep(){
-        agent.simulationStep(this);
+        agent.moveAgent(this);
         repaint();  // Repaint to show changes.
-    }
-    
-    
-    public void setClickEffect(Entity.type clickEffect) {
-        this.clickEffect = clickEffect;
     }
     
     @Override
@@ -147,16 +146,16 @@ public class EnvironmentPanel extends JPanel {
         }
         super.paint(g);
     }
-    
-    // TODO: quitar
-    /**
-     * @return the foodPositions
-     */
-    public ArrayList<Point> getFoodPositions() {
-        return foodPositions;
-    }
 
     public AgentBee getAgent() {
         return agent;
+    }
+
+    public Matrix<EnvironmentLabel> getElements() {
+        return elements;
+    }
+
+    public ArrayList<Point> getFoodPositions() {
+        return foodPositions;
     }
 }
