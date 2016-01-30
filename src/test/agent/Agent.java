@@ -7,6 +7,8 @@ import test.gui.Position;
 
 public class Agent {
 	
+	
+	private static Integer MAX_CARRY = 15;
 	public static enum behaviourType{
 		SCOUT,
 		RETURN,
@@ -18,11 +20,22 @@ public class Agent {
     public MovementType pathFinding;
 	public Position hivePos;
 	public Position pos;
+	public Integer pollenCarried;
 	
 	
 	public Agent() {
 		pathFinding = new RandomMove();
 		pos = new Position(1,1);
+	}
+	
+	public Agent(int startX, int startY, int hiveX, int hiveY){
+		pathFinding = new RandomMove();
+		setPos(new Position(startX, startY));
+		setHivePos(new Position(hiveX, hiveY));
+	}
+	
+	public void getPollen(Flower flower){
+		addPollen(flower.removePollen(MAX_CARRY));
 	}
 	
 	public void moveAgent(EnvironmentPanel panel){
@@ -89,6 +102,52 @@ public class Agent {
 	
 	public int getPosY(){
 		return getPos().getY();
+	}
+
+	/**
+	 * @return the pathFinding
+	 */
+	public MovementType getPathFinding() {
+		return pathFinding;
+	}
+
+	/**
+	 * @param pathFinding the pathFinding to set
+	 */
+	public void setPathFinding(MovementType pathFinding) {
+		this.pathFinding = pathFinding;
+	}
+
+	/**
+	 * @return the hivePos
+	 */
+	public Position getHivePos() {
+		return hivePos;
+	}
+
+	/**
+	 * @param hivePos the hivePos to set
+	 */
+	public void setHivePos(Position hivePos) {
+		this.hivePos = hivePos;
+	}
+
+	/**
+	 * @return the pollenCarried
+	 */
+	public Integer getPollenCarried() {
+		return pollenCarried;
+	}
+
+	/**
+	 * @param pollenCarried the pollenCarried to set
+	 */
+	public void setPollenCarried(Integer pollenCarried) {
+		this.pollenCarried = pollenCarried;
+	}
+	
+	public void addPollen(Integer pollen){
+		setPollenCarried(getPollenCarried() + pollen); 
 	}
 
 }

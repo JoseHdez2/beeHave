@@ -8,11 +8,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Random;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import test.agent.Agent;
+import test.agent.Hive;
 
 /**
  *  Panel que representa el entorno (cuadricula).
@@ -22,6 +24,7 @@ public class EnvironmentPanel extends JPanel {
     /**
 	 * 
 	 */
+	private static Integer DEFAULT_BEES = 5;
 	private static final long serialVersionUID = 1L;
 	private int x, y;
     private Matrix<EnvironmentLabel> elements;
@@ -29,7 +32,7 @@ public class EnvironmentPanel extends JPanel {
     
     // public Point agentPos = new Point(); // Agent's position in x and y.
     private ArrayList<Agent> allAgents;
-    private Agent agent;
+    private Hive hive;
     private ImageIcon agentIcon; // Icon representing the agent.
     private ArrayList<Point> foodPositions;
     private ImageIcon foodIcon; // Icon representing food.
@@ -50,13 +53,18 @@ public class EnvironmentPanel extends JPanel {
             }
         }
         Random rand = new Random();
-        agent.pos.setLocation(rand.nextInt(x), rand.nextInt(y));
+//        agent.pos.setLocation(rand.nextInt(x), rand.nextInt(y));
+		for (Agent agent : allAgents) {
+			agent.pos.setLocation(rand.nextInt(x), rand.nextInt(y));
+		}
+		getHive().setPos(rand.nextInt(x), rand.nextInt(y));
         generateFoodPortion();
         generateFoodPortion();
     }
     
     public void initialize(int width, int height){
-    	setAgent(new Agent()); 
+    	setAllAgents(new ArrayList<Agent>(), DEFAULT_BEES);
+    	setHive(new Hive());
 	    setAgentIcon(new ImageIcon("media/image/bee.png")); // Icon representing the agent.
 	    setFoodPositions(new ArrayList<Point>());
 	    setFoodIcon(new ImageIcon("media/image/daisy.png")); // Icon representing food.
@@ -85,7 +93,10 @@ public class EnvironmentPanel extends JPanel {
         public void mouseClicked(MouseEvent e) {
             EnvironmentLabel el = ((EnvironmentLabel)e.getSource());
             switch(clickEffect){
-            case AGENT: agent.pos.setLocation(el.x, el.y); break;
+            case AGENT: 
+            	Agent aux = new Agent(el.x, el.y, getHive().getPos().x, getHive().getPos().y);
+            	getAllAgents().add(aux); 
+            	break;
             case FOOD: foodPositions.add(new Point(el.x, el.y)); break;
             }
             el.getParent().repaint();
@@ -109,7 +120,11 @@ public class EnvironmentPanel extends JPanel {
      * Perform a step of the simulation.
      */
     public void simulationStep(){
-    	agent.moveAgent(this);
+    	for (Agent agent : getAllAgents()) {
+    	   	agent.moveAgent(this);
+    	   	
+		}
+    	
         repaint();  // Repaint to show changes.
     }
     
@@ -125,7 +140,10 @@ public class EnvironmentPanel extends JPanel {
                     if (i == food.x && j == food.y) elements.get(i, j).setIcon(foodIcon);
                 
                 // Draw agent.
-                if (i == agent.pos.getX() && j == agent.pos.getY()) elements.get(i, j).setIcon(agentIcon);
+                for (Agent agent : getAllAgents()) {
+                    if (i == agent.pos.getX() && j == agent.pos.getY()) elements.get(i, j).setIcon(agentIcon);
+				}
+                //if (i == agent.pos.getX() && j == agent.pos.getY()) elements.get(i, j).setIcon(agentIcon);
             }
         }
         super.paint(g);
@@ -162,16 +180,7 @@ public class EnvironmentPanel extends JPanel {
 	/**
 	 * @return the agent
 	 */
-	public Agent getAgent() {
-		return agent;
-	}
 
-	/**
-	 * @param agent the agent to set
-	 */
-	public void setAgent(Agent agent) {
-		this.agent = agent;
-	}
 
 	/**
 	 * @return the agentIcon
@@ -276,6 +285,31 @@ public class EnvironmentPanel extends JPanel {
 	 */
 	public ArrayList<Agent> getAllAgents() {
 		return allAgents;
+	}
+
+	/**
+	 * @param allAgents the allAgents to set
+	 */
+	public void setAllAgents(ArrayList<Agent> allAgents, Integer numberOfBees) {
+		this.allAgents = allAgents;
+		for (int i = 0; i < numberOfBees; i++) {
+			this.allAgents.add(new Agent());
+		}
+		
+	}
+
+	/**
+	 * @return the hive
+	 */
+	public Hive getHive() {
+		return hive;
+	}
+
+	/**
+	 * @param hive the hive to set
+	 */
+	public void setHive(Hive hive) {
+		this.hive = hive;
 	}
 
 	/**
