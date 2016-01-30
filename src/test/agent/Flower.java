@@ -72,19 +72,21 @@ public class Flower {
 	}
 
 	/**
-	 * Remove the pollen count required. Otherwise remove the maximum available
-	 * @param polenToRemove the polenToRemove to set
+	 * Remove the pollen count required. Otherwise remove the maximum available.
+	 * @param pollenToRemove the polenToRemove to set
 	 * @return the pollenToCarry
 	 */	
-	public int removePollen(int polenToRemove) {
-		if (getPollen() < polenToRemove){
+	public int removePollen(int pollenToRemove) {
+
+	    // Not enough pollen.
+		if (getPollen() < pollenToRemove){
 			int pollenToCarry = getPollen();
 			setPollen(ZERO);
 			return pollenToCarry;
 		}
 		else {
-			setPollen(polenToRemove);
-			return polenToRemove;
+			setPollen(getPollen() - pollenToRemove);
+			return pollenToRemove;
 		}
 	}
 }
