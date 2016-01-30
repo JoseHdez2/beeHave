@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import test.agent.Agent;
+import test.agent.Flower;
 import test.agent.Hive;
 
 /**
@@ -34,9 +35,10 @@ public class EnvironmentPanel extends JPanel {
     private ArrayList<Agent> allAgents;
     private Hive hive;
     private ImageIcon agentIcon; // Icon representing the agent.
-    private ArrayList<Point> foodPositions;
+    private ArrayList<Flower> foodPositions;
     private ImageIcon foodIcon; // Icon representing food.
     private EnvironmentEntity clickEffect;
+    private AStar searchAlgorithm;
     
     EnvironmentPanel(int width, int height){
         initialize(width, height);
@@ -55,7 +57,7 @@ public class EnvironmentPanel extends JPanel {
         Random rand = new Random();
 //        agent.pos.setLocation(rand.nextInt(x), rand.nextInt(y));
 		for (Agent agent : allAgents) {
-			agent.pos.setLocation(rand.nextInt(x), rand.nextInt(y));
+			agent.getPos().setLocation(rand.nextInt(x), rand.nextInt(y));
 		}
 		getHive().setPos(rand.nextInt(x), rand.nextInt(y));
         generateFoodPortion();
@@ -63,10 +65,11 @@ public class EnvironmentPanel extends JPanel {
     }
     
     public void initialize(int width, int height){
+    	setSearchAlgorithm(new AStar(width, height));
     	setAllAgents(new ArrayList<Agent>(), DEFAULT_BEES);
     	setHive(new Hive());
 	    setAgentIcon(new ImageIcon("media/image/bee.png")); // Icon representing the agent.
-	    setFoodPositions(new ArrayList<Point>());
+	    setFoodPositions(new ArrayList<Flower>());
 	    setFoodIcon(new ImageIcon("media/image/daisy.png")); // Icon representing food.
 	    setClickEffect(EnvironmentEntity.FOOD);
 	    setX(width);
@@ -80,7 +83,9 @@ public class EnvironmentPanel extends JPanel {
      */
     public void generateFoodPortion(){
         Random rand = new Random();
-        foodPositions.add(new Point(rand.nextInt(x), rand.nextInt(y)));
+        Flower auxFlower = new Flower();
+        auxFlower.setFlowerPosition(new Point(rand.nextInt(x), rand.nextInt(y)));
+        foodPositions.add(auxFlower);
     }
     
     /**
@@ -97,7 +102,11 @@ public class EnvironmentPanel extends JPanel {
             	Agent aux = new Agent(el.x, el.y, getHive().getPos().x, getHive().getPos().y);
             	getAllAgents().add(aux); 
             	break;
-            case FOOD: foodPositions.add(new Point(el.x, el.y)); break;
+            case FOOD: 
+            	Flower auxFlower = new Flower();
+                auxFlower.setFlowerPosition(new Point(el.x, el.y));
+                foodPositions.add(auxFlower);
+                break;
             }
             el.getParent().repaint();
         }
@@ -122,6 +131,7 @@ public class EnvironmentPanel extends JPanel {
     public void simulationStep(){
     	for (Agent agent : getAllAgents()) {
     	   	agent.moveAgent(this);
+    	   	checkBeeFlower();
     	   	
 		}
     	
@@ -136,12 +146,12 @@ public class EnvironmentPanel extends JPanel {
                 elements.get(i, j).setIcon(null);
                 
                 // Draw food.
-                for (Point food : foodPositions)
-                    if (i == food.x && j == food.y) elements.get(i, j).setIcon(foodIcon);
+                for (Flower food : getFoodPositions())
+                    if (i == food.getFlowerPosition().getX() && j == food.getFlowerPosition().getY()) elements.get(i, j).setIcon(foodIcon);
                 
                 // Draw agent.
                 for (Agent agent : getAllAgents()) {
-                    if (i == agent.pos.getX() && j == agent.pos.getY()) elements.get(i, j).setIcon(agentIcon);
+                    if (i == agent.getPos().getX() && j == agent.getPos().getY()) elements.get(i, j).setIcon(agentIcon);
 				}
                 //if (i == agent.pos.getX() && j == agent.pos.getY()) elements.get(i, j).setIcon(agentIcon);
             }
@@ -199,14 +209,14 @@ public class EnvironmentPanel extends JPanel {
 	/**
 	 * @return the foodPositions
 	 */
-	public ArrayList<Point> getFoodPositions() {
+	public ArrayList<Flower> getFoodPositions() {
 		return foodPositions;
 	}
 
 	/**
 	 * @param foodPositions the foodPositions to set
 	 */
-	public void setFoodPositions(ArrayList<Point> foodPositions) {
+	public void setFoodPositions(ArrayList<Flower> foodPositions) {
 		this.foodPositions = foodPositions;
 	}
 
@@ -317,5 +327,36 @@ public class EnvironmentPanel extends JPanel {
 	 */
 	public void setAllAgents(ArrayList<Agent> allAgents) {
 		this.allAgents = allAgents;
+	}
+	
+	public void checkBeeFlower(){
+		
+		for (Agent agent : getAllAgents()) {
+			for (Flower flower : getFoodPositions()) {
+				if (flower.getFlowerPosition().equals(agent.getPos())) {
+					System.out.println("EIIIIIIIII");
+					agent.getPollen(flower);
+					if (agent.getBehaviour() == Agent.behaviourType.RETURN) {
+						getSearchAlgorithm().knowledgeInit(agent.getPos(), agent.getHivePos());
+						agent.setPathToHive(getSearchAlgorithm().run(agent.getPos(), agent.getHivePos()));
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * @return the searchAlgorithm
+	 */
+	public AStar getSearchAlgorithm() {
+		return searchAlgorithm;
+	}
+
+	/**
+	 * @param searchAlgorithm the searchAlgorithm to set
+	 */
+	public void setSearchAlgorithm(AStar searchAlgorithm) {
+		this.searchAlgorithm = searchAlgorithm;
 	}
 }

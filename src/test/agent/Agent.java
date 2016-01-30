@@ -1,7 +1,8 @@
 package test.agent;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import test.gui.EnvironmentPanel;
-import test.gui.Position;
 
 
 
@@ -9,6 +10,7 @@ public class Agent {
 	
 	
 	private static Integer MAX_CARRY = 15;
+	private static Integer ZERO = 0;
 	public static enum behaviourType{
 		SCOUT,
 		RETURN,
@@ -17,25 +19,29 @@ public class Agent {
 	}
 	
 	private behaviourType behaviour;
-    public MovementType pathFinding;
-	public Position hivePos;
-	public Position pos;
-	public Integer pollenCarried;
+    private MovementType pathFinding;
+	private Point hivePos;
+	private Point pos;
+	private Integer pollenCarried;
+	private ArrayList<Point> pathToHive;
+	
 	
 	
 	public Agent() {
 		pathFinding = new RandomMove();
-		pos = new Position(1,1);
+		pos = new Point(1,1);
 	}
 	
 	public Agent(int startX, int startY, int hiveX, int hiveY){
 		pathFinding = new RandomMove();
-		setPos(new Position(startX, startY));
-		setHivePos(new Position(hiveX, hiveY));
+		setPos(new Point(startX, startY));
+		setHivePos(new Point(hiveX, hiveY));
+		setPollenCarried(ZERO);
 	}
 	
 	public void getPollen(Flower flower){
 		addPollen(flower.removePollen(MAX_CARRY));
+		setBehaviour(behaviourType.RETURN);
 	}
 	
 	public void moveAgent(EnvironmentPanel panel){
@@ -85,22 +91,22 @@ public class Agent {
 	/**
 	 * @return the pos
 	 */
-	public Position getPos() {
+	public Point getPos() {
 		return pos;
 	}
 
 	/**
 	 * @param pos the pos to set
 	 */
-	public void setPos(Position pos) {
+	public void setPos(Point pos) {
 		this.pos = pos;
 	}
 	
-	public int getPosX(){
+	public double getPosX(){
 		return getPos().getX();
 	}
 	
-	public int getPosY(){
+	public double getPosY(){
 		return getPos().getY();
 	}
 
@@ -121,14 +127,14 @@ public class Agent {
 	/**
 	 * @return the hivePos
 	 */
-	public Position getHivePos() {
+	public Point getHivePos() {
 		return hivePos;
 	}
 
 	/**
 	 * @param hivePos the hivePos to set
 	 */
-	public void setHivePos(Position hivePos) {
+	public void setHivePos(Point hivePos) {
 		this.hivePos = hivePos;
 	}
 
@@ -148,6 +154,20 @@ public class Agent {
 	
 	public void addPollen(Integer pollen){
 		setPollenCarried(getPollenCarried() + pollen); 
+	}
+
+	/**
+	 * @return the pathToHive
+	 */
+	public ArrayList<Point> getPathToHive() {
+		return pathToHive;
+	}
+
+	/**
+	 * @param pathToHive the pathToHive to set
+	 */
+	public void setPathToHive(ArrayList<Point> pathToHive) {
+		this.pathToHive = pathToHive;
 	}
 
 }

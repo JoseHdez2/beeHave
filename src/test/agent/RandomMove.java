@@ -3,8 +3,10 @@
  */
 package test.agent;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
+
 import test.gui.EnvironmentPanel;
 import test.gui.Position;
 
@@ -13,24 +15,24 @@ import test.gui.Position;
  *
  */
 public class RandomMove implements MovementType {
-	private ArrayList<Position> visited;
+	private ArrayList<Point> visited;
 	private Random randomGenerator;
 
 	public RandomMove(){
-		visited = new ArrayList<Position>();
+		visited = new ArrayList<Point>();
 		randomGenerator = new Random();	
 	}
 	
-	public boolean isIn(ArrayList<Position> list,int x,int y) {
-	   for (Position element : list) {
-		if (element.getX() == x && element.getY() == y) {
+	public boolean isIn(ArrayList<Point> list,double d,double e) {
+	   for (Point element : list) {
+		if (element.getX() == d && element.getY() == e) {
 			return true;
 		}
 	   }
 	   return false;
 	}
 	
-	public ArrayList<moveDirection> legalMovements( ArrayList<Position> visitedList, int height, int width, Agent agent){
+	public ArrayList<moveDirection> legalMovements( ArrayList<Point> visitedList, int height, int width, Agent agent){
 		ArrayList<moveDirection> result = new ArrayList<moveDirection>();
 		if(agent.getPosY() == height-1 && agent.getPosX() == width -1){
 			if (isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
@@ -227,33 +229,33 @@ public class RandomMove implements MovementType {
 		ArrayList<moveDirection> lmovementsArray = legalMovements(visited, panel.getElements().getHeight(), panel.getElements().getWidth(), agent);
 		int index = randomGenerator.nextInt(lmovementsArray.size());
 		moveDirection movement = lmovementsArray.get(index);
-		if (!visited.contains(agent.pos)) {
-			visited.add(agent.pos);
+		if (!visited.contains(agent.getPos())) {
+			visited.add(agent.getPos());
 		}
 		
 
 		switch (movement) {
 		case DOWN:
-			agent.pos.setLocation(agent.getPosX() , agent.getPosY()+ 1);
-			if (!visited.contains(new Position(agent.getPosX(), agent.getPosY()))) {
-				visited.add(new Position(agent.getPosX(), agent.getPosY()));
+			agent.getPos().setLocation(agent.getPosX() , agent.getPosY()+ 1);
+			if (!visited.contains(new Point((int) agent.getPosX(),(int) agent.getPosY()))) {
+				visited.add(new Point((int) agent.getPosX(),(int) agent.getPosY()));
 			}
 			return moveDirection.DOWN;
 		case UP:
-			agent.pos.setLocation(agent.getPosX() , agent.getPosY()- 1);
-			if(!visited.contains(new Position(agent.getPosX() , agent.getPosY())))
-				visited.add(new Position(agent.getPosX() , agent.getPosY()));
+			agent.getPos().setLocation(agent.getPosX() , agent.getPosY()- 1);
+			if(!visited.contains(new Point( (int) agent.getPosX() , (int) agent.getPosY())))
+				visited.add(new Point( (int) agent.getPosX() , (int) agent.getPosY()));
 			return moveDirection.UP;
 		case LEFT:
-			agent.pos.setLocation(agent.getPosX() - 1, agent.getPosY() );
-			if (!visited.contains(new Position(agent.getPosX(), agent.getPosY()))) {
-				visited.add(new Position(agent.getPosX(), agent.getPosY() ));
+			agent.getPos().setLocation(agent.getPosX() - 1, agent.getPosY() );
+			if (!visited.contains(new Point( (int) agent.getPosX(), (int) agent.getPosY()))) {
+				visited.add(new Point((int) agent.getPosX(), (int) agent.getPosY() ));
 			}
 			return moveDirection.LEFT;
 		case RIGHT:
-			agent.pos.setLocation(agent.getPosX() + 1, agent.getPosY() );
-			if (!visited.contains(visited.add(new Position(agent.getPosX(), agent.getPosY() )))) {
-				visited.add(new Position(agent.getPosX(), agent.getPosY() ));
+			agent.getPos().setLocation(agent.getPosX() + 1, agent.getPosY() );
+			if (!visited.contains(visited.add(new Point((int) agent.getPosX(), (int) agent.getPosY() )))) {
+				visited.add(new Point((int) agent.getPosX(), (int) agent.getPosY() ));
 			}
 			return moveDirection.RIGHT;
 		default:

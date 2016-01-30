@@ -23,12 +23,34 @@ public class AStar {
 
 
 	public AStar(int width, int height, Point start, Point goal) {	
+		matrixInit(width, height);
+		//		setMatrixHeight(height);
+//		setMatrixWidth(width);
+//		setClosedSet(new ArrayList<Point>());
+//		setOpenSet(new ArrayList<Point>());
+//		setCameFrom(new HashMap<Point, Point>());
+//		setCurrent(new Point());
+//		getOpenSet().add(start);
+//		setgScore(new DefaultHashMap<Point, Integer>(INFINITY,  getMatrixHeight(), getMatrixWidth()));
+//		setfScore(new DefaultHashMap<Point, Integer>(INFINITY, getMatrixHeight(), getMatrixWidth()));
+//		getgScore().put(start, ZERO);
+//		getfScore().put(start, Manhattan.getDistance((int) start.getX(),(int) start.getY(),(int) goal.getX(),(int) goal.getY()));
+		knowledgeInit(start, goal);
+	}
+	
+	public AStar(int width, int height){
+		matrixInit(width, height);
+	}
+	
+	private void matrixInit(int width, int height){
 		setMatrixHeight(height);
 		setMatrixWidth(width);
 		setClosedSet(new ArrayList<Point>());
 		setOpenSet(new ArrayList<Point>());
 		setCameFrom(new HashMap<Point, Point>());
 		setCurrent(new Point());
+	}
+	public void knowledgeInit(Point start, Point goal){
 		getOpenSet().add(start);
 		setgScore(new DefaultHashMap<Point, Integer>(INFINITY,  getMatrixHeight(), getMatrixWidth()));
 		setfScore(new DefaultHashMap<Point, Integer>(INFINITY, getMatrixHeight(), getMatrixWidth()));
