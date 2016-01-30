@@ -1,6 +1,6 @@
 package test.model.agent;
 
-import test.gui.EnvironmentPanel2;
+import test.gui.environment.EnvironmentPanel2;
 import test.model.environment.Entity;
 import test.util.typedef.Position;
 

@@ -1,4 +1,4 @@
-package test.gui;
+package test.gui.simulation;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -13,6 +13,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
+import test.gui.environment.EnvironmentPanel2;
 import test.model.agent.Agent;
 import test.model.environment.Entity;
 import test.model.environment.EntityType;

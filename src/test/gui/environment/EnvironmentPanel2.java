@@ -1,4 +1,4 @@
-package test.gui;
+package test.gui.environment;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import app.util.Sys;
+import test.gui.typedef.ClickEffect;
+import test.gui.typedef.EnvironmentLabel;
 import test.model.agent.Agent;
 import test.model.agent.AgentBee;
 import test.model.agent.AgentWasp;

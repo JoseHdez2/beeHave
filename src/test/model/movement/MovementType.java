@@ -3,7 +3,7 @@
  */
 package test.model.movement;
 
-import test.gui.EnvironmentPanel2;
+import test.gui.environment.EnvironmentPanel2;
 import test.model.agent.Agent;
 
 /**

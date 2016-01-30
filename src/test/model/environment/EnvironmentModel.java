@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import test.gui.EnvironmentLabel;
+import test.gui.typedef.EnvironmentLabel;
 import test.model.agent.Agent;
 import test.model.agent.AgentBee;
 import test.util.typedef.Matrix;

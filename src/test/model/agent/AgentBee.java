@@ -1,6 +1,6 @@
 package test.model.agent;
 
-import test.gui.EnvironmentPanel2;
+import test.gui.environment.EnvironmentPanel2;
 import test.model.movement.MovementType;
 import test.model.movement.RandomMove;
 import test.util.typedef.Position;

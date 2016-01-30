@@ -1,4 +1,4 @@
-package test.gui;
+package test.gui.typedef;
 
 import app.util.Sys;
 import test.model.agent.Agent;

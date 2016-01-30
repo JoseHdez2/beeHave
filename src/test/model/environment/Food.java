@@ -1,7 +1,7 @@
 /**
  * 
  */
-package test.gui;
+package test.model.environment;
 
 import test.util.typedef.Position;
 

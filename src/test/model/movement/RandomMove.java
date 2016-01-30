@@ -6,7 +6,7 @@ package test.model.movement;
 import java.util.ArrayList;
 import java.util.Random;
 
-import test.gui.EnvironmentPanel2;
+import test.gui.environment.EnvironmentPanel2;
 import test.model.agent.Agent;
 import test.util.typedef.Position;
 

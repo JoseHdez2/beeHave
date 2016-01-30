@@ -1,4 +1,4 @@
-package test.gui;
+package test.gui.environment;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import test.agent.Agent;
+import test.gui.typedef.EnvironmentLabel;
 import test.model.environment.EntityType;
 import test.util.typedef.Matrix;
 

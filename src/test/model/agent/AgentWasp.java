@@ -1,6 +1,6 @@
 package test.model.agent;
 
-import test.gui.EnvironmentPanel2;
+import test.gui.environment.EnvironmentPanel2;
 import test.util.typedef.Position;
 
 public class AgentWasp extends Agent {

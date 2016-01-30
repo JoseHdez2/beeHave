@@ -1,11 +1,9 @@
 /**
  * 
  */
-package test.agent;
+package test.model.environment;
 
 import java.util.ArrayList;
-
-import test.model.environment.ObjectFlower;
 
 /**
  * @author adexe

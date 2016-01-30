@@ -1,6 +1,6 @@
 package test;
 
-import test.gui.SimFrame;
+import test.gui.simulation.SimFrame;
 
 public class Main {
     
