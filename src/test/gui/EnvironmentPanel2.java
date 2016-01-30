@@ -12,11 +12,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import app.util.Sys;
 import test.model.agent.Agent;
 import test.model.agent.AgentBee;
 import test.model.agent.AgentWasp;
 import test.model.environment.Entity;
 import test.model.environment.EnvObject;
+import test.model.environment.ObjectBeehive;
 import test.model.environment.ObjectFlower;
 import test.util.typedef.Matrix;
 import test.util.typedef.Position;
@@ -42,51 +44,7 @@ public class EnvironmentPanel2 extends JPanel {
     
     
     // Singleton class that handles the creation of entities with the mouse.
-    private Object clickEffect = new Object(){
-        
-        private Entity.type entityType;
-        private Agent.type agentType;
-        private EnvObject.type objectType;
-        
-        
-        public void Object(){
-            // TODO: Parametrizar estado inicial
-            this.entityType = Entity.type.AGENT;
-            this.agentType = Agent.type.BEE;
-            this.objectType = EnvObject.type.FLOWER;
-        }
-        
-        public void setEffect(Agent.type agentType){
-            this.entityType = Entity.type.AGENT;
-            this.agentType = agentType;
-        }
-        
-        public void setEffect(EnvObject.type objectType){
-            this.entityType = Entity.type.OBJECT;
-            this.objectType = objectType;
-        }
-        
-        // la chicha de la clase
-        public Entity createEntity(Position pos){
-            switch(this.entityType){
-            case AGENT:
-                switch(this.agentType){
-                case BEE: return new AgentBee(pos);
-                case WASP: return new AgentWasp(pos);
-                }
-                break;
-            case OBJECT:
-                switch(this.objectType){
-                case FLOWER: return new ObjectFlower(pos);
-                case BEEHIVE: return new ObjectBeehive(pos);
-                }
-                break;
-            }
-        }
-    };
-    
-    // private EntityType clickEffect;
-    private 
+    private ClickEffect clickEffect;
     
     EnvironmentPanel2(int width, int height){
         initialize(width, height);
