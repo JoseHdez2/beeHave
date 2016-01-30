@@ -28,8 +28,7 @@ public class AStar {
         System.out.println(test.run(start, goal).toString());
     }
 	
-	public AStar(int width, int height, Point start, Point goal) {
-		
+	public AStar(int width, int height, Point start, Point goal) {	
 		setMatrixHeight(height);
 		setMatrixWidth(width);
 		setClosedSet(new ArrayList<Point>());
@@ -59,8 +58,8 @@ public class AStar {
 			}
 			getOpenSet().remove(getCurrent());
 			getClosedSet().add(getCurrent());
-			
 			ArrayList<Point> neighborsCurrent = getNeighbors(current);
+			
 			outerloop:
 			for (Point neighbor : neighborsCurrent) {
 				if (getClosedSet().contains(neighbor)) {
@@ -79,8 +78,6 @@ public class AStar {
 				getgScore().put(neighbor, tentativegScore);
 				getfScore().put(neighbor, getgScore().get(neighbor) + Manhattan.getDistance((int) neighbor.getX(),(int) neighbor.getY(),(int) goal.getX(),(int) goal.getY()));
 			}
-			
-		
 		}
 		return null;
 		
