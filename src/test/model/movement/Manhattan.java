@@ -1,4 +1,4 @@
-package test.gui;
+package test.model.movement;
 
 public class Manhattan {
 	

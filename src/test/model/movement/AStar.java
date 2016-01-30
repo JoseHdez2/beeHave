@@ -1,10 +1,12 @@
-package test.gui;
+package test.model.movement;
 
 
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import test.gui.DefaultHashMap;
 
 
 

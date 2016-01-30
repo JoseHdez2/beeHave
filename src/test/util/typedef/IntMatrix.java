@@ -1,4 +1,4 @@
-package test.gui;
+package test.util.typedef;
 
 // TODO: IntMatrix is a misleading name for a matrix of doubles :p
 

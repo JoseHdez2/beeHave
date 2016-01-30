@@ -1,4 +1,4 @@
-package test.gui;
+package test.util.typedef;
 
 /**
  * Non-redimensionable matrix with elements of type T.

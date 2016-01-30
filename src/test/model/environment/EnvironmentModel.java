@@ -15,17 +15,23 @@ import javax.swing.JPanel;
 
 import test.agent.Agent;
 import test.gui.EnvironmentLabel;
-import test.gui.Matrix;
+import test.util.typedef.Matrix;
+
 
 /**
- *  Panel que representa el entorno (cuadricula).
+ * @author jose
+ *
+ *  Matrix representing the environment where the simulation is run.
+ *  
+ *  Includes all of the Entities (both Agents and Objects) and manages each step of the simulation,
+ *  letting each of the agents act a step for each turn of the simulation. 
  */
-public class EnvironmentPanel extends JPanel {
+@SuppressWarnings("serial")
+public class EnvironmentModel extends JPanel {
     
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private int x, y;
     private Matrix<EnvironmentLabel> elements;
     private ArrayList<ArrayList<JLabel>> labels;
@@ -37,7 +43,7 @@ public class EnvironmentPanel extends JPanel {
     private ImageIcon foodIcon = new ImageIcon("media/image/daisy.png"); // Icon representing food.
     private EntityType clickEffect = EntityType.FOOD;
     
-    EnvironmentPanel(int width, int height){
+    EnvironmentModel(int width, int height){
         
     	setLayout(new GridLayout(width,height));
         this.x = width;
