@@ -63,14 +63,6 @@ final public class IntMatrix extends Matrix<Double>{
         System.out.print(this.toString());
     }
     
-    public void set(int x, int y, double value){
-    	this.data[x][y] = value;
-    }
-    
-    public Double get(int x, int y){
-    	return data[x][y];
-    }
-    
     public void infinityFill(double infinityValue){
     	for (int i = 0; i < M; i++)
             for (int j = 0; j < N; j++)

@@ -33,8 +33,8 @@ public class SimFrame extends JFrame {
     final String strSimPlay = "Correr simulacion";
     final String strSimStop = "Parar simulacion";
     
-    // Timer for simulation steps.
-    Timer simTimer = new Timer(1000, null);
+
+    Timer simTimer = new Timer(1000, null); // Timer for simulation steps.
     JTextField simStepDurField; // Simulation step duration text field.
     JButton simPlayButton;  // Button for starting/stopping the simulation.
     

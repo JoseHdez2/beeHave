@@ -1,5 +1,7 @@
 package test.model.agent;
 
-public class AgentBee {
+import test.agent.Agent;
 
+public class AgentBee extends Agent {
+    int pollen; // Amount of pollen the bee has.
 }
