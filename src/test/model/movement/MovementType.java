@@ -3,7 +3,7 @@
  */
 package test.model.movement;
 
-import test.gui.environment.EnvironmentPanel2;
+import test.gui.environment.EnvironmentPanel;
 import test.model.agent.Agent;
 
 /**
@@ -23,5 +23,5 @@ public interface MovementType {
 	/**
 	 * Decide the next step for the agent and execute it.
 	 */
-	moveDirection nextMove(Agent agent, EnvironmentPanel2 panel);
+	moveDirection nextMove(Agent agent, EnvironmentPanel panel);
 }

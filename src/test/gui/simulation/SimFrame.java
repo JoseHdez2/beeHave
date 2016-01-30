@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,10 +14,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-import test.gui.environment.EnvironmentPanel2;
+import test.gui.environment.EnvironmentPanel;
 import test.model.agent.Agent;
-import test.model.environment.Entity;
-import test.model.environment.EntityType;
 import test.model.environment.EnvObject;
 import test.model.movement.RandomMove;
 
@@ -27,7 +26,7 @@ public class SimFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public EnvironmentPanel2 envPanel;
+	public EnvironmentPanel envPanel;
     
     final String strEleAgent = "Agente";
     final String strEleFood = "Comida";
@@ -36,7 +35,6 @@ public class SimFrame extends JFrame {
     final String strMovBreadth = "BFS (anchura)";
     final String strSimPlay = "Correr simulacion";
     final String strSimStop = "Parar simulacion";
-    
 
     Timer simTimer = new Timer(1000, null); // Timer for simulation steps.
     JTextField simStepDurField; // Simulation step duration text field.
@@ -48,7 +46,7 @@ public class SimFrame extends JFrame {
         setSize(800, 600);
         setLayout(new GridLayout(1,2));
         
-        envPanel = new EnvironmentPanel2(10, 10);    // Create environment with a 10x10 grid.
+        envPanel = new EnvironmentPanel(10, 10);    // Create environment with a 10x10 grid.
         add(envPanel);
         
         JPanel menuPanel = new JPanel();
@@ -175,8 +173,8 @@ public class SimFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             switch(e.getActionCommand()){
-            case strEleAgent: envPanel.setClickEffect(Agent.type.BEE); break;
-            case strEleFood: envPanel.setClickEffect(EnvObject.type.FLOWER); break;
+            case strEleAgent: envPanel.setClickEffect(Agent.type.AGENT_BEE); break;
+            case strEleFood: envPanel.setClickEffect(EnvObject.type.OBJECT_FLOWER); break;
             }
         }  
     };
