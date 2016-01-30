@@ -1,6 +1,6 @@
 package test.model.agent;
 
-import test.gui.EnvironmentPanel;
+import test.gui.EnvironmentPanel2;
 import test.model.movement.MovementType;
 import test.model.movement.RandomMove;
 import test.util.typedef.Position;
@@ -34,12 +34,12 @@ public class AgentBee extends Agent {
     public MovementType pathFinding;    // Current pathfinding algorithm the AgentBee is using.
     public Position hivePos;    // Position
     
-    public void AgentBee(EnvironmentPanel panel) {
+    public void AgentBee(EnvironmentPanel2 panel) {
         pathFinding = new RandomMove();
         setPos(new Position(1,1));
     }
     
-    public void moveAgent(EnvironmentPanel panel){
+    public void moveAgent(EnvironmentPanel2 panel){
         
         if (getBehaviour() == BehaviourType.SCOUT) {
             pathFinding = new RandomMove();
@@ -80,7 +80,7 @@ public class AgentBee extends Agent {
     }
 
     @Override
-    public void simulationStep(EnvironmentPanel environment) {
+    public void simulationStep(EnvironmentPanel2 environment) {
         moveAgent(environment);
     }
 }

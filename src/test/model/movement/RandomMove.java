@@ -6,7 +6,7 @@ package test.model.movement;
 import java.util.ArrayList;
 import java.util.Random;
 
-import test.gui.EnvironmentPanel;
+import test.gui.EnvironmentPanel2;
 import test.model.agent.Agent;
 import test.util.typedef.Position;
 
@@ -204,7 +204,7 @@ public class RandomMove implements MovementType {
 		return result;
 	}
 	
-	public moveDirection nextMove(Agent agent, EnvironmentPanel panel) {
+	public moveDirection nextMove(Agent agent, EnvironmentPanel2 panel) {
 		ArrayList<moveDirection> lmovementsArray = legalMovements(visited, panel.getElements().getHeight(), panel.getElements().getWidth(), agent);
 		int index = randomGenerator.nextInt(lmovementsArray.size());
 		moveDirection movement = lmovementsArray.get(index);

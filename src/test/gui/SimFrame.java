@@ -26,7 +26,7 @@ public class SimFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public EnvironmentPanel envPanel;
+	public EnvironmentPanel2 envPanel;
     
     final String strEleAgent = "Agente";
     final String strEleFood = "Comida";
@@ -47,7 +47,7 @@ public class SimFrame extends JFrame {
         setSize(800, 600);
         setLayout(new GridLayout(1,2));
         
-        envPanel = new EnvironmentPanel(10, 10);    // Create environment with a 10x10 grid.
+        envPanel = new EnvironmentPanel2(10, 10);    // Create environment with a 10x10 grid.
         add(envPanel);
         
         JPanel menuPanel = new JPanel();

@@ -19,7 +19,7 @@ import test.util.typedef.Matrix;
 /**
  *  Panel que representa el entorno (cuadricula).
  */
-public class EnvironmentPanelOld extends JPanel {
+public class EnvironmentPanel2 extends JPanel {
     
     /**
      * 
@@ -36,7 +36,7 @@ public class EnvironmentPanelOld extends JPanel {
     private ImageIcon foodIcon; // Icon representing food.
     private EntityType clickEffect;
     
-    EnvironmentPanelOld(int width, int height){
+    EnvironmentPanel2(int width, int height){
         initialize(width, height);
         setLayout(new GridLayout(width,height));
         for (int j = 0; j < elements.getHeight(); j++){
@@ -130,159 +130,5 @@ public class EnvironmentPanelOld extends JPanel {
             }
         }
         super.paint(g);
-    }
-
-    /**
-     * @return the elements
-     */
-    public Matrix<EnvironmentLabel> getElements() {
-        return elements;
-    }
-
-    /**
-     * @param elements the elements to set
-     */
-    public void setElements(Matrix<EnvironmentLabel> elements) {
-        this.elements = elements;
-    }
-
-    /**
-     * @return the labels
-     */
-    public ArrayList<ArrayList<JLabel>> getLabels() {
-        return labels;
-    }
-
-    /**
-     * @param labels the labels to set
-     */
-    public void setLabels(ArrayList<ArrayList<JLabel>> labels) {
-        this.labels = labels;
-    }
-
-    /**
-     * @return the agent
-     */
-    public Agent getAgent() {
-        return agent;
-    }
-
-    /**
-     * @param agent the agent to set
-     */
-    public void setAgent(Agent agent) {
-        this.agent = agent;
-    }
-
-    /**
-     * @return the agentIcon
-     */
-    public ImageIcon getAgentIcon() {
-        return agentIcon;
-    }
-
-    /**
-     * @param agentIcon the agentIcon to set
-     */
-    public void setAgentIcon(ImageIcon agentIcon) {
-        this.agentIcon = agentIcon;
-    }
-
-    /**
-     * @return the foodPositions
-     */
-    public ArrayList<Point> getFoodPositions() {
-        return foodPositions;
-    }
-
-    /**
-     * @param foodPositions the foodPositions to set
-     */
-    public void setFoodPositions(ArrayList<Point> foodPositions) {
-        this.foodPositions = foodPositions;
-    }
-
-    /**
-     * @return the foodIcon
-     */
-    public ImageIcon getFoodIcon() {
-        return foodIcon;
-    }
-
-    /**
-     * @param foodIcon the foodIcon to set
-     */
-    public void setFoodIcon(ImageIcon foodIcon) {
-        this.foodIcon = foodIcon;
-    }
-
-    /**
-     * @return the clickEffect
-     */
-    public EntityType getClickEffect() {
-        return clickEffect;
-    }
-
-    /**
-     * @param clickEffect the clickEffect to set
-     */
-    public void setClickEffect(EntityType clickEffect) {
-        this.clickEffect = clickEffect;
-    }
-
-    /**
-     * @return the clickEffectListener
-     */
-    public MouseListener getClickEffectListener() {
-        return clickEffectListener;
-    }
-
-    /**
-     * @param clickEffectListener the clickEffectListener to set
-     */
-    public void setClickEffectListener(MouseListener clickEffectListener) {
-        this.clickEffectListener = clickEffectListener;
-    }
-
-    /**
-     * @return the x
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * @param x the x to set
-     */
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    /**
-     * @return the y
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
-     * @param y the y to set
-     */
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    /**
-     * @return the allAgents
-     */
-    public ArrayList<Agent> getAllAgents() {
-        return allAgents;
-    }
-
-    /**
-     * @param allAgents the allAgents to set
-     */
-    public void setAllAgents(ArrayList<Agent> allAgents) {
-        this.allAgents = allAgents;
     }
 }
