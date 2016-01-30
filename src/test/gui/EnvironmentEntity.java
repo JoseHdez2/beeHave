@@ -5,5 +5,6 @@ package test.gui;
  */
 public enum EnvironmentEntity {
     AGENT,
-    FOOD
+    FOOD,
+    HIVE
 }

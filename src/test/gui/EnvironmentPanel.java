@@ -30,8 +30,6 @@ public class EnvironmentPanel extends JPanel {
 	private int x, y;
     private Matrix<EnvironmentLabel> elements;
     private ArrayList<ArrayList<JLabel>> labels;
-    
-    // public Point agentPos = new Point(); // Agent's position in x and y.
     private ArrayList<Agent> allAgents;
     private Hive hive;
     private ImageIcon agentIcon; // Icon representing the agent.
@@ -39,6 +37,7 @@ public class EnvironmentPanel extends JPanel {
     private ImageIcon foodIcon; // Icon representing food.
     private EnvironmentEntity clickEffect;
     private AStar searchAlgorithm;
+    private ImageIcon hiveIcon;
     
     EnvironmentPanel(int width, int height){
         initialize(width, height);
@@ -56,10 +55,12 @@ public class EnvironmentPanel extends JPanel {
         }
         Random rand = new Random();
 //        agent.pos.setLocation(rand.nextInt(x), rand.nextInt(y));
+        getHive().setPos(rand.nextInt(x), rand.nextInt(y));
 		for (Agent agent : allAgents) {
 			agent.getPos().setLocation(rand.nextInt(x), rand.nextInt(y));
+			agent.setHivePos(getHive().getPos());
 		}
-		getHive().setPos(rand.nextInt(x), rand.nextInt(y));
+		
         generateFoodPortion();
         generateFoodPortion();
     }
@@ -71,6 +72,7 @@ public class EnvironmentPanel extends JPanel {
 	    setAgentIcon(new ImageIcon("media/image/bee.png")); // Icon representing the agent.
 	    setFoodPositions(new ArrayList<Flower>());
 	    setFoodIcon(new ImageIcon("media/image/daisy.png")); // Icon representing food.
+	    setHiveIcon(new ImageIcon("media/image/beehive.png"));
 	    setClickEffect(EnvironmentEntity.FOOD);
 	    setX(width);
         setY(height);
@@ -153,6 +155,13 @@ public class EnvironmentPanel extends JPanel {
                 for (Agent agent : getAllAgents()) {
                     if (i == agent.getPos().getX() && j == agent.getPos().getY()) elements.get(i, j).setIcon(agentIcon);
 				}
+                
+                //Draw hive
+                if (getHive().getPos().getX() == i && getHive().getPos().getY() == j) {
+					getElements().get(i, j).setIcon(hiveIcon);
+				}
+                
+                
                 //if (i == agent.pos.getX() && j == agent.pos.getY()) elements.get(i, j).setIcon(agentIcon);
             }
         }
@@ -334,7 +343,6 @@ public class EnvironmentPanel extends JPanel {
 		for (Agent agent : getAllAgents()) {
 			for (Flower flower : getFoodPositions()) {
 				if (flower.getFlowerPosition().equals(agent.getPos())) {
-					System.out.println("EIIIIIIIII");
 					agent.getPollen(flower);
 					if (agent.getBehaviour() == Agent.behaviourType.RETURN) {
 						getSearchAlgorithm().knowledgeInit(agent.getPos(), agent.getHivePos());
@@ -358,5 +366,19 @@ public class EnvironmentPanel extends JPanel {
 	 */
 	public void setSearchAlgorithm(AStar searchAlgorithm) {
 		this.searchAlgorithm = searchAlgorithm;
+	}
+
+	/**
+	 * @return the hiveIcon
+	 */
+	public ImageIcon getHiveIcon() {
+		return hiveIcon;
+	}
+
+	/**
+	 * @param hiveIcon the hiveIcon to set
+	 */
+	public void setHiveIcon(ImageIcon hiveIcon) {
+		this.hiveIcon = hiveIcon;
 	}
 }

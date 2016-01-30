@@ -78,6 +78,7 @@ public class AStar {
 			outerloop:
 			for (Point neighbor : neighborsCurrent) {
 				if (getClosedSet().contains(neighbor)) {
+					System.out.println("Aqui me quedo");
 					break outerloop;
 				}
 				int tentativegScore = (int) getgScore().get(getCurrent()) 

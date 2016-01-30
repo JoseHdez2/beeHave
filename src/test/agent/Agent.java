@@ -9,8 +9,8 @@ import test.gui.EnvironmentPanel;
 public class Agent {
 	
 	
-	private static Integer MAX_CARRY = 15;
-	private static Integer ZERO = 0;
+	private static int MAX_CARRY = 15;
+	private static int ZERO = 0;
 	public static enum behaviourType{
 		SCOUT,
 		RETURN,
@@ -30,13 +30,14 @@ public class Agent {
 	public Agent() {
 		pathFinding = new RandomMove();
 		pos = new Point(1,1);
+		setPollenCarried(new Integer(ZERO));
 	}
 	
 	public Agent(int startX, int startY, int hiveX, int hiveY){
 		pathFinding = new RandomMove();
 		setPos(new Point(startX, startY));
 		setHivePos(new Point(hiveX, hiveY));
-		setPollenCarried(ZERO);
+		setPollenCarried(new Integer(ZERO));
 	}
 	
 	public void getPollen(Flower flower){
@@ -92,7 +93,7 @@ public class Agent {
 	 * @return the pos
 	 */
 	public Point getPos() {
-		return pos;
+																																																																																																																																																																																																																																																																																																																																																																																return pos;
 	}
 
 	/**
