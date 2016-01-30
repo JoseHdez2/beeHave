@@ -6,19 +6,11 @@ import test.util.typedef.Position;
 
 public abstract class Agent extends Entity{
     
-    public enum type {
-        BEE,
-        WASP
-    }
-    
-    Agent.type agentType;   // Type of Agent.
-    
     /**
      * Constructor.
      */
-    protected Agent(Position pos, Agent.type agentType){
-        super(pos, Entity.type.AGENT);
-        this.agentType = agentType;
+    protected Agent(Position pos, Entity.type entityType){
+        super(pos, entityType);
     }
     
     /**
@@ -37,17 +29,5 @@ public abstract class Agent extends Entity{
     }
     public Integer getPosY() {
         return getPos().getY();
-    }
-    
-    /*
-     * Getters and setters.
-     */
-
-    public Agent.type getAgentType() {
-        return agentType;
-    }
-
-    public void setAgentType(Agent.type agentType) {
-        this.agentType = agentType;
     }
 }

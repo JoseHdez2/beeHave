@@ -1,6 +1,7 @@
 package test.model.agent;
 
 import test.gui.environment.EnvironmentPanel2;
+import test.model.environment.Entity;
 import test.model.movement.MovementType;
 import test.model.movement.RandomMove;
 import test.util.typedef.Position;
@@ -15,7 +16,7 @@ public class AgentBee extends Agent {
      */
     
     public AgentBee(Position pos, BehaviourType behaviour) {
-        super(pos, Agent.type.BEE);
+        super(pos, Entity.type.AGENT_BEE);
         this.behaviour = behaviour;
     }
     

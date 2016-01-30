@@ -12,7 +12,7 @@ public class ObjectBeehive extends EnvObject {
 	private ArrayList<Agent> beesInside;
 
 	public ObjectBeehive(Position pos) {
-        super(pos, EnvObject.type.BEEHIVE);
+        super(pos, Entity.type.OBJECT_BEEHIVE);
         setPos(new Position(ZERO, ZERO));
         setBeesInside(new ArrayList<Agent>());
     }

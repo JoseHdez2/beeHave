@@ -21,7 +21,6 @@ public class ClickEffect {
     // TODO: Opcion 2: tener todos los tipos en un solo enum EntityType.
     
     // Default initial entity type.
-    static private Entity.type defaultEntityType;
     static private Agent.type defaultAgentType;
     static private EnvObject.type defaultObjectType;
     
@@ -79,6 +78,6 @@ public class ClickEffect {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new AgentBee(pos);
+        return createEntity();
     }
 }

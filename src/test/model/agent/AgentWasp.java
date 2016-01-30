@@ -1,12 +1,13 @@
 package test.model.agent;
 
 import test.gui.environment.EnvironmentPanel2;
+import test.model.environment.Entity;
 import test.util.typedef.Position;
 
 public class AgentWasp extends Agent {
 
     public AgentWasp(Position pos) {
-        super(pos, Agent.type.WASP);
+        super(pos, Entity.type.AGENT_WASP);
 
     }
 

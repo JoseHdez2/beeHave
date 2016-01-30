@@ -11,8 +11,10 @@ import test.util.typedef.Position;
 public abstract class Entity {
     
     public enum type {
-        AGENT,
-        OBJECT
+        AGENT_BEE,
+        AGENT_WASP,
+        OBJECT_FLOWER,
+        OBJECT_BEEHIVE
     }
     
     protected Entity.type entityType;   // Type of entity.

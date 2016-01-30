@@ -16,7 +16,7 @@ public class ObjectFlower extends EnvObject {
 	private static int ZERO = 0;
 	
 	public ObjectFlower(Position pos) {
-	    super(pos, EnvObject.type.FLOWER);
+	    super(pos, Entity.type.OBJECT_FLOWER);
 		setPollen(RandomNum.randInt(0,100));
 		setVisibility(RandomNum.randInt(0,10));
 	}
