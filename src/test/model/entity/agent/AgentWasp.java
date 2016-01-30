@@ -1,7 +1,7 @@
-package test.model.agent;
+package test.model.entity.agent;
 
 import test.gui.environment.EnvironmentPanel;
-import test.model.environment.Entity;
+import test.model.entity.Entity;
 import test.util.typedef.Position;
 
 public class AgentWasp extends Agent {

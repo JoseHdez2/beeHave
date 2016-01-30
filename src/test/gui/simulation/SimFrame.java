@@ -15,8 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import test.gui.environment.EnvironmentPanel;
-import test.model.agent.Agent;
-import test.model.environment.EnvObject;
+import test.model.entity.agent.Agent;
+import test.model.entity.object.EnvObject;
 import test.model.movement.RandomMove;
 
 public class SimFrame extends JFrame {

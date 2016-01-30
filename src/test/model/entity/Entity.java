@@ -1,4 +1,4 @@
-package test.model.environment;
+package test.model.entity;
 
 import javax.swing.ImageIcon;
 

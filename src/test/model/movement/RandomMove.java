@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import test.gui.environment.EnvironmentPanel;
-import test.model.agent.Agent;
+import test.model.entity.agent.Agent;
 import test.util.typedef.Position;
 
 /**

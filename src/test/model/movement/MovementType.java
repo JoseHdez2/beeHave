@@ -4,7 +4,7 @@
 package test.model.movement;
 
 import test.gui.environment.EnvironmentPanel;
-import test.model.agent.Agent;
+import test.model.entity.agent.Agent;
 
 /**
  * @author eebritos

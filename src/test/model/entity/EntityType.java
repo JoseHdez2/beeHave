@@ -1,4 +1,4 @@
-package test.model.environment;
+package test.model.entity;
 
 /**
  * Types of entities that can exist in the map.

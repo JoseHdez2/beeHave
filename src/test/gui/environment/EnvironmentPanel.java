@@ -13,10 +13,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import test.model.agent.Agent;
-import test.model.agent.AgentBee;
-import test.model.environment.Entity;
-import test.model.environment.Entity.type;
+import test.model.entity.Entity;
+import test.model.entity.Entity.type;
+import test.model.entity.agent.Agent;
+import test.model.entity.agent.AgentBee;
 import test.util.math.RandomNum;
 import test.util.typedef.Matrix;
 import test.util.typedef.Position;

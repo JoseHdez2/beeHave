@@ -1,5 +1,7 @@
-package test.model.environment;
+package test.model.entity.object;
 
+import test.model.entity.Entity;
+import test.model.entity.Entity.type;
 import test.util.typedef.Position;
 
 /**

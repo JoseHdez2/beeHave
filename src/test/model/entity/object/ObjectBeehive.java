@@ -1,9 +1,11 @@
-package test.model.environment;
+package test.model.entity.object;
 
 import java.awt.Point;
 import java.util.ArrayList;
 
-import test.model.agent.Agent;
+import test.model.entity.Entity;
+import test.model.entity.Entity.type;
+import test.model.entity.agent.Agent;
 import test.util.typedef.Position;
 
 public class ObjectBeehive extends EnvObject {

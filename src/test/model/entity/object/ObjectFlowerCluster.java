@@ -1,7 +1,7 @@
 /**
  * 
  */
-package test.model.environment;
+package test.model.entity.object;
 
 import java.util.ArrayList;
 
@@ -9,13 +9,13 @@ import java.util.ArrayList;
  * @author adexe
  *
  */
-public class FlowerCluster {
+public class ObjectFlowerCluster {
 	private ArrayList<ObjectFlower> groupOfFlowers;
 	private int pollenGroup;
 	private int visibilityGroup;
 	private static int ZERO = 0;
 
-	public FlowerCluster() {
+	public ObjectFlowerCluster() {
 		setGroupOfFlowers(new ArrayList<ObjectFlower>());
 		setPollenGroup(ZERO);
 		setVisibilityGroup(ZERO);

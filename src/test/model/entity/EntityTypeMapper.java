@@ -1,11 +1,13 @@
-package test.model.environment;
+package test.model.entity;
 
 import javax.swing.ImageIcon;
 
 import app.util.Sys;
-import test.model.agent.Agent;
-import test.model.agent.AgentBee;
-import test.model.agent.AgentWasp;
+import test.model.entity.agent.Agent;
+import test.model.entity.agent.AgentBee;
+import test.model.entity.agent.AgentWasp;
+import test.model.entity.object.ObjectBeehive;
+import test.model.entity.object.ObjectFlower;
 import test.util.typedef.Position;
 
 
