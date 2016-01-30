@@ -1,4 +1,4 @@
-package test.gui;
+package test.model.environment;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,12 +8,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Random;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import test.agent.Agent;
-import test.model.environment.EntityType;
+import test.gui.EnvironmentLabel;
+import test.gui.Matrix;
 
 /**
  *  Panel que representa el entorno (cuadricula).

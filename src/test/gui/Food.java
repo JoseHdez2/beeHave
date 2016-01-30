@@ -3,6 +3,8 @@
  */
 package test.gui;
 
+import test.util.typedef.Position;
+
 /**
  * @author eebritos
  *

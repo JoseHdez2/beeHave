@@ -6,7 +6,7 @@ package test.agent;
 import java.util.ArrayList;
 import java.util.Random;
 import test.gui.EnvironmentPanel;
-import test.gui.Position;
+import test.util.typedef.Position;
 
 /**
  * @author eebritos

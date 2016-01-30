@@ -1,29 +1,24 @@
 package test.gui;
 
+// TODO: IntMatrix is a misleading name for a matrix of doubles :p
 
-final public class IntMatrix {
+final public class IntMatrix extends Matrix<Double>{
     private final int M;             // number of rows
     private final int N;             // number of columns
-    private final double[][] data;   // M-by-N array
 
+    /*
+     * create IntMatrix from data
+     */
+    public IntMatrix(Double[][] data) {
+        super(data);
+        this.M = this.width;
+        this.N = this.height;
+    }
+    
     // create M-by-N IntMatrix of 0's
     public IntMatrix(int M, int N) {
-        this.M = M;
-        this.N = N;
-        data = new double[M][N];
-    }
-
-    // create IntMatrix based on 2d array
-    public IntMatrix(double[][] data) {
-        M = data.length;
-        N = data[0].length;
-        this.data = new double[M][N];
-        for (int i = 0; i < M; i++)
-            for (int j = 0; j < N; j++)
-                    this.data[i][j] = data[i][j];
-    }
-    
-    
+        this(new Double[M][N]);
+    }  
     
     // copy constructor
     private IntMatrix(IntMatrix A) { this(A.data); }
@@ -37,11 +32,9 @@ final public class IntMatrix {
         return A;
     }
 
-  
-
     // swap rows i and j
     private void swap(int i, int j) {
-        double[] temp = data[i];
+        Double[] temp = data[i];
         data[i] = data[j];
         data[j] = temp;
     }
@@ -56,20 +49,25 @@ final public class IntMatrix {
         return true;
     }   
 
-    // print IntMatrix to standard output
-    public void show() {
+    public String toString() {
+        String str = "";
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < N; j++) 
-                System.out.printf("%9.4f ", data[i][j]);
-            System.out.println();
+                str += String.format("%9.4f ", data[i][j]);
+            str += "\n";
         }
+        return str;
+    }
+    
+    public void show(){
+        System.out.print(this.toString());
     }
     
     public void set(int x, int y, double value){
     	this.data[x][y] = value;
     }
     
-    public double get(int x, int y){
+    public Double get(int x, int y){
     	return data[x][y];
     }
     

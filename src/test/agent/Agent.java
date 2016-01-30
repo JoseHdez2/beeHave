@@ -1,8 +1,7 @@
 package test.agent;
 
 import test.gui.EnvironmentPanel;
-import test.gui.Position;
-
+import test.util.typedef.Position;
 
 
 public class Agent {

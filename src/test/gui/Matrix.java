@@ -1,50 +1,59 @@
 package test.gui;
 
-
+/**
+ * Non-redimensionable matrix with elements of type T.
+ * 
+ * @author jose
+ *
+ * @param <T>
+ */
 public class Matrix<T> {
     
-
-    private T[][] data;
-
+    protected T[][] data; // Static 
+    protected int width;  // Number of rows.
+    protected int height; // Number of columns.
 
     
     public Matrix(T[][] data){
         this.data = data;
+        this.width = data.length;   // TODO: Make sure it's not the other way around!
+        this.width = data[0].length;
+    }
+    
+    /*
+     * Copy constructor
+     */
+    public Matrix(Matrix<T> other){
+        this(other.data);
     }
     
     
     /**
-     * Nota: Se empieza a contar desde cero.
-     * @param x Número de columna(posición horizontal).
-     * @param y Número de fila (posición vertical).
-     * @return Elemento en la posición x,y.
+     * Note: Zeroth notation.
      */
     public T get(int x, int y){
         return data[y][x];
     }
     
     /**
-     * Nota: Se empieza a contar desde cero.
-     * @param x Número de columna(posición horizontal).
-     * @param y Número de fila (posición vertical).
-     * @param value Elemento a escribir en la posición x,y.
+     * Note: Zeroth notation.
      */
     public void set(int x, int y, T value){
         data[y][x] = value;
     }
     
     /**
-     * @return El número de columnas en esta matriz.
+     * @return Number of columns in matrix.
      */
     public int getWidth(){
-        return data.length;
+        return width;
     }
     
     /**
-     * @return El número de filas en esta matriz.
+     * @return Number of rows in matrix.
      */
     public int getHeight(){
-        return data[0].length;
+        return height;
     }
     
     public String toString(){
