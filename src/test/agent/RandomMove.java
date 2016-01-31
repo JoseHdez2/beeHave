@@ -6,7 +6,6 @@ package test.agent;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
-
 import test.gui.EnvironmentPanel;
 
 /**

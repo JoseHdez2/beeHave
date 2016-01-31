@@ -8,11 +8,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import test.agent.Agent;
 import test.agent.Flower;
 import test.agent.Hive;
@@ -25,7 +23,7 @@ public class EnvironmentPanel extends JPanel {
     /**
 	 * 
 	 */
-	private static Integer DEFAULT_BEES = 5;
+	private static Integer DEFAULT_BEES = 2;
 	private static final long serialVersionUID = 1L;
 	private int x, y;
     private Matrix<EnvironmentLabel> elements;
@@ -61,8 +59,10 @@ public class EnvironmentPanel extends JPanel {
 			agent.setHivePos(getHive().getPos());
 		}
 		
-        generateFoodPortion();
-        generateFoodPortion();
+        for (int i = 0; i < 20; i++) {
+    		generateFoodPortion();
+		}
+
     }
     
     public void initialize(int width, int height){
@@ -338,34 +338,34 @@ public class EnvironmentPanel extends JPanel {
 	}
 	
 	public void checkBeeFlower(){
-		ArrayList<Agent> beesInHive = new ArrayList<Agent>();
 		for (Agent agent : getAllAgents()) {
 			for (Flower flower : getFoodPositions()) {
 				if (flower.getFlowerPosition().equals(agent.getPos()) && agent.getBehaviour() != Agent.behaviourType.RETURN) {
 					agent.getPollen(flower);
-					if (agent.getPollenCarried() == Agent.MAX_CARRY) {
-						agent.setBehaviour(Agent.behaviourType.RETURN);
-					}
-				}
-				else if (agent.getBehaviour() == Agent.behaviourType.RETURN && agent.getPathToHive().isEmpty()) {
+					agent.setBehaviour(Agent.behaviourType.RETURN);
 					getSearchAlgorithm().knowledgeInit(agent.getPos(), agent.getHivePos());
 					agent.setPathToHive(getSearchAlgorithm().run(agent.getPos(), agent.getHivePos()));
 					break;
 				}
-			}
-			if (getHive().getPos().equals(agent.getPos())) {
-				if (agent.getPollenCarried() == Agent.MAX_CARRY) {
-					agent.setBehaviour(Agent.behaviourType.IDLE);
-					beesInHive.add(agent);
-				}
-			}
-			if (agent.getBehaviour() == Agent.behaviourType.IDLE) {
-				getSearchAlgorithm().knowledgeInit(agent.getPos(), agent.getBestFlower().getFlowerPosition());
-				agent.setPathToHive(getSearchAlgorithm().run(agent.getPos(), agent.getBestFlower().getFlowerPosition()));
 				
 			}
+			if (getHive().getPos().equals(agent.getPos())&& !agent.getBehaviour().equals(Agent.behaviourType.GO_TO_POINT)) {
+				agent.setBehaviour(Agent.behaviourType.IDLE);
+				if (!getHive().getBeesInside().contains(agent)) {
+					getHive().getBeesInside().add(agent);
+					agent.unloadPollen(getHive());
+				}
+			}
+			if (agent.getBehaviour() == Agent.behaviourType.IDLE && getHive().getBeesInside().contains(agent) && getHive().getBeesInside().size() >= 2) {
+				getSearchAlgorithm().knowledgeInit(agent.getPos(), agent.getBestFlower().getFlowerPosition());
+				agent.setPathToFlower(getSearchAlgorithm().run(agent.getPos(), agent.getBestFlower().getFlowerPosition()));	
+				agent.setBehaviour(Agent.behaviourType.GO_TO_POINT);
+				break;
+			}
+			if (agent.getBestFlower().getPollen() == 0 && agent.getBehaviour().equals(Agent.behaviourType.IDLE)) {
+				agent.setBehaviour(Agent.behaviourType.SCOUT);
+			}
 		}
-		getHive().setBeesInside(beesInHive);
 	}
 
 	/**

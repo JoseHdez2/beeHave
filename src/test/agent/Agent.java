@@ -2,20 +2,15 @@ package test.agent;
 
 import java.awt.Point;
 import java.util.ArrayList;
-
 import test.gui.EnvironmentPanel;
 
-
-
 public class Agent {
-	
 	
 	public static int MAX_CARRY = 15;
 	private static int ZERO = 0;
 	public static enum behaviourType{
 		SCOUT,
 		RETURN,
-		INFORM,
 		IDLE,
 		GO_TO_POINT
 	}
@@ -40,6 +35,7 @@ public class Agent {
 		setBestFlower(new Flower());
 		getBestFlower().setPollen(ZERO);
 		getBestFlower().setFlowerPosition(0, 0);
+		setPathToFlower(new ArrayList<Point>());
 	}
 	
 	public Agent(int startX, int startY, int hiveX, int hiveY){
@@ -52,13 +48,14 @@ public class Agent {
 		setBestFlower(new Flower());
 		getBestFlower().setPollen(ZERO);
 		getBestFlower().setFlowerPosition(0, 0);
+		setPathToFlower(new ArrayList<Point>());
 	}
 	
 	public void getPollen(Flower flower){
 		addPollen(flower.removePollen(MAX_CARRY));
-		if (getPollenCarried() == MAX_CARRY) {
-			setBehaviour(behaviourType.RETURN);
-		}
+//		if (getPollenCarried() == MAX_CARRY) {
+//			setBehaviour(behaviourType.RETURN);
+//		}
 		if (flower.getPollen() > getBestFlower().getPollen()) {
 			setBestFlower(flower);
 		}
@@ -72,14 +69,22 @@ public class Agent {
 			returnToHive();
 		}
 		if (getBehaviour() == behaviourType.IDLE){
-			System.out.println("idle");		}
+			System.out.println("idle");		
+			}
 		else if (getBehaviour() == behaviourType.SCOUT){
+			System.out.println("scout");
 			getPathFinding().nextMove(this, panel);
 		}
 		if (getBehaviour() == behaviourType.GO_TO_POINT){
-			System.out.println("Go to point");
+			System.out.println("point");
+			moveToPoint(getPathToFlower());
 		}
- 
+
+	}
+	
+	public void unloadPollen(Hive hive){
+		hive.setPollenInHive(hive.getPollenInHive() + getPollenCarried());
+		setPollenCarried(ZERO);
 	}
 	
 	
@@ -98,6 +103,8 @@ public class Agent {
 			}
 		}
 		path.remove(path.size() - 1);
+		System.out.println(path);
+		System.out.println("chivateo");
 	}
 
 	/**

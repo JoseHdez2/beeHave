@@ -16,7 +16,6 @@ public class Hive {
 		
 	}
 	
-	
 
 	/**
 	 * @return the pos

@@ -1,12 +1,8 @@
 package test.gui;
 
-
-
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-
 
 public class AStar {
 	
@@ -21,25 +17,17 @@ public class AStar {
 	private int matrixWidth;
 	private int matrixHeight;
 
-
 	public AStar(int width, int height, Point start, Point goal) {	
-		matrixInit(width, height);
-		//		setMatrixHeight(height);
-//		setMatrixWidth(width);
-//		setClosedSet(new ArrayList<Point>());
-//		setOpenSet(new ArrayList<Point>());
-//		setCameFrom(new HashMap<Point, Point>());
-//		setCurrent(new Point());
-//		getOpenSet().add(start);
-//		setgScore(new DefaultHashMap<Point, Integer>(INFINITY,  getMatrixHeight(), getMatrixWidth()));
-//		setfScore(new DefaultHashMap<Point, Integer>(INFINITY, getMatrixHeight(), getMatrixWidth()));
-//		getgScore().put(start, ZERO);
-//		getfScore().put(start, Manhattan.getDistance((int) start.getX(),(int) start.getY(),(int) goal.getX(),(int) goal.getY()));
-		knowledgeInit(start, goal);
+		clear(width, height, start, goal);
 	}
 	
 	public AStar(int width, int height){
 		matrixInit(width, height);
+	}
+	
+	private void clear(Integer width, Integer height, Point start, Point goal){
+		matrixInit(width, height);
+		knowledgeInit(start, goal);
 	}
 	
 	private void matrixInit(int width, int height){
@@ -59,7 +47,7 @@ public class AStar {
 	}
 	
 	public ArrayList<Point> run(Point start, Point goal){
-		
+		clear(getMatrixWidth(), getMatrixHeight(), start, goal);
 		while (!getOpenSet().isEmpty()) {
 			int min = INFINITY;
 			for (Point point : openSet) {
