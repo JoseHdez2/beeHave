@@ -34,6 +34,18 @@ public abstract class ColorHelper {
     }
     
     /**
+     * @param color Input color to be lightened or darkened.
+     * @param value Number by which we offset the input color's channel values.
+     * @return Resulting color of offsetting 'color' with 'value.
+     */
+    static public Color offsetColor(Color color, int value){
+        int r = normalize(color.getRed() + value);
+        int g = normalize(color.getGreen() + value);
+        int b = normalize(color.getBlue() + value);
+        return new Color(r, g, b);
+    }
+    
+    /**
      * @param c1 Color 1.
      * @param c2 Color 2.
      * @return Mean color resulting of the mean of c1 and c2.
