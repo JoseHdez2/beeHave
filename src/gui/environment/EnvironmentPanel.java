@@ -114,7 +114,6 @@ public class EnvironmentPanel extends JLayeredPane {
         case SOIL: color = ColorHelper.mean(color, Color.YELLOW); break;
         default: break; // TODO: Shouldn't happen. Throw exception? 
         }
-        // TODO: Take terrain into account?
         return color;
     }
     
@@ -124,8 +123,6 @@ public class EnvironmentPanel extends JLayeredPane {
     public void generateFoodPortion(){
         EntityTypeMapper.createEntityInto(env, Entity.type.OBJECT_FLOWER, env.randomPosition());
     }
-    
-    // TODO: put into EnvModel? probably not since it uses clickEffect variables.
     
     /**
      * Given a tile position (for example, from {@link EnvironmentPanel#clickEffectListener})
@@ -164,10 +161,14 @@ public class EnvironmentPanel extends JLayeredPane {
         public void mouseReleased(MouseEvent e) {}
 
         @Override
-        public void mouseEntered(MouseEvent e) {}
+        public void mouseEntered(MouseEvent e) {
+            ((EnvironmentLabel)e.getSource()).setHighlighted(true);
+        }
 
         @Override
-        public void mouseExited(MouseEvent e) {}
+        public void mouseExited(MouseEvent e) {
+            ((EnvironmentLabel)e.getSource()).setHighlighted(false);
+        }
         
     };
     

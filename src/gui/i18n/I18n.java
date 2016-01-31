@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 public abstract class I18n {
     
     private static ResourceBundle manage(){
-        return ResourceBundle.getBundle("test.gui.i18n.bundle.String_es");
+        return ResourceBundle.getBundle("gui.i18n.bundle.String_es");
         // TODO restore
         /*
         if (System.getProperty("user.language") == "es")
@@ -16,7 +16,7 @@ public abstract class I18n {
     }
     
     private static ResourceBundle manageToolTip(){
-        return ResourceBundle.getBundle("test.gui.i18n.bundle.Tooltip_es");
+        return ResourceBundle.getBundle("gui.i18n.bundle.Tooltip_es");
         // TODO restore
         /*
         if (System.getProperty("user.language") == "es")

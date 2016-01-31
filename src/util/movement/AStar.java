@@ -23,7 +23,6 @@ public class AStar {
 	private int matrixWidth;
 	private int matrixHeight;
 
-
 	public AStar(int width, int height, Point start, Point goal) {	
 		matrixHeight = height;
 		matrixWidth = width;
