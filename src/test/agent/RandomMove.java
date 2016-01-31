@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import test.gui.EnvironmentPanel;
-import test.gui.Position;
 
 /**
  * @author eebritos
@@ -32,14 +31,14 @@ public class RandomMove implements MovementType {
 	   return false;
 	}
 	
-	public ArrayList<moveDirection> legalMovements( ArrayList<Point> visitedList, int height, int width, Agent agent){
+	public ArrayList<moveDirection> legalMovements( int height, int width, Agent agent){
 		ArrayList<moveDirection> result = new ArrayList<moveDirection>();
 		if(agent.getPosY() == height-1 && agent.getPosX() == width -1){
-			if (isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
+			if (isIn(getVisited(), agent.getPosX(), agent.getPosY() - 1)) {
 				result.add(moveDirection.UP);
 				return result;
 			}
-			else if (isIn(visited, agent.getPosX() - 1, agent.getPosY())) {
+			else if (isIn(getVisited(), agent.getPosX() - 1, agent.getPosY())) {
 				result.add(moveDirection.LEFT);
 				return result;
 			}
@@ -49,11 +48,11 @@ public class RandomMove implements MovementType {
 			return result;
 		}
 		else if(agent.getPosY() == 0 && agent.getPosX() == 0){
-			if (isIn(visited, agent.getPosX(), agent.getPosY() + 1)) {
+			if (isIn(getVisited(), agent.getPosX(), agent.getPosY() + 1)) {
 				result.add(moveDirection.DOWN);
 				return result;
 			}
-			else if (isIn(visited, agent.getPosX() + 1, agent.getPosY())) {
+			else if (isIn(getVisited(), agent.getPosX() + 1, agent.getPosY())) {
 				result.add(moveDirection.RIGHT);
 				return result;
 			}
@@ -62,11 +61,11 @@ public class RandomMove implements MovementType {
 			return result;
 		}
 		else if(agent.getPosY() == 0 && agent.getPosX() == width - 1){
-			if (isIn(visited, agent.getPosX() , agent.getPosY() + 1 )) {
+			if (isIn(getVisited(), agent.getPosX() , agent.getPosY() + 1 )) {
 				result.add(moveDirection.DOWN);
 				return result;
 			}
-			else if (isIn(visited, agent.getPosX(), agent.getPosY() + 1)) {
+			else if (isIn(getVisited(), agent.getPosX(), agent.getPosY() + 1)) {
 				result.add(moveDirection.LEFT);
 				return result;
 			}
@@ -75,11 +74,11 @@ public class RandomMove implements MovementType {
 			return result;		
 		}
 		else if(agent.getPosY() == height - 1 && agent.getPosX() == 0){
-			if (isIn(visited, agent.getPosX() + 1, agent.getPosY())) {
+			if (isIn(getVisited(), agent.getPosX() + 1, agent.getPosY())) {
 				result.add(moveDirection.UP);
 				return result;
 			}
-			else if (isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
+			else if (isIn(getVisited(), agent.getPosX(), agent.getPosY() - 1)) {
 				result.add(moveDirection.RIGHT);
 				return result;
 			}
@@ -88,15 +87,15 @@ public class RandomMove implements MovementType {
 			return result;
 		}
 		else if (agent.getPosY() == height - 1) {
-			if (!isIn(visited, agent.getPosX() + 1, agent.getPosY())) {
+			if (!isIn(getVisited(), agent.getPosX() + 1, agent.getPosY())) {
 				result.add(moveDirection.RIGHT);
 				
 			}
-			if (!isIn(visited, agent.getPosX() - 1, agent.getPosY())) {
+			if (!isIn(getVisited(), agent.getPosX() - 1, agent.getPosY())) {
 				result.add(moveDirection.LEFT);
 				
 			}
-			if (!isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
+			if (!isIn(getVisited(), agent.getPosX(), agent.getPosY() - 1)) {
 				result.add(moveDirection.UP);
 				
 			}
@@ -106,15 +105,15 @@ public class RandomMove implements MovementType {
 			
 		}
 		else if (agent.getPosX() == width - 1) {
-			if (!isIn(visited, agent.getPosX() - 1, agent.getPosY())) {
+			if (!isIn(getVisited(), agent.getPosX() - 1, agent.getPosY())) {
 				result.add(moveDirection.LEFT);
 				
 			}
-			if (!isIn(visited, agent.getPosX(), agent.getPosY() + 1)) {
+			if (!isIn(getVisited(), agent.getPosX(), agent.getPosY() + 1)) {
 				result.add(moveDirection.DOWN);
 				
 			}
-			if (!isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
+			if (!isIn(getVisited(), agent.getPosX(), agent.getPosY() - 1)) {
 				result.add(moveDirection.UP);
 			}
 			if (!result.isEmpty()) {
@@ -122,15 +121,15 @@ public class RandomMove implements MovementType {
 			}
 		}
 		else if (agent.getPosX() == 0) {
-			if (!isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
+			if (!isIn(getVisited(), agent.getPosX(), agent.getPosY() - 1)) {
 				result.add(moveDirection.UP);
 				
 			}
-			if (!isIn(visited, agent.getPosX() + 1, agent.getPosY())) {
+			if (!isIn(getVisited(), agent.getPosX() + 1, agent.getPosY())) {
 				result.add(moveDirection.RIGHT);
 				
 			}
-			if (!isIn(visited, agent.getPosX(), agent.getPosY() + 1)) {
+			if (!isIn(getVisited(), agent.getPosX(), agent.getPosY() + 1)) {
 				result.add(moveDirection.DOWN);
 				
 			}
@@ -140,13 +139,13 @@ public class RandomMove implements MovementType {
 			
 		}
 		else if (agent.getPosY() == 0) {
-			if (!isIn(visited, agent.getPosX() + 1, agent.getPosY())) {
+			if (!isIn(getVisited(), agent.getPosX() + 1, agent.getPosY())) {
 				result.add(moveDirection.RIGHT);
 			}
-			if (!isIn(visited, agent.getPosX(), agent.getPosY() + 1)) {
+			if (!isIn(getVisited(), agent.getPosX(), agent.getPosY() + 1)) {
 				result.add(moveDirection.DOWN);
 			}
-			if (!isIn(visited, agent.getPosX() - 1, agent.getPosY())) {
+			if (!isIn(getVisited(), agent.getPosX() - 1, agent.getPosY())) {
 				result.add(moveDirection.LEFT);
 			}
 			if (!result.isEmpty()) {
@@ -205,19 +204,19 @@ public class RandomMove implements MovementType {
 			result.add(moveDirection.DOWN);
 			return result;
 		}
-		if (!isIn(visited, agent.getPosX() + 1, agent.getPosY())) {
+		if (!isIn(getVisited(), agent.getPosX() + 1, agent.getPosY())) {
 			result.add(moveDirection.RIGHT);
 			
 		}
-		if (!isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
+		if (!isIn(getVisited(), agent.getPosX(), agent.getPosY() - 1)) {
 			result.add(moveDirection.UP);
 			
 		}
-		if (!isIn(visited, agent.getPosX() - 1, agent.getPosY())) {
+		if (!isIn(getVisited(), agent.getPosX() - 1, agent.getPosY())) {
 			result.add(moveDirection.LEFT);
 			
 		}
-		if (!isIn(visited, agent.getPosX(), agent.getPosY() - 1)) {
+		if (!isIn(getVisited(), agent.getPosX(), agent.getPosY() - 1)) {
 			result.add(moveDirection.DOWN);
 			
 		}
@@ -226,36 +225,36 @@ public class RandomMove implements MovementType {
 	
 	@Override
 	public moveDirection nextMove (Agent agent, EnvironmentPanel panel) {
-		ArrayList<moveDirection> lmovementsArray = legalMovements(visited, panel.getElements().getHeight(), panel.getElements().getWidth(), agent);
+		ArrayList<moveDirection> lmovementsArray = legalMovements(panel.getElements().getHeight(), panel.getElements().getWidth(), agent);
 		int index = randomGenerator.nextInt(lmovementsArray.size());
 		moveDirection movement = lmovementsArray.get(index);
-		if (!visited.contains(agent.getPos())) {
-			visited.add(agent.getPos());
+		if (!getVisited().contains(agent.getPos())) {
+			getVisited().add(agent.getPos());
 		}
 		
 
 		switch (movement) {
 		case DOWN:
 			agent.getPos().setLocation(agent.getPosX() , agent.getPosY()+ 1);
-			if (!visited.contains(new Point((int) agent.getPosX(),(int) agent.getPosY()))) {
-				visited.add(new Point((int) agent.getPosX(),(int) agent.getPosY()));
+			if(!isIn(getVisited(),  agent.getPosX(), agent.getPosY())) {
+				getVisited().add(new Point((int) agent.getPosX(),(int) agent.getPosY()));
 			}
 			return moveDirection.DOWN;
 		case UP:
 			agent.getPos().setLocation(agent.getPosX() , agent.getPosY()- 1);
-			if(!visited.contains(new Point( (int) agent.getPosX() , (int) agent.getPosY())))
-				visited.add(new Point( (int) agent.getPosX() , (int) agent.getPosY()));
+			if(!isIn(getVisited(),  agent.getPosX(), agent.getPosY()))
+				getVisited().add(new Point( (int) agent.getPosX() , (int) agent.getPosY()));
 			return moveDirection.UP;
 		case LEFT:
 			agent.getPos().setLocation(agent.getPosX() - 1, agent.getPosY() );
-			if (!visited.contains(new Point( (int) agent.getPosX(), (int) agent.getPosY()))) {
-				visited.add(new Point((int) agent.getPosX(), (int) agent.getPosY() ));
+			if(!isIn(getVisited(),  agent.getPosX(), agent.getPosY())) {
+				getVisited().add(new Point((int) agent.getPosX(), (int) agent.getPosY() ));
 			}
 			return moveDirection.LEFT;
 		case RIGHT:
 			agent.getPos().setLocation(agent.getPosX() + 1, agent.getPosY() );
-			if (!visited.contains(visited.add(new Point((int) agent.getPosX(), (int) agent.getPosY() )))) {
-				visited.add(new Point((int) agent.getPosX(), (int) agent.getPosY() ));
+			if(!isIn(getVisited(),  agent.getPosX(), agent.getPosY())) {
+				getVisited().add(new Point((int) agent.getPosX(), (int) agent.getPosY() ));
 			}
 			return moveDirection.RIGHT;
 		default:
@@ -263,5 +262,21 @@ public class RandomMove implements MovementType {
 		}
 		return null;
 	}
+
+	/**
+	 * @return the visited
+	 */
+	public ArrayList<Point> getVisited() {
+		return this.visited;
+	}
+
+	/**
+	 * @param visited the visited to set
+	 */
+	public void setVisited(ArrayList<Point> visited) {
+		this.visited = visited;
+	}
+	
+
 
 }

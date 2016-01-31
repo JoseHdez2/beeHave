@@ -59,9 +59,11 @@ public class AStar {
 	}
 	
 	public ArrayList<Point> run(Point start, Point goal){
-		int min = INFINITY;
+		
 		while (!getOpenSet().isEmpty()) {
+			int min = INFINITY;
 			for (Point point : openSet) {
+				
 				if (getfScore().get(point) <= min) {
 					min = (int) getfScore().get(point);
 					setCurrent(point);
@@ -75,19 +77,18 @@ public class AStar {
 			getClosedSet().add(getCurrent());
 			ArrayList<Point> neighborsCurrent = getNeighbors(current);
 			
-			outerloop:
+
 			for (Point neighbor : neighborsCurrent) {
 				if (getClosedSet().contains(neighbor)) {
 					System.out.println("Aqui me quedo");
-					break outerloop;
+					continue;
 				}
-				int tentativegScore = (int) getgScore().get(getCurrent()) 
-						+ Manhattan.getDistance((int) getCurrent().getX(), (int) getCurrent().getY(), (int)neighbor.getX(), (int)neighbor.getY());
+				int tentativegScore = (int) getgScore().get(getCurrent()) + pythagoreanDistance(start, goal);
 				if (!getOpenSet().contains(neighbor)) {
 					getOpenSet().add(neighbor);
 				}
 				else if (tentativegScore >= getgScore().get(neighbor)) {
-					break outerloop;
+					continue;
 				}
 				
 				getCameFrom().put(neighbor, getCurrent());
@@ -101,10 +102,12 @@ public class AStar {
 	
 	private ArrayList<Point> reconstructPath(HashMap<Point, Point> cameFrom, Point current){
 		ArrayList<Point> totalPath = new ArrayList<Point>();
+		totalPath.add(current);
 		while (cameFrom.keySet().contains(current)){
 			current = cameFrom.get(current);
 			totalPath.add(current);
 		}
+		
 		return totalPath;
 	}
 	
@@ -247,5 +250,8 @@ public class AStar {
 	public void setMatrixHeight(int matrixHeight) {
 		this.matrixHeight = matrixHeight;
 	}
-
+	
+	public int pythagoreanDistance(Point start, Point goal ){
+		return (int) Math.sqrt((Math.pow(	(goal.getX() - start.getX()), 2) + Math.pow((goal.getY() - start.getY()), 2)));
+	} 
 }

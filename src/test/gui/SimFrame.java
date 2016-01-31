@@ -183,7 +183,7 @@ public class SimFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             switch(e.getActionCommand()){
-            case strMovRandom: 
+            	case strMovRandom:
             	for ( Agent agent : envPanel.getAllAgents()) {
             		agent.setPathFinding(new RandomMove());
             		break;
