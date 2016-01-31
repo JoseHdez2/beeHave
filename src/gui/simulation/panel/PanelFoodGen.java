@@ -1,4 +1,4 @@
-package gui.simulation;
+package gui.simulation.panel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

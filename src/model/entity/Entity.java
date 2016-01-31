@@ -2,6 +2,7 @@ package model.entity;
 
 import javax.swing.ImageIcon;
 
+import util.math.RandomNum;
 import util.typedef.Position;
 
 /**
@@ -33,6 +34,13 @@ public abstract class Entity {
         this.pos = pos;
         this.entityType = entityType;
         this.icon = EntityTypeMapper.getIcon(entityType);
+        String className = this.getClass().getName();
+        className = className.substring(className.lastIndexOf('.') + 1, className.length());
+        this.name = className + Integer.toString(RandomNum.randInt(0, 9999));
+    }
+    
+    public String toString(){
+        return this.name;
     }
     
     /*

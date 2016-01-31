@@ -3,6 +3,7 @@ package gui.environment;
 import java.awt.Color;
 
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import gui.util.ColorHelper;
 
@@ -27,6 +28,7 @@ public class EnvironmentLabel extends JLabel{
     private Color trueColor; // True color regardless of highlighted state.
     
     public EnvironmentLabel(){
+        super("", SwingConstants.CENTER);
         this.setOpaque(true);
         highlighted = false;
         highlightOffset = 20;

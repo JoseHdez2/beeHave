@@ -38,7 +38,8 @@ public class EnvironmentPanel extends JLayeredPane {
     
     private ClickEffect clickEffect; // Effect that clicking on a tile will have.
     private Entity.type clickEffectEntity; // For when creating an entity.
-    private int clickEffectPointer; // For when moving an entity. Currently selected entity.
+    private int clickEffectPointerAgent; // Currently selected agent, to inspect or modify.
+    private int clickEffectPointerObject; // Currently selected object, to inspect of modify.
     
     private EnvironmentModel env;   // Environment model this interface will represent. 
     
@@ -47,7 +48,7 @@ public class EnvironmentPanel extends JLayeredPane {
     private EnvironmentPanel(){
         clickEffect = ClickEffect.CREATE;
         clickEffectEntity = Entity.type.OBJECT_FLOWER;
-        clickEffectPointer = 0;
+        clickEffectPointerAgent = 0;
     }
     
     public EnvironmentPanel(int width, int height){
@@ -135,9 +136,9 @@ public class EnvironmentPanel extends JLayeredPane {
         case CREATE:
             EntityTypeMapper.createEntityInto(env, clickEffectEntity, new Position(x,y)); break;
         case MOVE_AGENT:
-            env.getAgents().get(clickEffectPointer).setPos(new Position(x,y)); break;
+            env.getAgents().get(clickEffectPointerAgent).setPos(new Position(x,y)); break;
         case MOVE_OBJECT:
-            env.getObjects().get(clickEffectPointer).setPos(new Position(x,y)); break;
+            env.getObjects().get(clickEffectPointerObject).setPos(new Position(x,y)); break;
         }
     }
     
@@ -208,10 +209,6 @@ public class EnvironmentPanel extends JLayeredPane {
         return envLabels;
     }
 
-    public ClickEffect getClickEffect() {
-        return clickEffect;
-    }
-
     public void setClickEffect(ClickEffect clickEffect) {
         this.clickEffect = clickEffect;
     }
@@ -224,12 +221,12 @@ public class EnvironmentPanel extends JLayeredPane {
         this.clickEffectEntity = clickEffectEntity;
     }
 
-    public int getClickEffectPointer() {
-        return clickEffectPointer;
+    public int getClickEffectPointerAgent() {
+        return clickEffectPointerAgent;
     }
 
-    public void setClickEffectPointer(int clickEffectPointer) {
-        this.clickEffectPointer = clickEffectPointer;
+    public void setClickEffectPointerAgent(int clickEffectPointer) {
+        this.clickEffectPointerAgent = clickEffectPointer;
     }
 
     public EnvironmentModel getEnv() {
@@ -260,5 +257,21 @@ public class EnvironmentPanel extends JLayeredPane {
     public void setTileColorTerrain(boolean tileColorTerrain) {
         this.tileColorTerrain = tileColorTerrain;
         recolorTiles();
+    }
+    
+    public Agent getSelectedAgent(){
+        return env.getAgents().get(clickEffectPointerAgent);
+    }
+    
+    public Object getSelectedObject(){
+        return env.getObjects().get(clickEffectPointerAgent);
+    }
+
+    public int getClickEffectPointerObject() {
+        return clickEffectPointerObject;
+    }
+
+    public void setClickEffectPointerObject(int clickEffectPointerObject) {
+        this.clickEffectPointerObject = clickEffectPointerObject;
     }
 }

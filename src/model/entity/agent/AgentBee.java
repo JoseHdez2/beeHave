@@ -2,7 +2,6 @@ package model.entity.agent;
 
 import model.entity.Entity;
 import model.environment.EnvironmentModel;
-import model.movement.MovementType;
 import model.movement.RandomMove;
 import util.typedef.Position;
 
@@ -10,6 +9,16 @@ public class AgentBee extends Agent {
     
     private static BehaviourType defaultInitialBehaviour = BehaviourType.SCOUT;
     int pollen; // Amount of pollen the bee has.
+    
+    public static enum BehaviourType{
+        SCOUT,
+        RETURN,
+        INFORM,
+        IDLE
+    }
+    
+    private BehaviourType behaviour;    // Current behavior of the AgentBee.
+    public Position hivePos;    // Position of the bee's hive.
     
     /*
      * Constructors
@@ -23,17 +32,7 @@ public class AgentBee extends Agent {
     public AgentBee(Position pos) {
         this(pos, defaultInitialBehaviour);
     }
-    
-    public static enum BehaviourType{
-        SCOUT,
-        RETURN,
-        INFORM,
-        IDLE
-    }
-    
-    private BehaviourType behaviour;    // Current behavior of the AgentBee.
-    public MovementType pathFinding;    // Current pathfinding algorithm the AgentBee is using.
-    public Position hivePos;    // Position of the bee's hive.
+
     
     public void moveAgent(EnvironmentModel env){
         

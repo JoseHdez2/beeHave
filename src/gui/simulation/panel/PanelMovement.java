@@ -1,18 +1,43 @@
-package gui.simulation;
+package gui.simulation.panel;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.border.TitledBorder;
-
+import gui.environment.EnvironmentPanel;
 import gui.i18n.I18n;
+import model.movement.RandomMove;
 
 public class PanelMovement extends SimPanel {
 
-    public PanelMovement(){
-        super("MoveType");
+    public PanelMovement(EnvironmentPanel envPanel){
+        super(I18n.getString("MoveType"));
+        
+        
+     // Listener for the click effect radio buttons.
+        ActionListener moveTypeButtonListener = new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                if(envPanel.getClickEffectEntity() != EnvironmentPanel.ClickEffect.MOVE_AGENT)
+//                    return;
+                switch(e.getActionCommand()){
+                case "MoveType.Random":
+                    envPanel.getSelectedAgent().setPathFinding(new RandomMove());
+                    break;
+                case "MoveType.AStar":
+//                    envPanel.getSelectedAgent().setPathFinding(new AS());
+                    break;
+                }
+            }  
+        };
+        
+        HashMap<String, Integer> radioButtons = new HashMap<String, Integer>();
+        radioButtons.put("MoveType.Random", KeyEvent.VK_R);
+        radioButtons.put("MoveType.AStar", KeyEvent.VK_S);
+        
+        addNewJRadioButtonGroup(radioButtons, moveTypeButtonListener);
+        
         /*
         String strMovRandom = I18n.getString("MoveType.Random");
         JRadioButton moveRandomButton = new JRadioButton(strMovRandom);

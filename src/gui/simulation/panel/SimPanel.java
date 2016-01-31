@@ -1,4 +1,4 @@
-package gui.simulation;
+package gui.simulation.panel;
 
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -86,6 +86,10 @@ public class SimPanel extends JPanel{
             JRadioButton rb = addNewJRadioButton((String)pair.getKey(), (int)pair.getValue());
             buttonGroup.add(rb);
             rb.addActionListener(listener);
+            
+            // Set first button created as the default selection.
+            if(buttonGroup.getButtonCount() == 1)
+                buttonGroup.setSelected(rb.getModel(), true);
             
             it.remove(); // HashMap iteration: avoids a ConcurrentModificationException
         }

@@ -1,25 +1,17 @@
 package gui.simulation;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.Timer;
-import javax.swing.border.TitledBorder;
 
 import gui.environment.EnvironmentPanel;
-import gui.i18n.GUI_Helper;
-import gui.i18n.I18n;
-import model.entity.Entity;
+import gui.simulation.panel.PanelClickEffect;
+import gui.simulation.panel.PanelFoodGen;
+import gui.simulation.panel.PanelMovement;
+import gui.simulation.panel.PanelTimeControl;
 
 public class FrameSimulation extends JFrame {
     
@@ -54,7 +46,7 @@ public class FrameSimulation extends JFrame {
         JPanel clickEffectPanel = new PanelClickEffect(envPanel);
         menuPanel.add(clickEffectPanel);
 
-        JPanel movementPanel = new PanelMovement();
+        JPanel movementPanel = new PanelMovement(envPanel);
         menuPanel.add(movementPanel);
         
         JPanel simTimePanel = new PanelTimeControl(envPanel);
