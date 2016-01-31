@@ -40,16 +40,8 @@ public class EnvironmentModel {
         this();
         this.width = width;
         this.height = height;
-        this.terrain = new Matrix<EnvironmentModel.Terrain>(new EnvironmentModel.Terrain[width][height]);
-        
-        for (int j = 0; j < terrain.height(); j++){
-            for (int i = 0; i < terrain.width(); i++){
-                switch(RandomNum.randInt(0, 1)){
-                case 0: terrain.set(i, j, Terrain.GRASS); break;
-                case 1: terrain.set(i, j, Terrain.SOIL); break;
-                }
-            }
-        }
+        this.terrain = TerrainGenerator.plain(width, height, EnvironmentModel.Terrain.GRASS);
+//        this.terrain = TerrainGenerator.random(width, height);
         
         // Two ways of doing the same: creating an AgentBee into the environment.
         agents.add((AgentBee)EntityTypeMapper.createEntity(Entity.type.AGENT_BEE, randomPosition()));
