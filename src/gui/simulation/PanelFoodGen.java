@@ -4,10 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.TitledBorder;
 
 import gui.environment.EnvironmentPanel;
 import gui.i18n.I18n;
@@ -19,32 +16,31 @@ import gui.i18n.I18n;
  * @author jose
  *
  */
-public class PanelFoodGen extends JPanel {
-    
-    /*
-     * Food generation panel.
-     */
+public class PanelFoodGen extends SimPanel {
     
     public PanelFoodGen(EnvironmentPanel envPanel){
-        this.setBorder(new TitledBorder(I18n.getString("FoodGen.Portions")));
+        super();
         
-        JLabel foodText = new JLabel(I18n.getString("FoodGen.Portions"));
-        this.add(foodText);
+        addNewJLabel("FoodGen.Portions");
         
         // TextInput for specifying number of pieces of food.
-        JTextField foodField = new JTextField("1", 2);
-        this.add(foodField);
+        JTextField foodField = addNewJTextField("1", 2);
         
         // Button for generating N pieces of food.
-        JButton foodButton = new JButton(I18n.getString("FoodGen.Button"));
-        foodButton.addActionListener(new ActionListener(){
+        JButton foodButton = addNewJButton("FoodGen.Button");
+        
+        
+        ActionListener foodButtonActionListener = new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 int n = Integer.parseInt(foodField.getText());
                 for (int i = 0; i < n; i++) envPanel.generateFoodPortion();
                 envPanel.repaint();
             }
-        });
-        this.add(foodButton);
+        };
+        
+        foodButton.addActionListener(foodButtonActionListener);
     }
+    
+
 }

@@ -30,7 +30,7 @@ public class EnvironmentPanel extends JLayeredPane {
     
     private static int GRID_TILE_SIZE = 50; // Tile width and height, in pixels.
     
-    enum ClickEffect {
+    public enum ClickEffect {
         CREATE,
         MOVE_AGENT,
         MOVE_OBJECT

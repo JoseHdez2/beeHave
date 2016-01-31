@@ -1,12 +1,12 @@
 package main;
 
-import gui.simulation.SimFrame;
+import gui.simulation.FrameSimulation;
 
 public class Main {
     
     public static void main(String[] args) {
        System.out.println("Hola mundo.");
-       SimFrame sf = new SimFrame();
+       FrameSimulation sf = new FrameSimulation();
        System.out.println("Hola");
        sf.repaint();
     }
