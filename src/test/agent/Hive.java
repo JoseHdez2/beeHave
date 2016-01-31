@@ -7,12 +7,12 @@ public class Hive {
 	private static int ZERO = 0;
 	private Point pos;
 	private ArrayList<Agent> beesInside;
-	private int pollenOnHive;
+	private int pollenInHive;
 	
 	public Hive() {
 		setPos(ZERO, ZERO);
 		setBeesInside(null);
-		setPollenOnHive(ZERO);
+		setPollenInHive(ZERO);
 		
 	}
 	
@@ -53,19 +53,19 @@ public class Hive {
 
 
 	/**
-	 * @return the pollenOnHive
+	 * @return the pollenInHive
 	 */
-	public int getPollenOnHive() {
-		return pollenOnHive;
+	public int getPollenInHive() {
+		return pollenInHive;
 	}
 
 
 
 	/**
-	 * @param pollenOnHive the pollenOnHive to set
+	 * @param pollenInHive the pollenInHive to set
 	 */
-	public void setPollenOnHive(int pollenToStore) {
-		this.pollenOnHive += pollenToStore;
+	public void setPollenInHive(int pollenToStore) {
+		this.pollenInHive += pollenToStore;
 	}
 
 }
