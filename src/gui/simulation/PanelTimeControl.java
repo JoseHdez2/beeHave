@@ -16,8 +16,8 @@ import gui.i18n.I18n;
 public class PanelTimeControl extends SimPanel {
     
     Timer simTimer; // Timer for simulation steps.
-    JTextField simStepDurField; // Simulation step duration text field.
-    JButton simPlayButton;  // Button for starting/stopping the simulation.
+    JTextField stepDurField; // Simulation step duration text field.
+    JButton playButton;  // Button for starting/stopping the simulation.
     
     public PanelTimeControl(EnvironmentPanel envPanel){
         super("SimTimePanel");
@@ -32,18 +32,18 @@ public class PanelTimeControl extends SimPanel {
             }
         };
         
-        JLabel labelStepDur = addNewJLabel("StepDurLabel");
+        addNewJLabel("StepDurLabel");
         
-        simStepDurField = addNewJTextField(((Integer)simTimer.getDelay()).toString(), 4);
+        stepDurField = addNewJTextField(((Integer)simTimer.getDelay()).toString(), 4);
         
-        simPlayButton = addNewJButton("SimTime.Play");
-        simPlayButton.addActionListener(simulationPlayButtonListener);
+        playButton = addNewJButton("SimTime.Play");
+        playButton.addActionListener(simulationPlayButtonListener);
 
         simTimer = new Timer(simTimer.getDelay(), simulationTimerListener);
         
-        JButton simStepButton = GUI_Helper.createJButton("SimTime.SimStep");
-        simStepButton.addActionListener(simulationTimerListener);
-        this.add(simStepButton, BorderLayout.SOUTH);
+        JButton stepButton = GUI_Helper.createJButton("SimTime.SimStep");
+        stepButton.addActionListener(simulationTimerListener);
+        this.add(stepButton, BorderLayout.SOUTH);
         
     }
     
@@ -53,12 +53,12 @@ public class PanelTimeControl extends SimPanel {
         public void actionPerformed(ActionEvent e) {
             if(simTimer.isRunning()){
                 simTimer.stop();
-                simPlayButton.setText(I18n.getString("SimTime.Play"));
+                playButton.setText(I18n.getString("SimTime.Play"));
             }
             else {
-                simTimer.setDelay(Integer.parseInt(simStepDurField.getText()));
+                simTimer.setDelay(Integer.parseInt(stepDurField.getText()));
                 simTimer.start();
-                simPlayButton.setText(I18n.getString("SimTime.Stop"));
+                playButton.setText(I18n.getString("SimTime.Stop"));
             }
         }
     };

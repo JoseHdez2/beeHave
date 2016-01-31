@@ -11,7 +11,7 @@ import gui.i18n.I18n;
 
 /**
  * Food generation panel.
- * Singleton class that hangs from .
+ * Singleton class that hangs from FrameSimulation.
  * 
  * @author jose
  *

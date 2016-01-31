@@ -1,5 +1,11 @@
 package gui.simulation;
 
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -66,5 +72,23 @@ public class SimPanel extends JPanel{
         radioButton.setMnemonic(mnemonic);
         this.add(radioButton);
         return radioButton;
+    }
+    
+    public void addNewJRadioButtonGroup(HashMap<String, Integer> radioButtons, ActionListener listener){
+        
+        ButtonGroup buttonGroup = new ButtonGroup();
+        
+        // HashMap iteration: http://stackoverflow.com/a/1066603/3399416
+        Iterator it = radioButtons.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next(); // HashMap iteration.
+            
+            JRadioButton rb = addNewJRadioButton((String)pair.getKey(), (int)pair.getValue());
+            buttonGroup.add(rb);
+            rb.addActionListener(listener);
+            
+            it.remove(); // HashMap iteration: avoids a ConcurrentModificationException
+        }
+            
     }
 }

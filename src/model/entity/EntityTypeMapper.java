@@ -55,9 +55,9 @@ public abstract class EntityTypeMapper {
     public static ImageIcon getIcon(Entity.type entityType){
         switch(entityType){
         case AGENT_BEE: return new ImageIcon("res/image/bee.png");
-        case AGENT_WASP: new ImageIcon("res/image/meat.png");
-        case OBJECT_BEEHIVE: new ImageIcon("res/image/agent.png");
-        case OBJECT_FLOWER: new ImageIcon("res/image/daisy.png");
+        case AGENT_WASP: return new ImageIcon("res/image/meat.png");
+        case OBJECT_BEEHIVE: return new ImageIcon("res/image/agent.png");
+        case OBJECT_FLOWER: return new ImageIcon("res/image/daisy.png");
         }
         return null;
     }
