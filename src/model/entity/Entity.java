@@ -34,13 +34,20 @@ public abstract class Entity {
         this.pos = pos;
         this.entityType = entityType;
         this.icon = EntityTypeMapper.getIcon(entityType);
-        String className = this.getClass().getName();
-        className = className.substring(className.lastIndexOf('.') + 1, className.length());
-        this.name = className + Integer.toString(RandomNum.randInt(0, 9999));
+        this.name = entityName() + "x";
     }
     
     public String toString(){
         return this.name;
+    }
+    
+    /**
+     * @return Not the entity's name, but the entity's class name.
+     */
+    public String entityName(){
+        String className = this.getClass().getName();
+        className = className.substring(className.lastIndexOf('.') + 1, className.length());
+        return className;
     }
     
     /*

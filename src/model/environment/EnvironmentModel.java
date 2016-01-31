@@ -43,9 +43,9 @@ public class EnvironmentModel {
         this.terrain = TerrainGenerator.plain(width, height, EnvironmentModel.Terrain.GRASS);
 //        this.terrain = TerrainGenerator.random(width, height);
         
-        // Two ways of doing the same: creating an AgentBee into the environment.
-        agents.add((AgentBee)EntityTypeMapper.createEntity(Entity.type.AGENT_BEE, randomPosition()));
-        EntityTypeMapper.createEntityInto(this, Entity.type.AGENT_BEE, randomPosition());
+
+        for (int i = 0; i < 2; i++)
+            EntityTypeMapper.createEntityInto(this, Entity.type.AGENT_BEE, randomPosition());
         
         for(int i = 0; i < 5; i++)
             EntityTypeMapper.createEntityInto(this, Entity.type.OBJECT_FLOWER, randomPosition());
