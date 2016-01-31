@@ -1,4 +1,4 @@
-package test.gui.environment;
+package test.model.environment;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,20 +13,21 @@ import test.util.typedef.Matrix;
 import test.util.typedef.Position;
 
 /**
- * @author jose
- *
  *  The model of the environment.
  *  Data and methods that manage the environment are here,
  *  while EnvironmentPanel manages the graphical user interface.
+ *  
+ * @author jose
  */
 public class EnvironmentModel {
 
-    enum terrainType {
-      GRASS,  
+    enum Terrain {
+      GRASS,
+      SOIL
     };
     
     int width, height;  // Width and height of the environment.
-    Matrix<EnvironmentModel.terrainType> terrain;
+    Matrix<EnvironmentModel.Terrain> terrain;
     
     ArrayList<Agent> agents; // All agents in the environment.
     ArrayList<EnvObject> objects; // All objects in the environment.
@@ -40,6 +41,16 @@ public class EnvironmentModel {
         this();
         this.width = width;
         this.height = height;
+        this.terrain = new Matrix<EnvironmentModel.Terrain>(new EnvironmentModel.Terrain[width][height]);
+        
+        for (int j = 0; j < terrain.height(); j++){
+            for (int i = 0; i < terrain.width(); i++){
+                switch(RandomNum.randInt(0, 1)){
+                case 0: terrain.set(i, j, Terrain.GRASS);
+                case 1: terrain.set(i, j, Terrain.SOIL);
+                }
+            }
+        }
         
         // Two ways of doing the same: creating an AgentBee into the environment.
         agents.add((AgentBee)EntityTypeMapper.createEntity(Entity.type.AGENT_BEE, randomPosition()));
@@ -79,7 +90,7 @@ public class EnvironmentModel {
         this.height = height;
     }
 
-    public Matrix<EnvironmentModel.terrainType> getTerrain() {
+    public Matrix<EnvironmentModel.Terrain> getTerrain() {
         return terrain;
     }
 

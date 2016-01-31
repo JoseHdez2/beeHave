@@ -2,11 +2,11 @@ package test.model.entity;
 
 import javax.swing.ImageIcon;
 
-import test.gui.environment.EnvironmentModel;
 import test.model.entity.agent.AgentBee;
 import test.model.entity.agent.AgentWasp;
 import test.model.entity.object.ObjectBeehive;
 import test.model.entity.object.ObjectFlower;
+import test.model.environment.EnvironmentModel;
 import test.util.typedef.Position;
 
 

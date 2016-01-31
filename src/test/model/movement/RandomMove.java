@@ -205,7 +205,7 @@ public class RandomMove implements MovementType {
 	}
 	
 	public moveDirection nextMove(Agent agent, EnvironmentPanel panel) {
-		ArrayList<moveDirection> lmovementsArray = legalMovements(visited, panel.getElements().height(), panel.getElements().width(), agent);
+		ArrayList<moveDirection> lmovementsArray = legalMovements(visited, panel.getEnvLabels().height(), panel.getEnvLabels().width(), agent);
 		int index = randomGenerator.nextInt(lmovementsArray.size());
 		moveDirection movement = lmovementsArray.get(index);
 		visited.add(agent.getPos());

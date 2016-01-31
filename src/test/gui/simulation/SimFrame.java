@@ -185,8 +185,8 @@ public class SimFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             switch(e.getActionCommand()){
-            case strEleAgent: envPanel.clickEffect = Entity.type.AGENT_BEE; break;
-            case strEleFood: envPanel.clickEffect = Entity.type.OBJECT_FLOWER; break;
+            case strEleAgent: envPanel.setClickEffectEntity(Entity.type.AGENT_BEE); break;
+            case strEleFood: envPanel.setClickEffectEntity(Entity.type.OBJECT_FLOWER); break;
             }
         }  
     };
@@ -196,7 +196,7 @@ public class SimFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             switch(e.getActionCommand()){
-            case strMovRandom: envPanel.getAgent().pathFinding = new RandomMove(); break;
+            // case strMovRandom: envPanel.getAgent().pathFinding = new RandomMove(); break;
             // case strMovDepth: envPanel.agent.pathFinding = new DFSMove(); break;
             // case strMovBreadth: envPanel.agent.pathFinding = new BFSMove(); break;
             }

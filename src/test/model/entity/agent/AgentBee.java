@@ -46,10 +46,12 @@ public class AgentBee extends Agent {
         // Skip moving (do nothing) if we're already on food.
         // TODO: find the food item and remove from list: an 'eat' turn.
         
+        /*
         if (panel.getFoodPositions().contains(pos)){
             setBehaviour(BehaviourType.RETURN);
             returnToHive();
         }
+        */
         
         // The pathfinding module decides the next step and executes it.
         pathFinding.nextMove(this, panel);
