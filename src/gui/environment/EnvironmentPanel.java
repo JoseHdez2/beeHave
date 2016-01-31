@@ -32,14 +32,14 @@ public class EnvironmentPanel extends JLayeredPane {
     
     public enum ClickEffect {
         CREATE,
-        MOVE_AGENT,
-        MOVE_OBJECT
+        MOVE
     }
     
     private ClickEffect clickEffect; // Effect that clicking on a tile will have.
     private Entity.type clickEffectEntity; // For when creating an entity.
     private int clickEffectPointerAgent; // Currently selected agent, to inspect or modify.
     private int clickEffectPointerObject; // Currently selected object, to inspect of modify.
+    private boolean isAgent; // Whether clickEffect will move/inspect an agent or object.
     
     private EnvironmentModel env;   // Environment model this interface will represent. 
     
@@ -49,6 +49,8 @@ public class EnvironmentPanel extends JLayeredPane {
         clickEffect = ClickEffect.CREATE;
         clickEffectEntity = Entity.type.OBJECT_FLOWER;
         clickEffectPointerAgent = 0;
+        clickEffectPointerObject = 0;
+        isAgent = true;
     }
     
     public EnvironmentPanel(int width, int height){
@@ -135,10 +137,12 @@ public class EnvironmentPanel extends JLayeredPane {
         switch(clickEffect){
         case CREATE:
             EntityTypeMapper.createEntityInto(env, clickEffectEntity, new Position(x,y)); break;
-        case MOVE_AGENT:
-            env.getAgents().get(clickEffectPointerAgent).setPos(new Position(x,y)); break;
-        case MOVE_OBJECT:
-            env.getObjects().get(clickEffectPointerObject).setPos(new Position(x,y)); break;
+        case MOVE:
+            if (isAgent)
+                env.getAgents().get(clickEffectPointerAgent).setPos(new Position(x,y));
+            if (!isAgent)
+                env.getObjects().get(clickEffectPointerObject).setPos(new Position(x,y));
+            break;
         }
     }
     
@@ -273,5 +277,9 @@ public class EnvironmentPanel extends JLayeredPane {
 
     public void setClickEffectPointerObject(int clickEffectPointerObject) {
         this.clickEffectPointerObject = clickEffectPointerObject;
+    }
+
+    public void setAgent(boolean isAgent) {
+        this.isAgent = isAgent;
     }
 }

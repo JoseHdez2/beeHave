@@ -4,8 +4,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import gui.environment.EnvironmentPanel;
 import gui.simulation.panel.PanelClickEffect;
@@ -38,6 +40,8 @@ public class FrameSimulation extends JFrame {
         add(envPanel);
         
         JPanel menuPanel = new JPanel();
+        menuPanel.setBorder(new TitledBorder("Menu"));
+        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
         add(menuPanel);
         
         JPanel foodPanel = new PanelFoodGen(envPanel);
