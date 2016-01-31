@@ -80,6 +80,10 @@ public class EnvironmentPanel extends JLayeredPane {
      * Re-set background color of environment tiles.
      */
     private void recolorTiles(){
+        
+        tileColorDarkOffset = -20;
+        tileColorDark = ColorHelper.offsetColor(DEFAULT_TILE_COLOR, tileColorDarkOffset);
+        
         for (int j = 0; j < envLabels.height(); j++){
             for (int i = 0; i < envLabels.width(); i++){
                 envLabels.get(i, j).setBackground(tileColor(i,j));
@@ -88,10 +92,11 @@ public class EnvironmentPanel extends JLayeredPane {
     }
     
     private static Color DEFAULT_TILE_COLOR = new Color(200,200,200);
-    private static Color GRAY_DARK = new Color(180,180,180);
+    private Color tileColorDark; // Color of darker tiles in checkerboard mode.
     
-    private static boolean CHECKERBOARD_PATTERN = true;
-    private static boolean COLORED_TERRAIN = true;
+    private int tileColorDarkOffset; // Difference between light and dark tiles in checkerboard mode.
+    private boolean tileColorChecker = true; // (De)activate checkerboard mode.
+    private boolean tileColorTerrain = true; // (De)activate terrain coloring.
     
     /**
      * Take tile position and EnvironmentModel to determine 
@@ -101,9 +106,9 @@ public class EnvironmentPanel extends JLayeredPane {
      */
     private Color tileColor(int i, int j){
         Color color = DEFAULT_TILE_COLOR;
-        if (CHECKERBOARD_PATTERN) color = (i+j)%2 == 0 ? GRAY_DARK : DEFAULT_TILE_COLOR;
+        if (tileColorChecker) color = (i+j)%2 == 0 ? tileColorDark : DEFAULT_TILE_COLOR;
         
-        if (!COLORED_TERRAIN) return color;
+        if (!tileColorTerrain) return color;
         switch(env.getTerrain().get(i, j)){
         case GRASS: color = ColorHelper.mean(color, Color.GREEN); break;
         case SOIL: color = ColorHelper.mean(color, Color.YELLOW); break;
@@ -228,5 +233,31 @@ public class EnvironmentPanel extends JLayeredPane {
 
     public EnvironmentModel getEnv() {
         return env;
+    }
+
+    public int getTileColorDarkOffset() {
+        return tileColorDarkOffset;
+    }
+
+    public void setTileColorDarkOffset(int tileColorDarkOffset) {
+        this.tileColorDarkOffset = tileColorDarkOffset;
+    }
+
+    public boolean isTileColorChecker() {
+        return tileColorChecker;
+    }
+
+    public void setTileColorChecker(boolean tileColorChecker) {
+        this.tileColorChecker = tileColorChecker;
+        recolorTiles();
+    }
+
+    public boolean isTileColorTerrain() {
+        return tileColorTerrain;
+    }
+
+    public void setTileColorTerrain(boolean tileColorTerrain) {
+        this.tileColorTerrain = tileColorTerrain;
+        recolorTiles();
     }
 }
