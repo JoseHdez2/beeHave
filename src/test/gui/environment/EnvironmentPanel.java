@@ -47,7 +47,10 @@ public class EnvironmentPanel extends JLayeredPane {
     
     public Entity.type clickEffect; // Effect that clicking on a tile will have.
     
-    private static int gridTileSize = 50; // Tile width and height, in pixels.
+    private static Color GRAY_LITE = new Color(200,200,200);
+    private static Color GRAY_DARK = new Color(150,150,150);
+    
+    private static int GRID_TILE_SIZE = 50; // Tile width and height, in pixels.
     
     private EnvironmentPanel(){
         clickEffect = Entity.type.OBJECT_FLOWER;
@@ -65,7 +68,7 @@ public class EnvironmentPanel extends JLayeredPane {
         int x = env.getWidth();
         int y = env.getHeight();
         
-        this.setSize(gridTileSize * x, gridTileSize * y);
+        this.setSize(GRID_TILE_SIZE * x, GRID_TILE_SIZE * y);
         setLayout(new GridLayout(width,height));
         
         this.envLabels = new Matrix<EnvironmentLabel>(new EnvironmentLabel[x][y]);
@@ -73,7 +76,8 @@ public class EnvironmentPanel extends JLayeredPane {
         // Add tiles
         for (int j = 0; j < envLabels.height(); j++){
             for (int i = 0; i < envLabels.width(); i++){
-                Color color = (i+j)%2 == 0 ? new Color(150,150,150) : new Color(200,200,200);
+                // TODO: Take terrain into account?
+                Color color = (i+j)%2 == 0 ? GRAY_DARK : GRAY_LITE;
                 EnvironmentLabel label = new EnvironmentLabel("b",i,j);
                 if (showGrid) label.setOpaque(true);
                 label.setBackground(color);
@@ -150,7 +154,8 @@ public class EnvironmentPanel extends JLayeredPane {
                 envLabels.get(i, j).setIcon(null);
                 
                 for (Agent a : env.getAgents())
-                    if (new Position(i,j) == a.getPos()) envLabels.get(i, j).setIcon(a.getIcon());
+                    if (new Position(i,j).equals(a.getPos())) envLabels.get(i, j).setIcon(a.getIcon());
+//                    if (new Position(i,j) == a.getPos()) envLabels.get(i, j).setIcon(a.getIcon());
 //                    if (i == a.getPosX() && j == agent.getPosY()) envLabels.get(i, j).setIcon(a.getIcon());
                 
                 for (EnvObject o : env.getObjects())

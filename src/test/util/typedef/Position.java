@@ -34,16 +34,29 @@ public class Position {
     /*
      * Equals and hashCode.
      */
-    
-    public boolean equals(Object ob){
-        if (ob == null) return false;
-        if (ob.getClass() != getClass()) return false;
-        Position other = (Position)ob;
-        if (p != other.p) return false;
-        return true;
-    }
-    
+
+    @Override
     public int hashCode() {
-        return p.hashCode();
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((p == null) ? 0 : p.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Position other = (Position) obj;
+        if (p == null) {
+            if (other.p != null)
+                return false;
+        } else if (!p.equals(other.p))
+            return false;
+        return true;
     }
 }

@@ -2,6 +2,7 @@ package test.model.entity;
 
 import javax.swing.ImageIcon;
 
+import test.gui.environment.EnvironmentModel;
 import test.model.entity.agent.AgentBee;
 import test.model.entity.agent.AgentWasp;
 import test.model.entity.object.ObjectBeehive;
@@ -32,15 +33,31 @@ public abstract class EntityTypeMapper {
     }
     
     /**
+     * Given an EnvironmentModel, create a new Entity and add it to the model.
+     * Wraps around {@link EntityTypeMapper#createEntity(test.model.entity.Entity.type, Position)}.
+     * @param entityType    Type of Entity.
+     * @param pos   Position of Entity.
+     * @return  Entity of specified type and position.
+     */
+    public static void createEntityInto(EnvironmentModel env, Entity.type entityType, Position pos){
+        switch(entityType){
+        case AGENT_BEE: env.getAgents().add((AgentBee)createEntity(entityType, pos)); return;
+        case AGENT_WASP: env.getAgents().add((AgentWasp)createEntity(entityType, pos)); return;
+        case OBJECT_BEEHIVE: env.getObjects().add((ObjectBeehive)createEntity(entityType, pos)); return;
+        case OBJECT_FLOWER: env.getObjects().add((ObjectFlower)createEntity(entityType, pos)); return;
+        }
+    }
+    
+    /**
      * @param entityType    Type of Entity.
      * @return  ImageIcon that represents the specified type of Entity.
      */
     public static ImageIcon getIcon(Entity.type entityType){
         switch(entityType){
-        case AGENT_BEE: return new ImageIcon("media/image/bee.png");
-        case AGENT_WASP: new ImageIcon("media/image/meat.png");
-        case OBJECT_BEEHIVE: new ImageIcon("media/image/agent.png");
-        case OBJECT_FLOWER: new ImageIcon("media/image/daisy.png");
+        case AGENT_BEE: return new ImageIcon("res/image/bee.png");
+        case AGENT_WASP: new ImageIcon("res/image/meat.png");
+        case OBJECT_BEEHIVE: new ImageIcon("res/image/agent.png");
+        case OBJECT_FLOWER: new ImageIcon("res/image/daisy.png");
         }
         return null;
     }

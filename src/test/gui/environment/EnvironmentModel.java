@@ -1,9 +1,14 @@
 package test.gui.environment;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import test.model.entity.Entity;
+import test.model.entity.EntityTypeMapper;
 import test.model.entity.agent.Agent;
+import test.model.entity.agent.AgentBee;
 import test.model.entity.object.EnvObject;
+import test.util.math.RandomNum;
 import test.util.typedef.Matrix;
 import test.util.typedef.Position;
 
@@ -35,6 +40,10 @@ public class EnvironmentModel {
         this();
         this.width = width;
         this.height = height;
+        
+        // Two ways of doing the same: creating an AgentBee into the environment.
+        agents.add((AgentBee)EntityTypeMapper.createEntity(Entity.type.AGENT_BEE, randomPosition()));
+        EntityTypeMapper.createEntityInto(this, Entity.type.AGENT_BEE, randomPosition());
     }
     
     public void simulationStep(){
@@ -44,13 +53,11 @@ public class EnvironmentModel {
     }
     
     /**
-     * @return Random position inside environment.
+     * @return Random position inside the bounds of this environment.
      */
     public Position randomPosition(){
-        return new Position();
+        return new Position(RandomNum.randInt(0, width-1), RandomNum.randInt(0, height-1));
     }
-    
-    
     
     /*
      * Getters and setters
