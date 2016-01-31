@@ -34,8 +34,9 @@ public class Agent {
 		setPathToHive(new ArrayList<Point>());
 		setBestFlower(new Flower());
 		getBestFlower().setPollen(ZERO);
-		getBestFlower().setFlowerPosition(0, 0);
+		getBestFlower().setFlowerPosition(new Point());
 		setPathToFlower(new ArrayList<Point>());
+		setHivePos(new Point(0,0));
 	}
 	
 	public Agent(int startX, int startY, int hiveX, int hiveY){
@@ -47,7 +48,7 @@ public class Agent {
 		setPathToHive(new ArrayList<Point>());
 		setBestFlower(new Flower());
 		getBestFlower().setPollen(ZERO);
-		getBestFlower().setFlowerPosition(0, 0);
+		getBestFlower().setFlowerPosition(new Point());
 		setPathToFlower(new ArrayList<Point>());
 	}
 	
@@ -64,7 +65,9 @@ public class Agent {
 	public void moveAgent(EnvironmentPanel panel){
 	    
 	    // The pathfinding module decides the next step and executes it.
+		System.out.println(this.toString());
 		if (getBehaviour() == behaviourType.RETURN) {
+			
 			System.out.println("return");		
 			returnToHive();
 		}
@@ -102,9 +105,9 @@ public class Agent {
 				setPos(point);
 			}
 		}
-		path.remove(path.size() - 1);
-		System.out.println(path);
-		System.out.println("chivateo");
+		if ((path.size() > 0)) {
+			path.remove(path.size() - 1);	
+		}
 	}
 
 	/**
@@ -129,7 +132,7 @@ public class Agent {
 	 * @return the pos
 	 */
 	public Point getPos() {
-																																																																																																																																																																																																																																																																																																																																																																																return pos;
+		return this.pos;
 	}
 
 	/**

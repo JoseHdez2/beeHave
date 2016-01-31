@@ -68,7 +68,6 @@ public class AStar {
 
 			for (Point neighbor : neighborsCurrent) {
 				if (getClosedSet().contains(neighbor)) {
-					System.out.println("Aqui me quedo");
 					continue;
 				}
 				int tentativegScore = (int) getgScore().get(getCurrent()) + pythagoreanDistance(start, goal);

@@ -81,7 +81,7 @@ public class Flower {
 			return pollenToCarry;
 		}
 		else {
-			setPollen(polenToRemove);
+			setPollen(getPollen() - polenToRemove);
 			return polenToRemove;
 		}
 	}

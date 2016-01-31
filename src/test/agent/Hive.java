@@ -13,7 +13,6 @@ public class Hive {
 		setPos(ZERO, ZERO);
 		setBeesInside(null);
 		setPollenInHive(ZERO);
-		
 	}
 	
 

@@ -6,6 +6,8 @@ package test.agent;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
+
+import app.util.Sys;
 import test.gui.EnvironmentPanel;
 
 /**
@@ -230,31 +232,31 @@ public class RandomMove implements MovementType {
 		if (!getVisited().contains(agent.getPos())) {
 			getVisited().add(agent.getPos());
 		}
-		
+		System.out.println("gi");
 
 		switch (movement) {
 		case DOWN:
-			agent.getPos().setLocation(agent.getPosX() , agent.getPosY()+ 1);
+			agent.setPos(new Point((int) agent.getPosX() , (int) agent.getPosY()+ 1));
 			if(!isIn(getVisited(),  agent.getPosX(), agent.getPosY())) {
-				getVisited().add(new Point((int) agent.getPosX(),(int) agent.getPosY()));
+				getVisited().add(agent.getPos());
 			}
 			return moveDirection.DOWN;
 		case UP:
-			agent.getPos().setLocation(agent.getPosX() , agent.getPosY()- 1);
+			agent.setPos(new Point((int) agent.getPosX() , (int) agent.getPosY()- 1));
 			if(!isIn(getVisited(),  agent.getPosX(), agent.getPosY()))
-				getVisited().add(new Point( (int) agent.getPosX() , (int) agent.getPosY()));
+				getVisited().add(agent.getPos());
 			return moveDirection.UP;
 		case LEFT:
-			agent.getPos().setLocation(agent.getPosX() - 1, agent.getPosY() );
+			agent.setPos(new Point((int) agent.getPosX() -1 , (int) agent.getPosY()));
+
 			if(!isIn(getVisited(),  agent.getPosX(), agent.getPosY())) {
-				getVisited().add(new Point((int) agent.getPosX(), (int) agent.getPosY() ));
+				getVisited().add(agent.getPos());
 			}
 			return moveDirection.LEFT;
 		case RIGHT:
-			agent.getPos().setLocation(agent.getPosX() + 1, agent.getPosY() );
+			agent.setPos(new Point((int) agent.getPosX() + 1 , (int) agent.getPosY()));
 			if(!isIn(getVisited(),  agent.getPosX(), agent.getPosY())) {
-				getVisited().add(new Point((int) agent.getPosX(), (int) agent.getPosY() ));
-			}
+				getVisited().add(agent.getPos());			}
 			return moveDirection.RIGHT;
 		default:
 			break;

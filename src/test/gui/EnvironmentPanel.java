@@ -340,30 +340,37 @@ public class EnvironmentPanel extends JPanel {
 	public void checkBeeFlower(){
 		for (Agent agent : getAllAgents()) {
 			for (Flower flower : getFoodPositions()) {
-				if (flower.getFlowerPosition().equals(agent.getPos()) && agent.getBehaviour() != Agent.behaviourType.RETURN) {
+				if (flower.getFlowerPosition().equals(agent.getPos()) && agent.getBehaviour() != Agent.behaviourType.RETURN && flower.getPollen() != 0) {
 					agent.getPollen(flower);
 					agent.setBehaviour(Agent.behaviourType.RETURN);
-					getSearchAlgorithm().knowledgeInit(agent.getPos(), agent.getHivePos());
-					agent.setPathToHive(getSearchAlgorithm().run(agent.getPos(), agent.getHivePos()));
+					getSearchAlgorithm().knowledgeInit(agent.getPos(), getHive().getPos());
+					agent.setPathToHive(getSearchAlgorithm().run(agent.getPos(), getHive().getPos()));
 					break;
 				}
 				
 			}
-			if (getHive().getPos().equals(agent.getPos())&& !agent.getBehaviour().equals(Agent.behaviourType.GO_TO_POINT)) {
-				agent.setBehaviour(Agent.behaviourType.IDLE);
-				if (!getHive().getBeesInside().contains(agent)) {
-					getHive().getBeesInside().add(agent);
-					agent.unloadPollen(getHive());
-				}
+			if (agent.getBestFlower().getPollen() == 0 && (agent.getBehaviour().equals(Agent.behaviourType.IDLE) || agent.getBehaviour().equals(Agent.behaviourType.GO_TO_POINT) &&
+					getHive().getPos().equals(agent.getPos()))) {
+				agent.setBehaviour(Agent.behaviourType.SCOUT);
 			}
 			if (agent.getBehaviour() == Agent.behaviourType.IDLE && getHive().getBeesInside().contains(agent) && getHive().getBeesInside().size() >= 2) {
 				getSearchAlgorithm().knowledgeInit(agent.getPos(), agent.getBestFlower().getFlowerPosition());
 				agent.setPathToFlower(getSearchAlgorithm().run(agent.getPos(), agent.getBestFlower().getFlowerPosition()));	
 				agent.setBehaviour(Agent.behaviourType.GO_TO_POINT);
+				getHive().getBeesInside().remove(agent);
 				break;
 			}
-			if (agent.getBestFlower().getPollen() == 0 && agent.getBehaviour().equals(Agent.behaviourType.IDLE)) {
-				agent.setBehaviour(Agent.behaviourType.SCOUT);
+			
+			if (getHive().getPos().equals(agent.getPos()) && !(agent.getBehaviour().equals(Agent.behaviourType.SCOUT) ||  agent.getBehaviour().equals(Agent.behaviourType.GO_TO_POINT))) {
+				agent.setBehaviour(Agent.behaviourType.IDLE);
+				if (!getHive().getBeesInside().contains(agent)) {
+					getHive().getBeesInside().add(agent);
+				}
+				agent.unloadPollen(getHive());
+			}
+			if (agent.getBehaviour() == Agent.behaviourType.GO_TO_POINT && agent.getPathToFlower().isEmpty()) {
+				getSearchAlgorithm().knowledgeInit(agent.getPos(), agent.getBestFlower().getFlowerPosition());
+				agent.setPathToFlower(getSearchAlgorithm().run(agent.getPos(), agent.getBestFlower().getFlowerPosition()));	
 			}
 		}
 	}
