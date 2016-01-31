@@ -28,9 +28,6 @@ public class EnvironmentPanel extends JLayeredPane {
     // TODO: default serial id
     private static final long serialVersionUID = 1L;
     
-    private static Color GRAY_LITE = new Color(200,200,200);
-    private static Color GRAY_DARK = new Color(150,150,150);
-    
     private static int GRID_TILE_SIZE = 50; // Tile width and height, in pixels.
     
     enum ClickEffect {
@@ -68,18 +65,33 @@ public class EnvironmentPanel extends JLayeredPane {
         // Add tiles
         for (int j = 0; j < envLabels.height(); j++){
             for (int i = 0; i < envLabels.width(); i++){
-                
                 EnvironmentLabel label = new EnvironmentLabel(i,j);
-                label.setBackground(tileColor(i,j));
+                label.addMouseListener(clickEffectListener);    // Label can listen clicks.
                 
-                label.addMouseListener(clickEffectListener);
-                
-                envLabels.set(i, j, label);
-                add(envLabels.get(i, j));  // Add into background layer
+                envLabels.set(i, j, label); // Store in EnvironmentPanel's internal memory.
+                add(envLabels.get(i, j));  // Add into EnvironmentPanel's JPanel hierarchy (GUI).
             }
         }
+        recolorTiles();
         this.repaint();
     }
+    
+    /**
+     * Re-set background color of environment tiles.
+     */
+    private void recolorTiles(){
+        for (int j = 0; j < envLabels.height(); j++){
+            for (int i = 0; i < envLabels.width(); i++){
+                envLabels.get(i, j).setBackground(tileColor(i,j));
+            }
+        }
+    }
+    
+    private static Color DEFAULT_TILE_COLOR = new Color(200,200,200);
+    private static Color GRAY_DARK = new Color(180,180,180);
+    
+    private static boolean CHECKERBOARD_PATTERN = true;
+    private static boolean COLORED_TERRAIN = true;
     
     /**
      * Take tile position and EnvironmentModel to determine 
@@ -88,10 +100,13 @@ public class EnvironmentPanel extends JLayeredPane {
      * @return  Corresponding.
      */
     private Color tileColor(int i, int j){
-        Color color = (i+j)%2 == 0 ? GRAY_DARK : GRAY_LITE;
+        Color color = DEFAULT_TILE_COLOR;
+        if (CHECKERBOARD_PATTERN) color = (i+j)%2 == 0 ? GRAY_DARK : DEFAULT_TILE_COLOR;
+        
+        if (!COLORED_TERRAIN) return color;
         switch(env.getTerrain().get(i, j)){
-        case GRASS: color = ColorHelper.offsetColor(color, 0, 20, 0); break;
-        case SOIL: color = ColorHelper.mean(color, Color.RED); break;
+        case GRASS: color = ColorHelper.mean(color, Color.GREEN); break;
+        case SOIL: color = ColorHelper.mean(color, Color.YELLOW); break;
         default: break; // TODO: Shouldn't happen. Throw exception? 
         }
         // TODO: Take terrain into account?
