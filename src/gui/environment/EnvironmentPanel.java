@@ -179,7 +179,7 @@ public class EnvironmentPanel extends JLayeredPane {
      */
     public void simulationStep(){
         for (Agent a : env.getAgents())
-            // a.simulationStep(env);
+             a.simulationStep(env);
         repaint();  // Repaint to show changes.
     }
     

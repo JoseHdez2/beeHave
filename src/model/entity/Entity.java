@@ -21,6 +21,7 @@ public abstract class Entity {
     
     protected Entity.type entityType;   // Type of entity.
     protected Position pos;       // Position in the environment.
+    protected String name;  // Name that univocally identifies this entity in a simulation.
     
     // TODO: 'cleaner' but less optimal (we load the same icon multiple times). 
     ImageIcon icon; // Image that represents this entity.
@@ -63,5 +64,13 @@ public abstract class Entity {
 
     public ImageIcon getIcon() {
         return icon;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
