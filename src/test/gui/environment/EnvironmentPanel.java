@@ -19,45 +19,58 @@ import test.model.entity.agent.AgentBee;
 import test.util.typedef.Matrix;
 import test.util.typedef.Position;
 
-
 /**
- *  Panel que representa el entorno (cuadricula).
+ *  JPanel acting as GUI for the simulation environment.
+ *  Visually represents an EnvironmentModel.
  */
 public class EnvironmentPanel extends JLayeredPane {
     
     // TODO: default serial id
     private static final long serialVersionUID = 1L;
     
-    private int x, y;
-    public Matrix<JPanel> tiles;
-    public Matrix<EnvironmentLabel> elements;
-    ArrayList<ArrayList<JLabel>> labels = new ArrayList<ArrayList<JLabel>>();
+    private EnvironmentModel env;   // Environment. 
+    
+//    private int x, y;
+    public Matrix<EnvironmentLabel> envLabels;
     
     // If false, show background image. Else show checkerboard pattern.
     boolean showGrid = true;
     
-    // public Point agentPos = new Point(); // Agent's position in x and y.
-    AgentBee agent = new AgentBee(new Position(0,0));
-    ImageIcon agentIcon = new ImageIcon("res/image/bee.png"); // Icon representing the agent.
+    // TODO: delete this old hat
+    AgentBee agent; // Single agent
+    ImageIcon agentIcon; // Icon representing the agent.
     
-    public ArrayList<Point> foodPositions = new ArrayList<Point>();
-    ImageIcon foodIcon = new ImageIcon("res/image/daisy.png"); // Icon representing food.
+    public ArrayList<Point> foodPositions; // Positions for food
+    ImageIcon foodIcon; // Icon representing food.
     
-    public Entity.type clickEffect = Entity.type.OBJECT_FLOWER;
+    public Entity.type clickEffect; // Effect that clicking on a tile will have.
     
-    int gridTileSize = 50; // Tile width and height, in pixels.
+    private static int gridTileSize = 50; // Tile width and height, in pixels.
+    
+    private EnvironmentPanel(){
+        clickEffect = Entity.type.OBJECT_FLOWER;
+        
+        agent = new AgentBee(new Position(0,0));
+        agentIcon = new ImageIcon("res/image/bee.png");
+        foodPositions = new ArrayList<Point>();
+        foodIcon = new ImageIcon("res/image/daisy.png");
+    }
     
     public EnvironmentPanel(int width, int height){
-        setLayout(new GridLayout(width,height));
-        this.x = width;
-        this.y = height;
-        this.elements = new Matrix<EnvironmentLabel>(new EnvironmentLabel[x][y]);
+        this();
+        env = new EnvironmentModel(width, height);
+        // Temp variables
+        int x = env.getWidth();
+        int y = env.getHeight();
         
         this.setSize(gridTileSize * x, gridTileSize * y);
+        setLayout(new GridLayout(width,height));
         
-        // Add background tiles
-        for (int j = 0; j < elements.height(); j++){
-            for (int i = 0; i < elements.width(); i++){
+        this.envLabels = new Matrix<EnvironmentLabel>(new EnvironmentLabel[x][y]);
+        
+        // Add tiles
+        for (int j = 0; j < envLabels.height(); j++){
+            for (int i = 0; i < envLabels.width(); i++){
                 Color color = (i+j)%2 == 0 ? new Color(150,150,150) : new Color(200,200,200);
                 EnvironmentLabel label = new EnvironmentLabel("b",i,j);
                 if (showGrid) label.setOpaque(true);
@@ -65,8 +78,8 @@ public class EnvironmentPanel extends JLayeredPane {
                 
                 label.addMouseListener(clickEffectListener);
                 
-                elements.set(i, j, label);
-                add(elements.get(i, j));  // Add into background layer
+                envLabels.set(i, j, label);
+                add(envLabels.get(i, j));  // Add into background layer
             }
         }
         
@@ -128,17 +141,17 @@ public class EnvironmentPanel extends JLayeredPane {
     
     @Override
     public void paint(Graphics g) {
-        for (int j = 0; j < elements.height(); j++){
-            for (int i = 0; i < elements.width(); i++){
+        for (int j = 0; j < envLabels.height(); j++){
+            for (int i = 0; i < envLabels.width(); i++){
                 // Erase previous frame.
-                elements.get(i, j).setIcon(null);
+                envLabels.get(i, j).setIcon(null);
                 
                 // Draw food.
                 for (Point food : foodPositions)
-                    if (i == food.x && j == food.y) elements.get(i, j).setIcon(foodIcon);
+                    if (i == food.x && j == food.y) envLabels.get(i, j).setIcon(foodIcon);
                 
                 // Draw agent.
-                if (i == agent.getPosX() && j == agent.getPosY()) elements.get(i, j).setIcon(agentIcon);
+                if (i == agent.getPosX() && j == agent.getPosY()) envLabels.get(i, j).setIcon(agentIcon);
             }
         }
         super.paint(g);
@@ -149,7 +162,7 @@ public class EnvironmentPanel extends JLayeredPane {
     }
 
     public Matrix<EnvironmentLabel> getElements() {
-        return elements;
+        return envLabels;
     }
 
     public ArrayList<Point> getFoodPositions() {

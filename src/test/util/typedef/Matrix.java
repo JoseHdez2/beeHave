@@ -1,5 +1,11 @@
 package test.util.typedef;
 
+/**
+ * 
+ * @author jose
+ *
+ * Class that models a static-size matrix with elements of type T.
+ */
 public class Matrix<T> {
     
     T[][] data;
@@ -9,34 +15,34 @@ public class Matrix<T> {
     }
     
     /**
-     * Nota: Se empieza a contar desde cero.
-     * @param x Número de columna(posición horizontal).
-     * @param y Número de fila (posición vertical).
-     * @return Elemento en la posición x,y.
+     * Note: Zeroth notation, from upper left.
+     * @param x Column number (horizontal offset)
+     * @param y Row number (vertical offset)
+     * @return Element in position x,y.
      */
     public T get(int x, int y){
         return data[y][x];
     }
     
     /**
-     * Nota: Se empieza a contar desde cero.
-     * @param x Número de columna(posición horizontal).
-     * @param y Número de fila (posición vertical).
-     * @param value Elemento a escribir en la posición x,y.
+     * Note: Zeroth notation, from upper left.
+     * @param x Column number (horizontal offset)
+     * @param y Row number (vertical offset)
+     * @param value Element to write into position x,y.
      */
     public void set(int x, int y, T value){
         data[y][x] = value;
     }
     
     /**
-     * @return El número de columnas en esta matriz.
+     * @return The matrix's column number // TODO: other way around?
      */
     public int width(){
         return data.length;
     }
     
     /**
-     * @return El número de filas en esta matriz.
+     * @return The matrix's row number // TODO: other way around?
      */
     public int height(){
         return data[0].length;
