@@ -7,10 +7,13 @@ public class Hive {
 	private static int ZERO = 0;
 	private Point pos;
 	private ArrayList<Agent> beesInside;
+	private int pollenOnHive;
 	
 	public Hive() {
 		setPos(ZERO, ZERO);
 		setBeesInside(null);
+		setPollenOnHive(ZERO);
+		
 	}
 	
 	
@@ -45,6 +48,24 @@ public class Hive {
 			return;
 		}
 		this.beesInside = beesInside;
+	}
+
+
+
+	/**
+	 * @return the pollenOnHive
+	 */
+	public int getPollenOnHive() {
+		return pollenOnHive;
+	}
+
+
+
+	/**
+	 * @param pollenOnHive the pollenOnHive to set
+	 */
+	public void setPollenOnHive(int pollenToStore) {
+		this.pollenOnHive += pollenToStore;
 	}
 
 }
