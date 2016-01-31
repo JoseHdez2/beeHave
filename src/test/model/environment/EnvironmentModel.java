@@ -21,7 +21,7 @@ import test.util.typedef.Position;
  */
 public class EnvironmentModel {
 
-    enum Terrain {
+    public enum Terrain {
       GRASS,
       SOIL
     };
@@ -46,8 +46,8 @@ public class EnvironmentModel {
         for (int j = 0; j < terrain.height(); j++){
             for (int i = 0; i < terrain.width(); i++){
                 switch(RandomNum.randInt(0, 1)){
-                case 0: terrain.set(i, j, Terrain.GRASS);
-                case 1: terrain.set(i, j, Terrain.SOIL);
+                case 0: terrain.set(i, j, Terrain.GRASS); break;
+                case 1: terrain.set(i, j, Terrain.SOIL); break;
                 }
             }
         }

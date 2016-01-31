@@ -20,6 +20,7 @@ public class EnvironmentLabel extends JLabel{
     }
     
     public EnvironmentLabel(int i, int j){
+       this();
        this.x = i;
        this.y = j;
     }

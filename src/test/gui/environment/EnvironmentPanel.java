@@ -3,17 +3,13 @@ package test.gui.environment;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.Random;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
 
+import test.gui.util.ColorHelper;
 import test.model.entity.Entity;
-import test.model.entity.EntityType;
 import test.model.entity.EntityTypeMapper;
 import test.model.entity.agent.Agent;
 import test.model.entity.object.EnvObject;
@@ -93,6 +89,11 @@ public class EnvironmentPanel extends JLayeredPane {
      */
     private Color tileColor(int i, int j){
         Color color = (i+j)%2 == 0 ? GRAY_DARK : GRAY_LITE;
+        switch(env.getTerrain().get(i, j)){
+        case GRASS: color = ColorHelper.offsetColor(color, 0, 20, 0); break;
+        case SOIL: color = ColorHelper.mean(color, Color.RED); break;
+        default: break; // TODO: Shouldn't happen. Throw exception? 
+        }
         // TODO: Take terrain into account?
         return color;
     }

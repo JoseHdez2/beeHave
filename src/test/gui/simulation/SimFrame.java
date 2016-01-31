@@ -16,11 +16,10 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
 
-import test.model.entity.Entity;
-import test.model.movement.RandomMove;
 import test.gui.environment.EnvironmentPanel;
 import test.gui.i18n.GUI_Helper;
 import test.gui.i18n.I18n;
+import test.model.entity.Entity;
 
 public class SimFrame extends JFrame {
     
