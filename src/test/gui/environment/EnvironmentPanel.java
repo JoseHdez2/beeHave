@@ -189,11 +189,11 @@ public class EnvironmentPanel extends JLayeredPane {
                 // Erase previous frame.
                 envLabels.get(i, j).setIcon(null);
                 
-                for (Agent a : env.getAgents())
-                    if (new Position(i,j).equals(a.getPos())) envLabels.get(i, j).setIcon(a.getIcon());
-                
                 for (EnvObject o : env.getObjects())
                     if (new Position(i,j).equals(o.getPos())) envLabels.get(i, j).setIcon(o.getIcon());
+                
+                for (Agent a : env.getAgents())
+                    if (new Position(i,j).equals(a.getPos())) envLabels.get(i, j).setIcon(a.getIcon());
             }
         }
         super.paint(g);

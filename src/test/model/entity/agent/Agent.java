@@ -1,7 +1,7 @@
 package test.model.entity.agent;
 
-import test.gui.environment.EnvironmentPanel;
 import test.model.entity.Entity;
+import test.model.environment.EnvironmentModel;
 import test.util.typedef.Position;
 
 public abstract class Agent extends Entity{
@@ -18,5 +18,5 @@ public abstract class Agent extends Entity{
      * Act out a step of the simulation (move, eat, etc.).
      * The current state of the Environment is needed, so we pass the Environment.
      */
-    abstract public void simulationStep(EnvironmentPanel environment);
+    abstract public void simulationStep(EnvironmentModel environment);
 }

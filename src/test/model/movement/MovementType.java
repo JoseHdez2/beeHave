@@ -3,8 +3,8 @@
  */
 package test.model.movement;
 
-import test.gui.environment.EnvironmentPanel;
 import test.model.entity.agent.Agent;
+import test.model.environment.EnvironmentModel;
 
 /**
  * @author eebritos
@@ -23,5 +23,5 @@ public interface MovementType {
 	/**
 	 * Decide the next step for the agent and execute it.
 	 */
-	moveDirection nextMove(Agent agent, EnvironmentPanel panel);
+	moveDirection nextMove(Agent agent, EnvironmentModel env);
 }

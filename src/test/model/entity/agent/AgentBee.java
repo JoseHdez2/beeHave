@@ -2,6 +2,7 @@ package test.model.entity.agent;
 
 import test.gui.environment.EnvironmentPanel;
 import test.model.entity.Entity;
+import test.model.environment.EnvironmentModel;
 import test.model.movement.MovementType;
 import test.model.movement.RandomMove;
 import test.util.typedef.Position;
@@ -33,11 +34,9 @@ public class AgentBee extends Agent {
     
     private BehaviourType behaviour;    // Current behavior of the AgentBee.
     public MovementType pathFinding;    // Current pathfinding algorithm the AgentBee is using.
-    public Position hivePos;    // Position
+    public Position hivePos;    // Position of the bee's hive.
     
-    
-    
-    public void moveAgent(EnvironmentPanel panel){
+    public void moveAgent(EnvironmentModel env){
         
         if (getBehaviour() == BehaviourType.SCOUT) {
             pathFinding = new RandomMove();
@@ -54,7 +53,7 @@ public class AgentBee extends Agent {
         */
         
         // The pathfinding module decides the next step and executes it.
-        pathFinding.nextMove(this, panel);
+        pathFinding.nextMove(this, env);
     }
     
     
@@ -81,7 +80,7 @@ public class AgentBee extends Agent {
     }
 
     @Override
-    public void simulationStep(EnvironmentPanel environment) {
+    public void simulationStep(EnvironmentModel environment) {
         moveAgent(environment);
     }
 }

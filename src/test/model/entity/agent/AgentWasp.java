@@ -1,7 +1,7 @@
 package test.model.entity.agent;
 
-import test.gui.environment.EnvironmentPanel;
 import test.model.entity.Entity;
+import test.model.environment.EnvironmentModel;
 import test.util.typedef.Position;
 
 public class AgentWasp extends Agent {
@@ -12,7 +12,7 @@ public class AgentWasp extends Agent {
     }
 
     @Override
-    public void simulationStep(EnvironmentPanel environment) {
+    public void simulationStep(EnvironmentModel environment) {
         // TODO Auto-generated method stub
         
     }

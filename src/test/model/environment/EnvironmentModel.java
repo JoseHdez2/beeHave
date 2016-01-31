@@ -55,11 +55,14 @@ public class EnvironmentModel {
         // Two ways of doing the same: creating an AgentBee into the environment.
         agents.add((AgentBee)EntityTypeMapper.createEntity(Entity.type.AGENT_BEE, randomPosition()));
         EntityTypeMapper.createEntityInto(this, Entity.type.AGENT_BEE, randomPosition());
+        
+        for(int i = 0; i < 5; i++)
+            EntityTypeMapper.createEntityInto(this, Entity.type.OBJECT_FLOWER, randomPosition());
     }
     
     public void simulationStep(){
         for(Agent a : agents){
-//            a.simulationStep(this);
+            a.simulationStep(this);
         }
     }
     
