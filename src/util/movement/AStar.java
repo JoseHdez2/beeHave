@@ -25,54 +25,54 @@ public class AStar {
 
 
 	public AStar(int width, int height, Point start, Point goal) {	
-		setMatrixHeight(height);
-		setMatrixWidth(width);
-		setClosedSet(new ArrayList<Point>());
-		setOpenSet(new ArrayList<Point>());
-		setCameFrom(new HashMap<Point, Point>());
-		setCurrent(new Point());
-		getOpenSet().add(start);
-		setgScore(new DefaultHashMap<Point, Integer>(INFINITY,  getMatrixHeight(), getMatrixWidth()));
-		setfScore(new DefaultHashMap<Point, Integer>(INFINITY, getMatrixHeight(), getMatrixWidth()));
-		getgScore().put(start, ZERO);
-		getfScore().put(start, Manhattan.getDistance((int) start.getX(),(int) start.getY(),(int) goal.getX(),(int) goal.getY()));
+		matrixHeight = height;
+		matrixWidth = width;
+		closedSet = new ArrayList<Point>();
+		openSet = new ArrayList<Point>();
+		cameFrom = new HashMap<Point, Point>();
+		current = new Point();
+		openSet.add(start);
+		gScore = new DefaultHashMap<Point, Integer>(INFINITY);
+		fScore = new DefaultHashMap<Point, Integer>(INFINITY);
+		gScore.put(start, ZERO);
+		fScore.put(start, Manhattan.getDistance((int) start.getX(),(int) start.getY(),(int) goal.getX(),(int) goal.getY()));
 	}
 	
 	public ArrayList<Point> run(Point start, Point goal){
 		int min = INFINITY;
-		while (!getOpenSet().isEmpty()) {
+		while (!openSet.isEmpty()) {
 			System.out.println("Bucleeeee");
 			for (Point point : openSet) {
-				if (getfScore().get(point) <= min) {
-					min = (int) getfScore().get(point);
-					setCurrent(point);
+				if (fScore.get(point) <= min) {
+					min = (int) fScore.get(point);
+					current = point;
 				}
 			}
 			if (current.equals(goal)) {
-				return reconstructPath(getCameFrom(), goal);
+				return reconstructPath(cameFrom, goal);
 				
 			}
-			getOpenSet().remove(getCurrent());
-			getClosedSet().add(getCurrent());
+			openSet.remove(current);
+			closedSet.add(current);
 			ArrayList<Point> neighborsCurrent = getNeighbors(current);
 			
 			outerloop:
 			for (Point neighbor : neighborsCurrent) {
-				if (getClosedSet().contains(neighbor)) {
+				if (closedSet.contains(neighbor)) {
 					break outerloop;
 				}
-				int tentativegScore = (int) getgScore().get(getCurrent()) 
-						+ Manhattan.getDistance((int) getCurrent().getX(), (int) getCurrent().getY(), (int)neighbor.getX(), (int)neighbor.getY());
-				if (!getOpenSet().contains(neighbor)) {
-					getOpenSet().add(neighbor);
+				int tentativegScore = (int) gScore.get(current) 
+						+ Manhattan.getDistance((int) current.getX(), (int) current.getY(), (int)neighbor.getX(), (int)neighbor.getY());
+				if (!openSet.contains(neighbor)) {
+					openSet.add(neighbor);
 				}
-				else if (tentativegScore >= getgScore().get(neighbor)) {
+				else if (tentativegScore >= gScore.get(neighbor)) {
 					break outerloop;
 				}
 				
-				getCameFrom().put(neighbor, getCurrent());
-				getgScore().put(neighbor, tentativegScore);
-				getfScore().put(neighbor, getgScore().get(neighbor) + Manhattan.getDistance((int) neighbor.getX(),(int) neighbor.getY(),(int) goal.getX(),(int) goal.getY()));
+				cameFrom.put(neighbor, current);
+				gScore.put(neighbor, tentativegScore);
+				gScore.put(neighbor, gScore.get(neighbor) + Manhattan.getDistance((int) neighbor.getX(),(int) neighbor.getY(),(int) goal.getX(),(int) goal.getY()));
 			}
 		}
 		return null;
@@ -114,118 +114,4 @@ public class AStar {
 		aux.add(new Point((int) current2.getX(),(int)current2.getY() - 1));
 		return aux;
 	}
-
-	/**
-	 * @return the closedSet
-	 */
-	public ArrayList<Point> getClosedSet() {
-		return closedSet;
-	}
-
-
-	/**
-	 * @return the openSet
-	 */
-	public ArrayList<Point> getOpenSet() {
-		return openSet;
-	}
-
-	/**
-	 * @return the cameFrom
-	 */
-	public HashMap<Point, Point> getCameFrom() {
-		return cameFrom;
-	}
-
-	/**
-	 * @return the gScore
-	 */
-	public DefaultHashMap<Point, Integer> getgScore() {
-		return gScore;
-	}
-
-	/**
-	 * @param gScore the gScore to set
-	 */
-	public void setgScore(DefaultHashMap<Point, Integer> gScore) {
-		this.gScore = gScore;
-	}
-
-	/**
-	 * @return the fScore
-	 */
-	public DefaultHashMap<Point, Integer> getfScore() {
-		return fScore;
-	}
-
-	/**
-	 * @param fScore the fScore to set
-	 */
-	public void setfScore(DefaultHashMap<Point, Integer> fScore) {
-		this.fScore = fScore;
-	}
-
-	/**
-	 * @param closedSet the closedSet to set
-	 */
-	public void setClosedSet(ArrayList<Point> closedSet) {
-		this.closedSet = closedSet;
-	}
-
-	/**
-	 * @param openSet the openSet to set
-	 */
-	public void setOpenSet(ArrayList<Point> openSet) {
-		this.openSet = openSet;
-	}
-
-	/**
-	 * @param cameFrom the cameFrom to set
-	 */
-	public void setCameFrom(HashMap<Point, Point> cameFrom) {
-		this.cameFrom = cameFrom;
-	}
-
-	/**
-	 * @return the current
-	 */
-	public Point getCurrent() {
-		return current;
-	}
-
-	/**
-	 * @param current the current to set
-	 */
-	public void setCurrent(Point current) {
-		this.current = current;
-	}
-
-	/**
-	 * @return the matrixWidth
-	 */
-	public int getMatrixWidth() {
-		return matrixWidth;
-	}
-
-	/**
-	 * @param matrixWidth the matrixWidth to set
-	 */
-	public void setMatrixWidth(int matrixWidth) {
-		this.matrixWidth = matrixWidth;
-	}
-
-	/**
-	 * @return the matrixHeight
-	 */
-	public int getMatrixHeight() {
-		return matrixHeight;
-	}
-
-	/**
-	 * @param matrixHeight the matrixHeight to set
-	 */
-	public void setMatrixHeight(int matrixHeight) {
-		this.matrixHeight = matrixHeight;
-	}
-
 }

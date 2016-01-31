@@ -4,7 +4,7 @@
 package model.entity.object;
 
 import model.entity.Entity;
-import model.movement.RandomNum;
+import util.math.RandomNum;
 import util.typedef.Position;
 
 /**
