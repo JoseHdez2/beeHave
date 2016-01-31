@@ -35,6 +35,17 @@ public abstract class Entity {
     }
     
     /*
+     * Handmade getters and setters.
+     */
+    
+    public Integer getPosX() {
+        return pos.getX();
+    }
+    public Integer getPosY() {
+        return pos.getY();
+    }
+    
+    /*
      * Getters and setters.
      */
 

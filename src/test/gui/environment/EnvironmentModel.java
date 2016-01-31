@@ -32,11 +32,12 @@ public class EnvironmentModel {
     }
     
     public EnvironmentModel(int width, int height) {
+        this();
         this.width = width;
         this.height = height;
     }
     
-    public simulationStep(){
+    public void simulationStep(){
         for(Agent a : agents){
 //            a.simulationStep(this);
         }
@@ -69,5 +70,17 @@ public class EnvironmentModel {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public Matrix<EnvironmentModel.terrainType> getTerrain() {
+        return terrain;
+    }
+
+    public ArrayList<Agent> getAgents() {
+        return agents;
+    }
+
+    public ArrayList<EnvObject> getObjects() {
+        return objects;
     }
 }

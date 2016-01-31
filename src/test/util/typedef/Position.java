@@ -30,5 +30,20 @@ public class Position {
 	public Integer getY(){
         return (int)p.getY();
     }
-
+	
+    /*
+     * Equals and hashCode.
+     */
+    
+    public boolean equals(Object ob){
+        if (ob == null) return false;
+        if (ob.getClass() != getClass()) return false;
+        Position other = (Position)ob;
+        if (p != other.p) return false;
+        return true;
+    }
+    
+    public int hashCode() {
+        return p.hashCode();
+    }
 }

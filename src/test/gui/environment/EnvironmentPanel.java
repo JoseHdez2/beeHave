@@ -15,7 +15,9 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import test.model.entity.Entity;
+import test.model.entity.agent.Agent;
 import test.model.entity.agent.AgentBee;
+import test.model.entity.object.EnvObject;
 import test.util.typedef.Matrix;
 import test.util.typedef.Position;
 
@@ -82,11 +84,12 @@ public class EnvironmentPanel extends JLayeredPane {
                 add(envLabels.get(i, j));  // Add into background layer
             }
         }
-        
+        /*
         Random rand = new Random();
         agent.setPos(new Position(rand.nextInt(x), rand.nextInt(y)));
         generateFoodPortion();
         generateFoodPortion();
+        */
         this.repaint();
     }
     
@@ -95,7 +98,7 @@ public class EnvironmentPanel extends JLayeredPane {
      */
     public void generateFoodPortion(){
         Random rand = new Random();
-        foodPositions.add(new Point(rand.nextInt(x), rand.nextInt(y)));
+//        foodPositions.add(new Point(rand.nextInt(x), rand.nextInt(y)));
     }
     
     /**
@@ -146,12 +149,21 @@ public class EnvironmentPanel extends JLayeredPane {
                 // Erase previous frame.
                 envLabels.get(i, j).setIcon(null);
                 
+                for (Agent a : env.getAgents())
+                    if (new Position(i,j) == a.getPos()) envLabels.get(i, j).setIcon(a.getIcon());
+//                    if (i == a.getPosX() && j == agent.getPosY()) envLabels.get(i, j).setIcon(a.getIcon());
+                
+                for (EnvObject o : env.getObjects())
+                    if (i == o.getPos().getX() && j == agent.getPos().getY()) envLabels.get(i, j).setIcon(o.getIcon());
+                
+                /*
                 // Draw food.
                 for (Point food : foodPositions)
                     if (i == food.x && j == food.y) envLabels.get(i, j).setIcon(foodIcon);
                 
                 // Draw agent.
                 if (i == agent.getPosX() && j == agent.getPosY()) envLabels.get(i, j).setIcon(agentIcon);
+                */
             }
         }
         super.paint(g);

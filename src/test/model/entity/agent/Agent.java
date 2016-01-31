@@ -19,15 +19,4 @@ public abstract class Agent extends Entity{
      * The current state of the Environment is needed, so we pass the Environment.
      */
     abstract public void simulationStep(EnvironmentPanel environment);
-
-    /*
-     * Handmade getters and setters.
-     */
-    
-    public Integer getPosX() {
-        return getPos().getX();
-    }
-    public Integer getPosY() {
-        return getPos().getY();
-    }
 }
