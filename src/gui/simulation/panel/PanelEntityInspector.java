@@ -1,5 +1,7 @@
 package gui.simulation.panel;
 
+import java.awt.GridLayout;
+
 import javax.swing.JLabel;
 
 import model.entity.Entity;
@@ -8,6 +10,7 @@ import model.entity.agent.AgentBee;
 public class PanelEntityInspector extends SimPanel {
 
     PanelEntityInspector(Entity ent){
+        setLayout(new GridLayout(0,2));
 
         add(new JLabel("Name:"));
         add(new JLabel(ent.getName())); 

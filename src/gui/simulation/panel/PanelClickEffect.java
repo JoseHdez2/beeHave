@@ -11,9 +11,9 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.text.html.parser.Entity;
 
 import gui.environment.EnvironmentPanel;
+import model.entity.Entity;
 import model.entity.Entity.type;
 import model.entity.agent.Agent;
 import model.entity.object.EnvObject;
@@ -23,10 +23,11 @@ public class PanelClickEffect extends SimPanel {
     JList listAgents; // List of all existing agents in environment, for moving/editing.
     JList listObjects; // List of all existing objects in environment, for moving/editing.
     JList listEntityTypes; // List of all existing entity types. For creation.
+    SimPanel panelInspector; // Inspector panel for inspecting.
     
     public PanelClickEffect(EnvironmentPanel envPanel){
         super("Hacer algo");
-        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
         ActionListener clickEffectButtonListener = new ActionListener(){
             @Override
@@ -44,10 +45,14 @@ public class PanelClickEffect extends SimPanel {
         radioButtons.put("ClickEffect.Move", KeyEvent.VK_M);
         
         panelClickEffect.addNewJRadioButtonGroup(radioButtons, clickEffectButtonListener);
-        add(panelClickEffect);
         
-        SimPanel panelEntityList = new SimPanel();
+        
+        SimPanel panelEntityList = new SimPanel("Mover y crear");
         this.add(panelEntityList);
+        
+        SimPanel panelMoveMode = new SimPanel("ClickEffect.Move");
+        
+        panelEntityList.add(panelClickEffect);
         
         updateLists(envPanel);
 
@@ -63,7 +68,7 @@ public class PanelClickEffect extends SimPanel {
             
         };
         
-        listEntityTypes = new JList(model.entity.Entity.type.values());
+        listEntityTypes = new JList(Entity.type.values());
         
         listAgents.addListSelectionListener(listener);
         listObjects.addListSelectionListener(listener);
@@ -72,6 +77,9 @@ public class PanelClickEffect extends SimPanel {
         panelEntityList.add(listAgents);
         panelEntityList.add(listObjects);
         panelEntityList.add(listEntityTypes);
+        
+        panelInspector = new PanelEntityInspector(envPanel.getEnv().getAgents().get(0));
+        this.add(panelInspector);
     }
     
     private JList initializeList(JList list){
@@ -132,9 +140,13 @@ public class PanelClickEffect extends SimPanel {
         if (source == listAgents){
             envPanel.setClickEffectPointerAgent(listAgents.getSelectedIndex());
             envPanel.setAgent(true);
+            panelInspector = 
+                    new PanelEntityInspector(envPanel.getEnv().getAgents().get(listAgents.getSelectedIndex()));
         } else if (source == listObjects){
-            envPanel.setClickEffectPointerAgent(listAgents.getSelectedIndex());
+            envPanel.setClickEffectPointerAgent(listObjects.getSelectedIndex());
             envPanel.setAgent(false);
+            panelInspector = 
+                    new PanelEntityInspector(envPanel.getEnv().getObjects().get(listObjects.getSelectedIndex()));
         } else if (source == listEntityTypes){
             envPanel.setClickEffectEntity((type)listEntityTypes.getSelectedValue());
         }
