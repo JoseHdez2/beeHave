@@ -11,36 +11,28 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.html.parser.Entity;
 
 import gui.environment.EnvironmentPanel;
+import model.entity.Entity.type;
 import model.entity.agent.Agent;
 import model.entity.object.EnvObject;
 
 public class PanelClickEffect extends SimPanel {
     
-    JList listAgents;
-    JList listObjects;
+    JList listAgents; // List of all existing agents in environment, for moving/editing.
+    JList listObjects; // List of all existing objects in environment, for moving/editing.
+    JList listEntityTypes; // List of all existing entity types. For creation.
     
     public PanelClickEffect(EnvironmentPanel envPanel){
         super("Hacer algo");
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         
         ActionListener clickEffectButtonListener = new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                switch(e.getActionCommand()){
-                case "ClickEffect.Create":
-                    envPanel.setClickEffect(EnvironmentPanel.ClickEffect.CREATE);
-                    // listEntity.setEnabled(true);
-                    listAgents.setEnabled(false);
-                    listObjects.setEnabled(false);
-                    break;
-                case "ClickEffect.Move":
-                    envPanel.setClickEffect(EnvironmentPanel.ClickEffect.MOVE);
-                    listAgents.setEnabled(true);
-                    listObjects.setEnabled(true);
-                    break;
-                }
+                // Update entity lists.
+                updateFromRadioButtons(envPanel, e.getActionCommand());
             }  
         };
         
@@ -66,25 +58,20 @@ public class PanelClickEffect extends SimPanel {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-//                updateAgentList(envPanel);
-//                updateObjectList(envPanel);
-                if(e.getSource() == listAgents){
-                    envPanel.setClickEffectPointerAgent(listAgents.getSelectedIndex());
-                    envPanel.setAgent(true);
-                }
-                else if (e.getSource() == listObjects){
-                    envPanel.setClickEffectPointerAgent(listAgents.getSelectedIndex());
-                    envPanel.setAgent(false);
-                }
+                updateFromLists(envPanel, e.getSource());
             }
             
         };
         
+        listEntityTypes = new JList(model.entity.Entity.type.values());
+        
         listAgents.addListSelectionListener(listener);
+        listObjects.addListSelectionListener(listener);
+        listEntityTypes.addListSelectionListener(listener);
         
         panelEntityList.add(listAgents);
         panelEntityList.add(listObjects);
-        
+        panelEntityList.add(listEntityTypes);
     }
     
     private JList initializeList(JList list){
@@ -94,7 +81,14 @@ public class PanelClickEffect extends SimPanel {
         return list;
     }
     
+    /**
+     * Update lists contents to match the EnvironmentModel's entities.
+     * @param envPanel
+     */
     public void updateLists(EnvironmentPanel envPanel){
+        
+        // Re-read entities from EnvironmentPanel. 
+        
         ArrayList<Agent> a = envPanel.getEnv().getAgents();
         Agent[] agents = envPanel.getEnv().getAgents().toArray(new Agent[a.size()]);
           
@@ -104,5 +98,45 @@ public class PanelClickEffect extends SimPanel {
         EnvObject[] objects = envPanel.getEnv().getObjects().toArray(new EnvObject[o.size()]);
           
         listObjects = new JList(objects);
+        this.repaint();
+    }
+    
+    /**
+     * Enable or disable lists/panels depending on clickEffect action command, 
+     * plus modify lists contents as per {@link PanelClickEffect#updateLists(EnvironmentPanel)}.
+     * @param envPanel
+     * @param actionCommand
+     */
+    private void updateFromRadioButtons(EnvironmentPanel envPanel, String actionCommand){
+        updateLists(envPanel);
+        
+        switch(actionCommand){
+        case "ClickEffect.Create":
+            System.out.println("create mode");
+            listEntityTypes.setVisible(true);
+            listAgents.setVisible(false);
+            listObjects.setVisible(false);
+            envPanel.setClickEffect(EnvironmentPanel.ClickEffect.CREATE);
+            break;
+        case "ClickEffect.Move":
+            System.out.println("move mode");
+            listEntityTypes.setVisible(true);
+            listAgents.setVisible(false);
+            listObjects.setVisible(false);
+            envPanel.setClickEffect(EnvironmentPanel.ClickEffect.MOVE);
+            break;
+        }
+    }
+    
+    private void updateFromLists(EnvironmentPanel envPanel, Object source){
+        if (source == listAgents){
+            envPanel.setClickEffectPointerAgent(listAgents.getSelectedIndex());
+            envPanel.setAgent(true);
+        } else if (source == listObjects){
+            envPanel.setClickEffectPointerAgent(listAgents.getSelectedIndex());
+            envPanel.setAgent(false);
+        } else if (source == listEntityTypes){
+            envPanel.setClickEffectEntity((type)listEntityTypes.getSelectedValue());
+        }
     }
 }
