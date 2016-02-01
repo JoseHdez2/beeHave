@@ -10,6 +10,7 @@ import model.entity.agent.AgentBee;
 public class PanelEntityInspector extends SimPanel {
 
     PanelEntityInspector(Entity ent){
+        super("Inspector");
         setLayout(new GridLayout(0,2));
 
         add(new JLabel("Name:"));

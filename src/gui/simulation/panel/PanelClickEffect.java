@@ -13,6 +13,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import gui.environment.EnvironmentPanel;
+import gui.i18n.I18n;
 import model.entity.Entity;
 import model.entity.Entity.type;
 import model.entity.agent.Agent;
@@ -23,11 +24,12 @@ public class PanelClickEffect extends SimPanel {
     JList listAgents; // List of all existing agents in environment, for moving/editing.
     JList listObjects; // List of all existing objects in environment, for moving/editing.
     JList listEntityTypes; // List of all existing entity types. For creation.
+    SimPanel panelMoveMode;
+    SimPanel panelCreateMode;
     SimPanel panelInspector; // Inspector panel for inspecting.
     
     public PanelClickEffect(EnvironmentPanel envPanel){
         super("Hacer algo");
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
         ActionListener clickEffectButtonListener = new ActionListener(){
             @Override
@@ -46,13 +48,17 @@ public class PanelClickEffect extends SimPanel {
         
         panelClickEffect.addNewJRadioButtonGroup(radioButtons, clickEffectButtonListener);
         
+        // "Orden"
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        SimPanel panelUp = new SimPanel();
+        this.add(panelUp);
+        panelUp.add(panelClickEffect);
+        SimPanel panelUpRight = new SimPanel();
+        panelUp.add(panelUpRight);
         
-        SimPanel panelEntityList = new SimPanel("Mover y crear");
-        this.add(panelEntityList);
         
-        SimPanel panelMoveMode = new SimPanel("ClickEffect.Move");
-        
-        panelEntityList.add(panelClickEffect);
+        panelMoveMode = new SimPanel(I18n.getString("ClickEffect.Move"));
+        panelUpRight.add(panelMoveMode);
         
         updateLists(envPanel);
 
@@ -74,9 +80,12 @@ public class PanelClickEffect extends SimPanel {
         listObjects.addListSelectionListener(listener);
         listEntityTypes.addListSelectionListener(listener);
         
-        panelEntityList.add(listAgents);
-        panelEntityList.add(listObjects);
-        panelEntityList.add(listEntityTypes);
+        panelMoveMode.add(listAgents);
+        panelMoveMode.add(listObjects);
+        
+        panelCreateMode = new SimPanel(I18n.getString("ClickEffect.Create"));
+        panelUpRight.add(panelCreateMode);
+        panelCreateMode.add(listEntityTypes);
         
         panelInspector = new PanelEntityInspector(envPanel.getEnv().getAgents().get(0));
         this.add(panelInspector);

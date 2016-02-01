@@ -27,7 +27,7 @@ public class SimPanel extends JPanel{
     private static final long serialVersionUID = 1L;
 
     public SimPanel(){
-        this.setBorder(new TitledBorder(""));
+//        this.setBorder(new TitledBorder(""));
     }
     
     public SimPanel(String title){
