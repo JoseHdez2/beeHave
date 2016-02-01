@@ -63,7 +63,7 @@ public class Hive {
 	 * @param pollenInHive the pollenInHive to set
 	 */
 	public void setPollenInHive(int pollenToStore) {
-		this.pollenInHive += pollenToStore;
+		this.pollenInHive = pollenInHive + pollenToStore;
 	}
 
 }

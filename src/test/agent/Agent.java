@@ -86,8 +86,11 @@ public class Agent {
 	}
 	
 	public void unloadPollen(Hive hive){
-		hive.setPollenInHive(hive.getPollenInHive() + getPollenCarried());
-		setPollenCarried(ZERO);
+		if (getPollenCarried() > 0) {
+			hive.setPollenInHive(getPollenCarried());
+			setPollenCarried(ZERO);
+		}
+
 	}
 	
 	

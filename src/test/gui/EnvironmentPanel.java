@@ -59,7 +59,7 @@ public class EnvironmentPanel extends JPanel {
 			agent.setHivePos(getHive().getPos());
 		}
 		
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 2; i++) {
     		generateFoodPortion();
 		}
 
@@ -340,14 +340,19 @@ public class EnvironmentPanel extends JPanel {
 	public void checkBeeFlower(){
 		for (Agent agent : getAllAgents()) {
 			for (Flower flower : getFoodPositions()) {
-				if (flower.getFlowerPosition().equals(agent.getPos()) && agent.getBehaviour() != Agent.behaviourType.RETURN && flower.getPollen() != 0) {
-					agent.getPollen(flower);
-					agent.setBehaviour(Agent.behaviourType.RETURN);
-					getSearchAlgorithm().knowledgeInit(agent.getPos(), getHive().getPos());
-					agent.setPathToHive(getSearchAlgorithm().run(agent.getPos(), getHive().getPos()));
-					break;
+				if (flower.getFlowerPosition().equals(agent.getPos()) && agent.getBehaviour() != Agent.behaviourType.RETURN) {
+					if (flower.getPollen() != 0) {
+						agent.getPollen(flower);
+						agent.setBehaviour(Agent.behaviourType.RETURN);
+						getSearchAlgorithm().knowledgeInit(agent.getPos(), getHive().getPos());
+						agent.setPathToHive(getSearchAlgorithm().run(agent.getPos(), getHive().getPos()));
+						break;
+					}
+					else {
+						agent.setBehaviour(Agent.behaviourType.SCOUT);
+						break;
+					}	
 				}
-				
 			}
 			if (agent.getBestFlower().getPollen() == 0 && (agent.getBehaviour().equals(Agent.behaviourType.IDLE) || agent.getBehaviour().equals(Agent.behaviourType.GO_TO_POINT) &&
 					getHive().getPos().equals(agent.getPos()))) {
@@ -361,7 +366,7 @@ public class EnvironmentPanel extends JPanel {
 				break;
 			}
 			
-			if (getHive().getPos().equals(agent.getPos()) && !(agent.getBehaviour().equals(Agent.behaviourType.SCOUT) ||  agent.getBehaviour().equals(Agent.behaviourType.GO_TO_POINT))) {
+			if (getHive().getPos().equals(agent.getPos()) && (agent.getBehaviour().equals(Agent.behaviourType.RETURN))) {
 				agent.setBehaviour(Agent.behaviourType.IDLE);
 				if (!getHive().getBeesInside().contains(agent)) {
 					getHive().getBeesInside().add(agent);
