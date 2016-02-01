@@ -23,7 +23,7 @@ public class EnvironmentPanel extends JPanel {
     /**
 	 * 
 	 */
-	private static Integer DEFAULT_BEES = 2;
+	private static Integer DEFAULT_BEES = 25;
 	private static final long serialVersionUID = 1L;
 	private int x, y;
     private Matrix<EnvironmentLabel> elements;
@@ -59,7 +59,7 @@ public class EnvironmentPanel extends JPanel {
 			agent.setHivePos(getHive().getPos());
 		}
 		
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 50; i++) {
     		generateFoodPortion();
 		}
 
@@ -353,6 +353,9 @@ public class EnvironmentPanel extends JPanel {
 						break;
 					}	
 				}
+			}
+			if (agent.getBehaviour().equals(Agent.behaviourType.IDLE)) {
+				agent.communicate(getHive());
 			}
 			if (agent.getBestFlower().getPollen() == 0 && (agent.getBehaviour().equals(Agent.behaviourType.IDLE) || agent.getBehaviour().equals(Agent.behaviourType.GO_TO_POINT) &&
 					getHive().getPos().equals(agent.getPos()))) {

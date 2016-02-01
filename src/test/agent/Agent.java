@@ -67,7 +67,6 @@ public class Agent {
 	    // The pathfinding module decides the next step and executes it.
 		System.out.println(this.toString());
 		if (getBehaviour() == behaviourType.RETURN) {
-			
 			System.out.println("return");		
 			returnToHive();
 		}
@@ -93,6 +92,16 @@ public class Agent {
 
 	}
 	
+	public void communicate(Hive hive){
+		
+		if (!hive.getBeesInside().isEmpty()) {
+			for ( Agent bees : hive.getBeesInside()) {
+				if (bees.getBestFlower().getPollen() > getBestFlower().getPollen()) {
+					setBestFlower(bees.getBestFlower());
+				}
+			}
+		}
+	}
 	
 	
 	public void returnToHive(){
