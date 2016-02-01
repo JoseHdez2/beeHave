@@ -25,7 +25,7 @@ public abstract class Entity {
     protected String name;  // Name that univocally identifies this entity in a simulation.
     
     // TODO: 'cleaner' but less optimal (we load the same icon multiple times). 
-    ImageIcon icon; // Image that represents this entity.
+    protected ImageIcon icon; // Image that represents this entity.
     
     /**
      * Constructor.

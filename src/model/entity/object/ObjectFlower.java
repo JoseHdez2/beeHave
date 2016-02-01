@@ -3,6 +3,8 @@
  */
 package model.entity.object;
 
+import javax.swing.ImageIcon;
+
 import model.entity.Entity;
 import util.math.RandomNum;
 import util.typedef.Position;
@@ -24,21 +26,24 @@ public class ObjectFlower extends EnvObject {
 	
     /**
      * Remove the pollen count required. Otherwise remove the maximum available.
-     * @param pollenToRemove the polenToRemove to set
+     * @param pollenToRemoveDesired the polenToRemove to set
      * @return the pollenToCarry
      */ 
-    public int removePollen(int pollenToRemove) {
+    public int removePollen(int pollenToRemoveDesired) {
 
+        int pollenToRemoveActual = pollenToRemoveDesired;
+        
         // Not enough pollen.
-        if (getPollen() < pollenToRemove){
-            int pollenToCarry = getPollen();
-            setPollen(ZERO);
-            return pollenToCarry;
+        if (getPollen() < pollenToRemoveDesired){
+            pollenToRemoveActual = getPollen();
         }
-        else {
-            setPollen(getPollen() - pollenToRemove);
-            return pollenToRemove;
-        }
+        
+        setPollen(getPollen() - pollenToRemoveActual);
+        
+        if (pollen <= ZERO)
+            this.icon = new ImageIcon("res/image/daisyDead.png");
+        
+        return pollenToRemoveActual;
     }
     
     /*

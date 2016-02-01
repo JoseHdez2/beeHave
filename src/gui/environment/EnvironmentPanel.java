@@ -183,8 +183,7 @@ public class EnvironmentPanel extends JLayeredPane {
      * Delegates/cascades into each of the agents in the environment.
      */
     public void simulationStep(){
-        for (Agent a : env.getAgents())
-             a.simulationStep(env);
+        env.simulationStep();
         repaint();  // Repaint to show changes.
     }
     
@@ -200,6 +199,10 @@ public class EnvironmentPanel extends JLayeredPane {
                 
                 for (Agent a : env.getAgents())
                     if (new Position(i,j).equals(a.getPos())) envLabels.get(i, j).setIcon(a.getIcon());
+                
+                // TODO show hive up front
+                EnvObject hive = env.getObjects().get(0);
+                if (new Position(i,j).equals(hive.getPos()))  envLabels.get(i, j).setIcon(hive.getIcon());
             }
         }
         super.paint(g);

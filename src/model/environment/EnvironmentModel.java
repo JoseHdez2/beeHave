@@ -58,9 +58,8 @@ public class EnvironmentModel {
     }
     
     public void simulationStep(){
-        for(Agent a : agents){
+        for(Agent a : agents)
             a.simulationStep(this);
-        }
         checkBeeFlower();
     }
     
@@ -72,7 +71,7 @@ public class EnvironmentModel {
     }
     
     // TODO
-    public void checkBeeFlower(){
+    private void checkBeeFlower(){
         for (Agent a : agents) {
             if (a.getEntityType() != Entity.type.AGENT_BEE) return;
             AgentBee agent = (AgentBee)a;

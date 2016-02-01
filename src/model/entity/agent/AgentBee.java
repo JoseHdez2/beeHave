@@ -61,8 +61,7 @@ public class AgentBee extends Agent{
     
     @Override
     public void simulationStep(EnvironmentModel environment) {
-        // TODO Auto-generated method stub
-        
+        moveAgent(environment);
     }
     
     public void getPollen(ObjectFlower flower){

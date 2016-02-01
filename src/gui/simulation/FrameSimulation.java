@@ -47,8 +47,10 @@ public class FrameSimulation extends JFrame {
         JPanel foodPanel = new PanelFoodGen(envPanel);
         menuPanel.add(foodPanel);
         
+        /*
         JPanel clickEffectPanel = new PanelClickEffect(envPanel);
         menuPanel.add(clickEffectPanel);
+*/
 
         /*
         JPanel movementPanel = new PanelMovement(envPanel);
