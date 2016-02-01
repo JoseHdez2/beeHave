@@ -3,33 +3,33 @@ package model.entity.object;
 import java.util.ArrayList;
 
 import model.entity.Entity;
-import model.entity.agent.AgentOld;
+import model.entity.agent.AgentBee;
 import util.typedef.Position;
 
 public class ObjectBeehive extends EnvObject {
     private static int ZERO = 0;
-    private ArrayList<AgentOld> beesInside;
+    private ArrayList<AgentBee> beesInside;
     private int pollenInHive;
     
     public ObjectBeehive(Position pos) {
         super(Entity.type.OBJECT_BEEHIVE, pos);
-        setBeesInside(new ArrayList<AgentOld>());
+        setBeesInside(new ArrayList<AgentBee>());
         setPollenInHive(ZERO);
     }
     
     /**
      * @return the beesInside
      */
-    public ArrayList<AgentOld> getBeesInside() {
+    public ArrayList<AgentBee> getBeesInside() {
         return beesInside;
     }
 
     /**
      * @param beesInside the beesInside to set
      */
-    public void setBeesInside(ArrayList<AgentOld> beesInside) {
+    public void setBeesInside(ArrayList<AgentBee> beesInside) {
         if (beesInside == null) {
-            this.beesInside = new ArrayList<AgentOld>();
+            this.beesInside = new ArrayList<AgentBee>();
             return;
         }
         this.beesInside = beesInside;

@@ -1,26 +1,25 @@
 package util.movement;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import util.movement.Manhattan;
 import util.typedef.DefaultHashMap;
+import util.typedef.Position;
 
 public class AStar {
     
     private static int ZERO = 0;
     private static int INFINITY = Integer.MAX_VALUE;
-    private ArrayList<Point> closedSet;
-    private ArrayList<Point> openSet;
-    private HashMap<Point, Point> cameFrom;
-    private DefaultHashMap<Point, Integer> gScore;
-    private DefaultHashMap<Point, Integer> fScore;
-    private Point current;
+    private ArrayList<Position> closedSet;
+    private ArrayList<Position> openSet;
+    private HashMap<Position, Position> cameFrom;
+    private DefaultHashMap<Position, Integer> gScore;
+    private DefaultHashMap<Position, Integer> fScore;
+    private Position current;
     private int matrixWidth;
     private int matrixHeight;
 
-    public AStar(int width, int height, Point start, Point goal) {  
+    public AStar(int width, int height, Position start, Position goal) {  
         clear(width, height, start, goal);
     }
     
@@ -28,7 +27,7 @@ public class AStar {
         matrixInit(width, height);
     }
     
-    private void clear(Integer width, Integer height, Point start, Point goal){
+    private void clear(Integer width, Integer height, Position start, Position goal){
         matrixInit(width, height);
         knowledgeInit(start, goal);
     }
@@ -36,40 +35,40 @@ public class AStar {
     private void matrixInit(int width, int height){
         setMatrixHeight(height);
         setMatrixWidth(width);
-        setClosedSet(new ArrayList<Point>());
-        setOpenSet(new ArrayList<Point>());
-        setCameFrom(new HashMap<Point, Point>());
-        setCurrent(new Point());
+        setClosedSet(new ArrayList<Position>());
+        setOpenSet(new ArrayList<Position>());
+        setCameFrom(new HashMap<Position, Position>());
+        setCurrent(new Position());
     }
-    public void knowledgeInit(Point start, Point goal){
+    public void knowledgeInit(Position start, Position goal){
         getOpenSet().add(start);
-        setgScore(new DefaultHashMap<Point, Integer>(INFINITY));
-        setfScore(new DefaultHashMap<Point, Integer>(INFINITY));
+        setgScore(new DefaultHashMap<Position, Integer>(INFINITY));
+        setfScore(new DefaultHashMap<Position, Integer>(INFINITY));
         getgScore().put(start, ZERO);
         getfScore().put(start, Manhattan.getDistance((int) start.getX(),(int) start.getY(),(int) goal.getX(),(int) goal.getY()));
     }
     
-    public ArrayList<Point> run(Point start, Point goal){
+    public ArrayList<Position> run(Position start, Position goal){
         clear(getMatrixWidth(), getMatrixHeight(), start, goal);
         while (!getOpenSet().isEmpty()) {
             int min = INFINITY;
-            for (Point point : openSet) {
+            for (Position Position : openSet) {
                 
-                if (getfScore().get(point) <= min) {
-                    min = (int) getfScore().get(point);
-                    setCurrent(point);
+                if (getfScore().get(Position) <= min) {
+                    min = (int) getfScore().get(Position);
+                    setCurrent(Position);
                 }
             }
             if (current.equals(goal)) {
-                return reconstructPath(getCameFrom(), goal);
+                return reconstructPath(cameFrom, goal);
                 
             }
             getOpenSet().remove(getCurrent());
             getClosedSet().add(getCurrent());
-            ArrayList<Point> neighborsCurrent = getNeighbors(current);
+            ArrayList<Position> neighborsCurrent = getNeighbors(current);
             
 
-            for (Point neighbor : neighborsCurrent) {
+            for (Position neighbor : neighborsCurrent) {
                 if (getClosedSet().contains(neighbor)) {
                     continue;
                 }
@@ -81,7 +80,7 @@ public class AStar {
                     continue;
                 }
                 
-                getCameFrom().put(neighbor, getCurrent());
+                cameFrom.put(neighbor, getCurrent());
                 getgScore().put(neighbor, tentativegScore);
                 getfScore().put(neighbor, getgScore().get(neighbor) + Manhattan.getDistance((int) neighbor.getX(),(int) neighbor.getY(),(int) goal.getX(),(int) goal.getY()));
             }
@@ -90,8 +89,8 @@ public class AStar {
         
     }
     
-    private ArrayList<Point> reconstructPath(HashMap<Point, Point> cameFrom, Point current){
-        ArrayList<Point> totalPath = new ArrayList<Point>();
+    private ArrayList<Position> reconstructPath(HashMap<Position, Position> cameFrom, Position current){
+        ArrayList<Position> totalPath = new ArrayList<Position>();
         totalPath.add(current);
         while (cameFrom.keySet().contains(current)){
             current = cameFrom.get(current);
@@ -101,37 +100,37 @@ public class AStar {
         return totalPath;
     }
     
-    private ArrayList<Point> getNeighbors(Point current2) {
-        ArrayList<Point> aux = new ArrayList<Point>();
+    private ArrayList<Position> getNeighbors(Position current2) {
+        ArrayList<Position> aux = new ArrayList<Position>();
         if ((int)current2.getY() == 0 && (int)current2.getX() == 0) {
-            aux.add(new Point((int) current2.getX() + 1,(int)current2.getY()));
-            aux.add(new Point((int) current2.getX(),(int)current2.getY() + 1));
+            aux.add(new Position((int) current2.getX() + 1,(int)current2.getY()));
+            aux.add(new Position((int) current2.getX(),(int)current2.getY() + 1));
             return aux;
         }
         
         else if ((int)current2.getY() == 0) {
-            aux.add(new Point((int) current2.getX() + 1,(int)current2.getY()));
-            aux.add(new Point((int) current2.getX(),(int)current2.getY() + 1));
-            aux.add(new Point((int) current2.getX() - 1,(int)current2.getY()));
+            aux.add(new Position((int) current2.getX() + 1,(int)current2.getY()));
+            aux.add(new Position((int) current2.getX(),(int)current2.getY() + 1));
+            aux.add(new Position((int) current2.getX() - 1,(int)current2.getY()));
             return aux;
         }
         else if ((int)current2.getX() == 0) {
-            aux.add(new Point((int) current2.getX() + 1,(int)current2.getY()));
-            aux.add(new Point((int) current2.getX(),(int)current2.getY() + 1));
-            aux.add(new Point((int) current2.getX(),(int)current2.getY() - 1));
+            aux.add(new Position((int) current2.getX() + 1,(int)current2.getY()));
+            aux.add(new Position((int) current2.getX(),(int)current2.getY() + 1));
+            aux.add(new Position((int) current2.getX(),(int)current2.getY() - 1));
             return aux;
         }
-        aux.add(new Point((int) current2.getX() + 1,(int)current2.getY()));
-        aux.add(new Point((int) current2.getX(),(int)current2.getY() + 1));
-        aux.add(new Point((int) current2.getX() - 1,(int)current2.getY()));
-        aux.add(new Point((int) current2.getX(),(int)current2.getY() - 1));
+        aux.add(new Position((int) current2.getX() + 1,(int)current2.getY()));
+        aux.add(new Position((int) current2.getX(),(int)current2.getY() + 1));
+        aux.add(new Position((int) current2.getX() - 1,(int)current2.getY()));
+        aux.add(new Position((int) current2.getX(),(int)current2.getY() - 1));
         return aux;
     }
 
     /**
      * @return the closedSet
      */
-    public ArrayList<Point> getClosedSet() {
+    public ArrayList<Position> getClosedSet() {
         return closedSet;
     }
 
@@ -139,77 +138,70 @@ public class AStar {
     /**
      * @return the openSet
      */
-    public ArrayList<Point> getOpenSet() {
+    public ArrayList<Position> getOpenSet() {
         return openSet;
-    }
-
-    /**
-     * @return the cameFrom
-     */
-    public HashMap<Point, Point> getCameFrom() {
-        return cameFrom;
     }
 
     /**
      * @return the gScore
      */
-    public DefaultHashMap<Point, Integer> getgScore() {
+    public DefaultHashMap<Position, Integer> getgScore() {
         return gScore;
     }
 
     /**
      * @param gScore the gScore to set
      */
-    public void setgScore(DefaultHashMap<Point, Integer> gScore) {
+    public void setgScore(DefaultHashMap<Position, Integer> gScore) {
         this.gScore = gScore;
     }
 
     /**
      * @return the fScore
      */
-    public DefaultHashMap<Point, Integer> getfScore() {
+    public DefaultHashMap<Position, Integer> getfScore() {
         return fScore;
     }
 
     /**
      * @param fScore the fScore to set
      */
-    public void setfScore(DefaultHashMap<Point, Integer> fScore) {
+    public void setfScore(DefaultHashMap<Position, Integer> fScore) {
         this.fScore = fScore;
     }
 
     /**
      * @param closedSet the closedSet to set
      */
-    public void setClosedSet(ArrayList<Point> closedSet) {
+    public void setClosedSet(ArrayList<Position> closedSet) {
         this.closedSet = closedSet;
     }
 
     /**
      * @param openSet the openSet to set
      */
-    public void setOpenSet(ArrayList<Point> openSet) {
+    public void setOpenSet(ArrayList<Position> openSet) {
         this.openSet = openSet;
     }
 
     /**
      * @param cameFrom the cameFrom to set
      */
-    public void setCameFrom(HashMap<Point, Point> cameFrom) {
+    public void setCameFrom(HashMap<Position, Position> cameFrom) {
         this.cameFrom = cameFrom;
     }
 
     /**
      * @return the current
      */
-    public Point getCurrent() {
+    public Position getCurrent() {
         return current;
     }
 
     /**
      * @param current the current to set
      */
-    public void setCurrent(Point current) {
+    public void setCurrent(Position current) {
         this.current = current;
     }
 
@@ -241,7 +233,7 @@ public class AStar {
         this.matrixHeight = matrixHeight;
     }
     
-    public int pythagoreanDistance(Point start, Point goal ){
+    public int pythagoreanDistance(Position start, Position goal ){
         return (int) Math.sqrt((Math.pow(   (goal.getX() - start.getX()), 2) + Math.pow((goal.getY() - start.getY()), 2)));
     } 
 }

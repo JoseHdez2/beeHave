@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 
 import model.entity.agent.Agent;
 import model.entity.agent.AgentBee;
-import model.entity.agent.AgentOld;
+import model.entity.agent.AgentBee;
 import model.entity.agent.AgentWasp;
 import model.entity.object.EnvObject;
 import model.entity.object.ObjectBeehive;
@@ -72,7 +72,7 @@ public abstract class EntityTypeMapper {
         // Super bad fix for demo, remove ASAP
         // Tell bees where their hive is (hive must be first object created ever)
         if (entityType == Entity.type.AGENT_BEE) 
-            ((AgentOld)env.getAgents().get(last)).setHivePos(env.getObjects().get(0).getPos());
+            ((AgentBee)env.getAgents().get(last)).setHivePos(env.getObjects().get(0).getPos());
         
     }
     
