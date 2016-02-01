@@ -1,11 +1,10 @@
 package model.entity;
 
-import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 
 import model.entity.agent.Agent;
 import model.entity.agent.AgentBee;
+import model.entity.agent.AgentOld;
 import model.entity.agent.AgentWasp;
 import model.entity.object.EnvObject;
 import model.entity.object.ObjectBeehive;
@@ -52,6 +51,7 @@ public abstract class EntityTypeMapper {
         }
         // Set newly created entity's name.  TODO: laame code, redo.
         int num = 0;
+        
         boolean isAgent = (entityType == Entity.type.AGENT_BEE || entityType == Entity.type.AGENT_WASP) ?
                 true : false;
         int last = isAgent ? env.getAgents().size()-1 : env.getObjects().size()-1;
@@ -69,6 +69,11 @@ public abstract class EntityTypeMapper {
             env.getObjects().get(last).setName(env.getObjects().get(last).entityName() + num);
         }
         
+        // Super bad fix for demo, remove ASAP
+        // Tell bees where their hive is (hive must be first object created ever)
+        if (entityType == Entity.type.AGENT_BEE) 
+            ((AgentOld)env.getAgents().get(last)).setHivePos(env.getObjects().get(0).getPos());
+        
     }
     
     /**
@@ -79,7 +84,7 @@ public abstract class EntityTypeMapper {
         switch(entityType){
         case AGENT_BEE: return new ImageIcon("res/image/bee.png");
         case AGENT_WASP: return new ImageIcon("res/image/meat.png");
-        case OBJECT_BEEHIVE: return new ImageIcon("res/image/agent.png");
+        case OBJECT_BEEHIVE: return new ImageIcon("res/image/beehive2.png");
         case OBJECT_FLOWER: return new ImageIcon("res/image/daisy.png");
         }
         return null;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import model.entity.Entity;
 import model.entity.EntityTypeMapper;
 import model.entity.agent.Agent;
-import model.entity.agent.AgentBee;
+import model.entity.agent.AgentOld;
 import model.entity.object.EnvObject;
 import util.math.RandomNum;
 import util.typedef.Matrix;
@@ -43,8 +43,9 @@ public class EnvironmentModel {
         this.terrain = TerrainGenerator.plain(width, height, EnvironmentModel.Terrain.GRASS);
 //        this.terrain = TerrainGenerator.random(width, height);
         
-
-        for (int i = 0; i < 2; i++)
+        EntityTypeMapper.createEntityInto(this, Entity.type.OBJECT_BEEHIVE, randomPosition());
+        
+        for (int i = 0; i < 25; i++)
             EntityTypeMapper.createEntityInto(this, Entity.type.AGENT_BEE, randomPosition());
         
         for(int i = 0; i < 5; i++)

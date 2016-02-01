@@ -3,15 +3,23 @@ package model.entity.agent;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import model.entity.Entity;
+import model.entity.agent.AgentBee.BehaviourType;
 import model.entity.object.Flower;
+import model.entity.object.ObjectBeehive;
 import model.environment.EnvironmentModel;
 import model.movement.MovementType;
 import model.movement.RandomMove;
+import util.typedef.Position;
 
-public class AgentOld {
+public class AgentOld extends Agent{
+    
+    private static behaviourType defaultInitialBehaviour = behaviourType.SCOUT;
+    private static MovementType defaultInitialPathfinding = new RandomMove();
     
     public static int MAX_CARRY = 15;
     private static int ZERO = 0;
+    
     public static enum behaviourType{
         SCOUT,
         RETURN,
@@ -19,41 +27,43 @@ public class AgentOld {
         GO_TO_POINT
     }
     
-    private behaviourType behaviour;
-    private MovementType pathFinding;
-    private Point hivePos;
-    private Point pos;
+    private behaviourType behaviour;    // Current behavior of the AgentBee.
+    private Position hivePos;    // Position of the bee's hive.
     private Integer pollenCarried;
-    private ArrayList<Point> pathToHive;
+    private ArrayList<Position> pathToHive;
     private Flower bestFlower;
-    private ArrayList<Point> pathToFlower;
+    private ArrayList<Position> pathToFlower;
     
+    /*
+     * Constructors
+     */
     
-    
-    public AgentOld() {
-        pathFinding = new RandomMove();
-        setBehaviour(behaviourType.SCOUT);
-        pos = new Point(1,1);
+    public AgentOld(Position pos, behaviourType behaviour) {
+        super(Entity.type.AGENT_BEE, pos);
+        this.behaviour = behaviour;
+        pathFinding = defaultInitialPathfinding;
+        
         setPollenCarried(new Integer(ZERO));
-        setPathToHive(new ArrayList<Point>());
-        setBestFlower(new Flower());
+        setPathToHive(new ArrayList<Position>());
+        setBestFlower(null);
         getBestFlower().setPollen(ZERO);
         getBestFlower().setFlowerPosition(new Point());
-        setPathToFlower(new ArrayList<Point>());
-        setHivePos(new Point(0,0));
+        setPathToFlower(new ArrayList<Position>());
     }
     
-    public AgentOld(int startX, int startY, int hiveX, int hiveY){
-        pathFinding = new RandomMove();
-        setBehaviour(behaviourType.SCOUT);
-        setPos(new Point(startX, startY));
-        setHivePos(new Point(hiveX, hiveY));
-        setPollenCarried(new Integer(ZERO));
-        setPathToHive(new ArrayList<Point>());
-        setBestFlower(new Flower());
-        getBestFlower().setPollen(ZERO);
-        getBestFlower().setFlowerPosition(new Point());
-        setPathToFlower(new ArrayList<Point>());
+    public AgentOld(Position pos){
+        this(pos, defaultInitialBehaviour);
+    }
+    
+    public AgentOld(Position pos, Position hivePos){
+        this(pos);
+        setHivePos(hivePos);
+    }
+    
+    @Override
+    public void simulationStep(EnvironmentModel environment) {
+        // TODO Auto-generated method stub
+        
     }
     
     public void getPollen(Flower flower){
@@ -88,7 +98,7 @@ public class AgentOld {
 
     }
     
-    public void unloadPollen(Hive hive){
+    public void unloadPollen(ObjectBeehive hive){
         if (getPollenCarried() > 0) {
             hive.setPollenInHive(getPollenCarried());
             setPollenCarried(ZERO);
@@ -96,12 +106,15 @@ public class AgentOld {
 
     }
     
-    public void communicate(Hive hive){
+    public void communicate(ObjectBeehive hive){
         
         if (!hive.getBeesInside().isEmpty()) {
-            for ( Agent bees : hive.getBeesInside()) {
-                if (bees.getBestFlower().getPollen() > getBestFlower().getPollen()) {
-                    setBestFlower(bees.getBestFlower());
+            for ( AgentOld beeInHive : hive.getBeesInside()) {
+                if (beeInHive.getBestFlower() == null){
+                    setBestFlower(beeInHive.getBestFlower());
+                }
+                if (beeInHive.getBestFlower().getPollen() > getBestFlower().getPollen()) {
+                    setBestFlower(beeInHive.getBestFlower());
                 }
             }
         }
@@ -113,10 +126,10 @@ public class AgentOld {
         // el elemento del soiguiente movimiento se escogera asi: min(abs(Point.getX + Point.getY) - (Start.getX + Start.getY)) con point siendo cada elemento de la lista
     }
     
-    public void moveToPoint(ArrayList<Point> path){
+    public void moveToPoint(ArrayList<Position> path){
         int min = Integer.MAX_VALUE; 
         
-        for (Point point : path) {
+        for (Position point : path) {
             if (Math.abs((point.getX() + point.getY()) - (getPosX() + getPosY()) ) < min) {
                 setPos(point);
             }
@@ -126,161 +139,60 @@ public class AgentOld {
         }
     }
 
-    /**
-     * @return the behaviour
-     */
-    public behaviourType getBehaviour() {
-        return behaviour;
-    }
-
-    /**
-     * @param behaviour the behaviour to set
-     */
-    public void setBehaviour(behaviourType behaviour) {
-        this.behaviour = behaviour;
-    }
-    
-    public void setLocation(Integer x, Integer y){
-        getPos().setLocation(x, y);
-    }
-
-    /**
-     * @return the pos
-     */
-    public Point getPos() {
-        return this.pos;
-    }
-
-    /**
-     * @param pos the pos to set
-     */
-    public void setPos(Point pos) {
-        this.pos = pos;
-    }
-    
-    public double getPosX(){
-        return getPos().getX();
-    }
-    
-    public double getPosY(){
-        return getPos().getY();
-    }
-
-    /**
-     * @return the pathFinding
-     */
-    public MovementType getPathFinding() {
-        return pathFinding;
-    }
-
-    /**
-     * @param pathFinding the pathFinding to set
-     */
-    public void setPathFinding(MovementType pathFinding) {
-        this.pathFinding = pathFinding;
-    }
-
-    /**
-     * @return the hivePos
-     */
-    public Point getHivePos() {
-        return hivePos;
-    }
-
-    /**
-     * @param hivePos the hivePos to set
-     */
-    public void setHivePos(Point hivePos) {
-        this.hivePos = hivePos;
-    }
-
-    /**
-     * @return the pollenCarried
-     */
-    public Integer getPollenCarried() {
-        return pollenCarried;
-    }
-
-    /**
-     * @param pollenCarried the pollenCarried to set
-     */
-    public void setPollenCarried(Integer pollenCarried) {
-        this.pollenCarried = pollenCarried;
-    }
-    
     public void addPollen(Integer pollen){
         setPollenCarried(getPollenCarried() + pollen); 
     }
-
-    /**
-     * @return the pathToHive
+    
+    /*
+     *  Getters and setters.
      */
-    public ArrayList<Point> getPathToHive() {
-        return pathToHive;
-    }
-
-    /**
-     * @param pathToHive the pathToHive to set
-     */
-    public void setPathToHive(ArrayList<Point> pathToHive) {
-        this.pathToHive = pathToHive;
-        
-    }
-
-    /**
-     * @return the mAX_CARRY
-     */
-    public static int getMAX_CARRY() {
-        return MAX_CARRY;
-    }
-
-    /**
-     * @param mAX_CARRY the mAX_CARRY to set
-     */
-    public static void setMAX_CARRY(int mAX_CARRY) {
-        MAX_CARRY = mAX_CARRY;
-    }
-
-    /**
-     * @return the zERO
-     */
-    public static int getZERO() {
-        return ZERO;
-    }
-
-    /**
-     * @param zERO the zERO to set
-     */
-    public static void setZERO(int zERO) {
-        ZERO = zERO;
-    }
-
-    /**
-     * @return the bestFlower
-     */
+    
     public Flower getBestFlower() {
         return bestFlower;
     }
 
-    /**
-     * @param bestFlower the bestFlower to set
-     */
     public void setBestFlower(Flower bestFlower) {
         this.bestFlower = bestFlower;
     }
 
-    /**
-     * @return the pathToFlower
-     */
-    public ArrayList<Point> getPathToFlower() {
+    public Integer getPollenCarried() {
+        return pollenCarried;
+    }
+
+    public void setPollenCarried(Integer pollenCarried) {
+        this.pollenCarried = pollenCarried;
+    }
+
+    public ArrayList<Position> getPathToHive() {
+        return pathToHive;
+    }
+
+    public void setPathToHive(ArrayList<Position> pathToHive) {
+        this.pathToHive = pathToHive;
+    }
+
+    public ArrayList<Position> getPathToFlower() {
         return pathToFlower;
     }
 
-    /**
-     * @param pathToFlower the pathToFlower to set
-     */
-    public void setPathToFlower(ArrayList<Point> pathToFlower) {
+    public void setPathToFlower(ArrayList<Position> pathToFlower) {
         this.pathToFlower = pathToFlower;
+    }
+
+    public Position getHivePos() {
+        return hivePos;
+    }
+
+    public void setHivePos(Position hivePos) {
+        this.hivePos = hivePos;
+    }
+
+    public behaviourType getBehaviour() {
+        return behaviour;
+    }
+
+    public void setBehaviour(behaviourType behaviour) {
+        this.behaviour = behaviour;
     }
 
 }
