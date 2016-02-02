@@ -5,13 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import gui.environment.EnvironmentPanel;
-import gui.i18n.I18n_Helper;
 import gui.i18n.I18n;
+import gui.i18n.I18n_Helper;
 
 public class PanelTimeControl extends SimPanel {
     
@@ -22,7 +21,7 @@ public class PanelTimeControl extends SimPanel {
     public PanelTimeControl(EnvironmentPanel envPanel){
         super("SimTimePanel");
         
-        simTimer = new Timer(1000, null);
+        simTimer = new Timer(250, null);
         
         // Listener for each fired step of the simulation.
         ActionListener simulationTimerListener = new ActionListener(){

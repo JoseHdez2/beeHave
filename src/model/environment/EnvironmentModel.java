@@ -74,51 +74,76 @@ public class EnvironmentModel {
     private void checkBeeFlower(){
         for (Agent a : agents) {
             if (a.getEntityType() != Entity.type.AGENT_BEE) return;
-            AgentBee agent = (AgentBee)a;
+            AgentBee bee = (AgentBee)a;
             for (EnvObject f : objects){
                 if (f.getEntityType() != Entity.type.OBJECT_FLOWER) return;
                 ObjectFlower flower = (ObjectFlower)f;
-                if (flower.getPos().equals(agent.getPos()) && agent.getBehaviour() != AgentBee.behaviourType.RETURN) {
+                if (flower.getPos().equals(bee.getPos()) && bee.getBehaviour() != AgentBee.behaviourType.RETURN) {
                     if (flower.getPollen() != 0) {
-                        agent.getPollen(flower);
-                        agent.setBehaviour(AgentBee.behaviourType.RETURN);
-                        searchAlgorithm.knowledgeInit(agent.getPos(), ((ObjectBeehive)objects.get(0)).getPos());
-                        agent.setPathToHive(searchAlgorithm.run(agent.getPos(), ((ObjectBeehive)objects.get(0)).getPos()));
+                        bee.getPollen(flower);
+                        bee.setBehaviour(AgentBee.behaviourType.RETURN);
+                        searchAlgorithm.knowledgeInit(bee.getPos(), ((ObjectBeehive)objects.get(0)).getPos());
+                        bee.setPathToHive(searchAlgorithm.run(bee.getPos(), ((ObjectBeehive)objects.get(0)).getPos()));
                         break;
                     }
                     else {
-                        agent.setBehaviour(AgentBee.behaviourType.SCOUT);
+                        bee.setBehaviour(AgentBee.behaviourType.SCOUT);
                         break;
                     }   
                 }
             }
-            if (agent.getBehaviour().equals(AgentBee.behaviourType.IDLE)) {
-                agent.communicate((ObjectBeehive)objects.get(0));
+            if (bee.getBehaviour().equals(AgentBee.behaviourType.IDLE)) {
+                bee.communicate((ObjectBeehive)objects.get(0));
             }
-            if (agent.getBestFlower().getPollen() == 0 && (agent.getBehaviour().equals(AgentBee.behaviourType.IDLE) || agent.getBehaviour().equals(AgentBee.behaviourType.GO_TO_POINT) &&
-                    objects.get(0).getPos().equals(agent.getPos()))) {
-                agent.setBehaviour(AgentBee.behaviourType.SCOUT);
+            if (bee.getBestFlower().getPollen() == 0 && (bee.getBehaviour().equals(AgentBee.behaviourType.IDLE) || bee.getBehaviour().equals(AgentBee.behaviourType.GO_TO_POINT) &&
+                    objects.get(0).getPos().equals(bee.getPos()))) {
+                bee.setBehaviour(AgentBee.behaviourType.SCOUT);
             }
-            if (agent.getBehaviour() == AgentBee.behaviourType.IDLE && ((ObjectBeehive)objects.get(0)).getBeesInside().contains(agent) && ((ObjectBeehive)objects.get(0)).getBeesInside().size() >= 2) {
-                searchAlgorithm.knowledgeInit(agent.getPos(), agent.getBestFlower().getPos());
-                agent.setPathToFlower(searchAlgorithm.run(agent.getPos(), agent.getBestFlower().getPos())); 
-                agent.setBehaviour(AgentBee.behaviourType.GO_TO_POINT);
-                ((ObjectBeehive)objects.get(0)).getBeesInside().remove(agent);
+            if (bee.getBehaviour() == AgentBee.behaviourType.IDLE && ((ObjectBeehive)objects.get(0)).getBeesInside().contains(bee) && ((ObjectBeehive)objects.get(0)).getBeesInside().size() >= 2) {
+                searchAlgorithm.knowledgeInit(bee.getPos(), bee.getBestFlower().getPos());
+                bee.setPathToFlower(searchAlgorithm.run(bee.getPos(), bee.getBestFlower().getPos())); 
+                bee.setBehaviour(AgentBee.behaviourType.GO_TO_POINT);
+                ((ObjectBeehive)objects.get(0)).getBeesInside().remove(bee);
                 break;
             }
             
-            if (((ObjectBeehive)objects.get(0)).getPos().equals(agent.getPos()) && (agent.getBehaviour().equals(AgentBee.behaviourType.RETURN))) {
-                agent.setBehaviour(AgentBee.behaviourType.IDLE);
-                if (!((ObjectBeehive)objects.get(0)).getBeesInside().contains(agent)) {
-                    ((ObjectBeehive)objects.get(0)).getBeesInside().add(agent);
+            if (((ObjectBeehive)objects.get(0)).getPos().equals(bee.getPos()) && (bee.getBehaviour().equals(AgentBee.behaviourType.RETURN))) {
+                bee.setBehaviour(AgentBee.behaviourType.IDLE);
+                if (!((ObjectBeehive)objects.get(0)).getBeesInside().contains(bee)) {
+                    ((ObjectBeehive)objects.get(0)).getBeesInside().add(bee);
                 }
-                agent.unloadPollen(((ObjectBeehive)objects.get(0)));
+                bee.unloadPollen(((ObjectBeehive)objects.get(0)));
             }
-            if (agent.getBehaviour() == AgentBee.behaviourType.GO_TO_POINT && agent.getPathToFlower().isEmpty()) {
-                searchAlgorithm.knowledgeInit(agent.getPos(), agent.getBestFlower().getPos());
-                agent.setPathToFlower(searchAlgorithm.run(agent.getPos(), agent.getBestFlower().getPos())); 
+            if (bee.getBehaviour() == AgentBee.behaviourType.GO_TO_POINT && bee.getPathToFlower().isEmpty()) {
+                searchAlgorithm.knowledgeInit(bee.getPos(), bee.getBestFlower().getPos());
+                bee.setPathToFlower(searchAlgorithm.run(bee.getPos(), bee.getBestFlower().getPos())); 
             }
         }
+    }
+    
+    /*
+     * Special handmade getters
+     */
+    
+    public Entity getEntity(String entityName){
+        for (Entity e : objects)
+            if(entityName.equals(e.getName())) return e;
+        for (Entity e : agents)
+            if(entityName.equals(e.getName())) return e;
+        return null;
+    }
+    
+    /**
+     * @param pos
+     * @return All entities that are in that position.
+     */
+    public ArrayList<Entity> getEntities(Position pos){
+        ArrayList<Entity> entitiesInPos = new ArrayList<Entity>();
+        for (Entity e : objects)
+            if(pos.equals(e.getPos())) entitiesInPos.add(e);
+        for (Entity e : agents)
+            if(pos.equals(e.getPos())) entitiesInPos.add(e);
+        return entitiesInPos;
     }
     
     /*

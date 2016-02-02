@@ -49,7 +49,7 @@ public class PanelClickEffect extends SimPanel {
         
         HashMap<String, Integer> radioButtons = new HashMap<String, Integer>();
         radioButtons.put("ClickEffect.Create", KeyEvent.VK_C);
-        radioButtons.put("ClickEffect.Move", KeyEvent.VK_M);
+        radioButtons.put("ClickEffect.Select", KeyEvent.VK_S);
         
         panelClickEffect.addNewJRadioButtonGroup(radioButtons, clickEffectButtonListener);
         
@@ -61,7 +61,7 @@ public class PanelClickEffect extends SimPanel {
         SimPanel panelUpRight = new SimPanel();
         panelUp.add(panelUpRight);
         
-        panelMoveMode = new SimPanel(I18n.getString("ClickEffect.Move"));
+        panelMoveMode = new SimPanel(I18n.getString("ClickEffect.Select"));
         panelUpRight.add(panelMoveMode);
         
         updateLists(envPanel);
@@ -107,6 +107,12 @@ public class PanelClickEffect extends SimPanel {
         listAgents.addListSelectionListener(listAgentsListener);
         listObjects.addListSelectionListener(listObjectsListener);
         listEntityTypes.addListSelectionListener(listEntityTypesListener);
+        
+        /*
+        listAgents.getListSelectionListeners()[0]
+                .valueChanged(new ListSelectionEvent(listAgents, 0, 0, false));
+        listEntityTypes.getListSelectionListeners()[0]
+                .valueChanged(new ListSelectionEvent(listEntityTypes, 0, 0, false));*/
         
         scrollerAgents = new JScrollPane(listAgents);
         scrollerAgents.setPreferredSize(new Dimension(140, 100));
@@ -167,11 +173,11 @@ public class PanelClickEffect extends SimPanel {
             GUIHelper.cascadeEnable(panelCreateMode, true);
             envPanel.setClickEffect(EnvironmentPanel.ClickEffect.CREATE);
             break;
-        case "ClickEffect.Move":
+        case "ClickEffect.Select":
             System.out.println("move mode");
             GUIHelper.cascadeEnable(panelMoveMode, true);
             GUIHelper.cascadeEnable(panelCreateMode, false);
-            envPanel.setClickEffect(EnvironmentPanel.ClickEffect.MOVE);
+            envPanel.setClickEffect(EnvironmentPanel.ClickEffect.SELECT);
             break;
         }
     }

@@ -1,6 +1,5 @@
 package model.entity.agent;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import model.entity.Entity;
@@ -27,10 +26,12 @@ public class AgentBee extends Agent{
     }
     
     private behaviourType behaviour;    // Current behavior of the AgentBee.
-    private Position hivePos;    // Position of the bee's hive.
+    private String hiveName;    // Position of the bee's hive. TODO: rn bees now where hive is magically.
     private Integer pollenCarried;
     private ArrayList<Position> pathToHive;
-    private ObjectFlower bestFlower;
+    private String bestFlowerPos;  // Position of best flower.
+    private Integer bestFlowerPollen;   // Pollen that best flower has.
+    private String bestFlowerName;  // Name of best flower. In case there is more than one in the space.
     private ArrayList<Position> pathToFlower;
     
     /*
@@ -44,9 +45,8 @@ public class AgentBee extends Agent{
         
         setPollenCarried(new Integer(ZERO));
         setPathToHive(new ArrayList<Position>());
-        setBestFlower(new ObjectFlower(new Position(0,0)));
-        getBestFlower().setPollen(ZERO);
-        getBestFlower().setPos(new Position());
+        bestFlowerPos = null;
+        bestFlowerPollen = null;
         setPathToFlower(new ArrayList<Position>());
     }
     
@@ -54,26 +54,30 @@ public class AgentBee extends Agent{
         this(pos, defaultInitialBehaviour);
     }
     
-    public AgentBee(Position pos, Position hivePos){
+    public AgentBee(Position pos, String hiveName){
         this(pos);
-        setHivePos(hivePos);
+        this.hiveName = hiveName;
     }
     
     @Override
     public void simulationStep(EnvironmentModel environment) {
         moveAgent(environment);
         // TODO: dirty code
-        unloadPollen((ObjectBeehive)environment.getObjects().get(0)); // will only unload if on same pos
-        communicate((ObjectBeehive)environment.getObjects().get(0)); // same
+        if(pos.equals(bestFlowerPos))
+            getPollen(environment, (ObjectFlower)environment.getEntity(bestFlowerName));
+        if (pos.equals(environment.getEntity(hiveName))){
+            unloadPollen((ObjectBeehive)environment.getEntity(hiveName)); // will only unload if on same pos
+            communicate(environment, (ObjectBeehive)environment.getEntity(hiveName)); // same
+        }
     }
     
-    public void getPollen(ObjectFlower flower){
+    public void getPollen(EnvironmentModel env, ObjectFlower flower){
         addPollen(flower.removePollen(MAX_CARRY));
 //      if (getPollenCarried() == MAX_CARRY) {
 //          setBehaviour(behaviourType.RETURN);
 //      }
-        if (flower.getPollen() > getBestFlower().getPollen()) {
-            setBestFlower(flower);
+        if (flower.getPollen() > ((ObjectFlower)env.getEntity(bestFlowerName)).getPollen()) {
+            bestFlowerName = flower.getName();
         }
     }
     
@@ -100,7 +104,6 @@ public class AgentBee extends Agent{
     }
     
     public void unloadPollen(ObjectBeehive hive){
-        if (!pos.equals(hive.getPos())) return;
         if (getPollenCarried() > 0) {
             hive.setPollenInHive(getPollenCarried());
             setPollenCarried(ZERO);
@@ -108,18 +111,31 @@ public class AgentBee extends Agent{
 
     }
     
-    public void communicate(ObjectBeehive hive){
-        if (!pos.equals(hive.getPos())) return;
-        if (!hive.getBeesInside().isEmpty()) {
-            for ( AgentBee beeInHive : hive.getBeesInside()) {
-                if (beeInHive.getBestFlower() == null){
-                    setBestFlower(beeInHive.getBestFlower());
-                }
-                if (beeInHive.getBestFlower().getPollen() > getBestFlower().getPollen()) {
-                    setBestFlower(beeInHive.getBestFlower());
-                }
-            }
-        }
+    public void communicate(EnvironmentModel env, ObjectBeehive hive){
+        if (hive.getNamesOfBeesInside().isEmpty()) return; // No bees in hive.
+        if (hive.getNamesOfBeesInside().size() == 1) return; // Only one bee.
+        
+        for ( String nameOfBeeInHive : hive.getNamesOfBeesInside())
+            if(!nameOfBeeInHive.equals(this.name)) // Don't dance to yourself! 
+                danceFor((AgentBee)env.getEntity(nameOfBeeInHive));
+    }
+    
+
+    
+    /**
+     * Dance for another bee. The other bee will learn of this bee's flower if it has more pollen.
+     * @param other Bee that is watching this bee dance.
+     */
+    public void danceFor(AgentBee other){
+        if(this.bestFlowerPollen == null) return; // Nothing to dance about.
+        if(this.bestFlowerPollen == 0) return; // Nothing to dance about.
+        if(other.bestFlowerPollen > this.bestFlowerPollen)
+            return; // Other bee won't listen since their flower is better.
+
+        // Otherwise, the other bee learns of this bee's flower.
+        other.bestFlowerName = this.bestFlowerName;
+        other.bestFlowerPollen = this.bestFlowerPollen;
+        other.bestFlowerPos = this.bestFlowerPos;
     }
     
     
@@ -148,14 +164,6 @@ public class AgentBee extends Agent{
     /*
      *  Getters and setters.
      */
-    
-    public ObjectFlower getBestFlower() {
-        return bestFlower;
-    }
-
-    public void setBestFlower(ObjectFlower bestFlower) {
-        this.bestFlower = bestFlower;
-    }
 
     public Integer getPollenCarried() {
         return pollenCarried;
@@ -181,12 +189,12 @@ public class AgentBee extends Agent{
         this.pathToFlower = pathToFlower;
     }
 
-    public Position getHivePos() {
-        return hivePos;
+    public String getHiveName() {
+        return hiveName;
     }
 
-    public void setHivePos(Position hivePos) {
-        this.hivePos = hivePos;
+    public void setHivePos(String hiveName) {
+        this.hiveName = hiveName;
     }
 
     public behaviourType getBehaviour() {
@@ -195,6 +203,14 @@ public class AgentBee extends Agent{
 
     public void setBehaviour(behaviourType behaviour) {
         this.behaviour = behaviour;
+    }
+
+    public String getBestFlowerName() {
+        return bestFlowerName;
+    }
+
+    public void setBestFlowerName(String bestFlowerName) {
+        this.bestFlowerName = bestFlowerName;
     }
 
 }

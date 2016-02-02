@@ -45,6 +45,8 @@ public class ObjectFlower extends EnvObject {
             this.icon = new ImageIcon("res/image/daisyDead.png");
         */
         
+        System.out.println(String.format("stole %d! %d left.", pollenToRemoveActual, getPollen()));
+        
         return pollenToRemoveActual;
     }
     

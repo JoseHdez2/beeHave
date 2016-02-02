@@ -9,8 +9,6 @@ public abstract class GUIHelper {
         comp.setEnabled(b);
         
         if (!(comp instanceof Container)) return;
-            
-        System.out.println("cascading a container!");
 
         Container comp2 = (Container) comp;
 

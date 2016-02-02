@@ -34,7 +34,8 @@ public class EnvironmentPanel extends JLayeredPane {
     
     public enum ClickEffect {
         CREATE,
-        MOVE
+        SELECT,
+        GRABBING_ENTITY  // Currently grabbing an entity
     }
     
     private ClickEffect clickEffect; // Effect that clicking on a tile will have.
@@ -136,7 +137,7 @@ public class EnvironmentPanel extends JLayeredPane {
         switch(clickEffect){
         case CREATE:
             EntityTypeMapper.createEntityInto(env, selectedEntityType, new Position(x,y)); break;
-        case MOVE:
+        case SELECT:
             // If there's an entity in (x,y), select it.
             // Agents take precedence over objects, newly created take precedence over older.
             for (Entity e : env.getObjects())
@@ -163,10 +164,20 @@ public class EnvironmentPanel extends JLayeredPane {
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {}
+        public void mousePressed(MouseEvent e) {
+            if (clickEffect == ClickEffect.SELECT){
+                clickEffect = ClickEffect.GRABBING_ENTITY;
+            }
+        }
 
         @Override
-        public void mouseReleased(MouseEvent e) {}
+        public void mouseReleased(MouseEvent e) {
+            EnvironmentLabel el = ((EnvironmentLabel)e.getSource());
+            if (clickEffect == ClickEffect.GRABBING_ENTITY){
+                getSelectedEntity().setPos(new Position(el.x,el.y));
+                clickEffect = ClickEffect.SELECT;
+            }
+        }
 
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -224,11 +235,7 @@ public class EnvironmentPanel extends JLayeredPane {
      * @return Currently selected entity.
      */
     public Entity getSelectedEntity(){
-        for (Entity e : env.getObjects())
-            if(selectedEntityName.equals(e.getName())) return e;
-        for (Entity e : env.getAgents())
-            if(selectedEntityName.equals(e.getName())) return e;
-        return null;
+        return env.getEntity(selectedEntityName);
     }
     
     /*

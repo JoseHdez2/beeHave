@@ -229,7 +229,7 @@ public class RandomMove implements MovementType {
         if (!getVisited().contains(agent.getPos())) {
             getVisited().add(agent.getPos());
         }
-        System.out.println("gi");
+//        System.out.println("gi");
 
         switch (movement) {
         case DOWN:
