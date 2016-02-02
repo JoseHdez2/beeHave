@@ -4,9 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 
-import gui.i18n.I18n;
-
-public abstract class GUI_Helper {
+public abstract class I18n_Helper {
     
     /**
      * @param str i18n String.

@@ -12,7 +12,6 @@ import javax.swing.border.TitledBorder;
 import gui.environment.EnvironmentPanel;
 import gui.simulation.panel.PanelClickEffect;
 import gui.simulation.panel.PanelFoodGen;
-import gui.simulation.panel.PanelMovement;
 import gui.simulation.panel.PanelTimeControl;
 
 public class FrameSimulation extends JFrame {
@@ -47,10 +46,10 @@ public class FrameSimulation extends JFrame {
         JPanel foodPanel = new PanelFoodGen(envPanel);
         menuPanel.add(foodPanel);
         
-        /*
+        
         JPanel clickEffectPanel = new PanelClickEffect(envPanel);
         menuPanel.add(clickEffectPanel);
-*/
+
 
         /*
         JPanel movementPanel = new PanelMovement(envPanel);

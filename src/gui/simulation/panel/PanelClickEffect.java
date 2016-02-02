@@ -1,5 +1,7 @@
 package gui.simulation.panel;
 
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -8,12 +10,14 @@ import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import gui.environment.EnvironmentPanel;
 import gui.i18n.I18n;
+import gui.util.GUIHelper;
 import model.entity.Entity;
 import model.entity.Entity.type;
 import model.entity.agent.Agent;
@@ -27,6 +31,8 @@ public class PanelClickEffect extends SimPanel {
     SimPanel panelMoveMode;
     SimPanel panelCreateMode;
     SimPanel panelInspector; // Inspector panel for inspecting.
+    JScrollPane scrollerAgents;
+    JScrollPane scrollerObjects;
     
     public PanelClickEffect(EnvironmentPanel envPanel){
         super("Hacer algo");
@@ -56,7 +62,6 @@ public class PanelClickEffect extends SimPanel {
         SimPanel panelUpRight = new SimPanel();
         panelUp.add(panelUpRight);
         
-        
         panelMoveMode = new SimPanel(I18n.getString("ClickEffect.Move"));
         panelUpRight.add(panelMoveMode);
         
@@ -80,8 +85,13 @@ public class PanelClickEffect extends SimPanel {
         listObjects.addListSelectionListener(listener);
         listEntityTypes.addListSelectionListener(listener);
         
-        panelMoveMode.add(listAgents);
-        panelMoveMode.add(listObjects);
+        scrollerAgents = new JScrollPane(listAgents);
+        scrollerAgents.setPreferredSize(new Dimension(140, 100));
+        scrollerObjects = new JScrollPane(listObjects);
+        scrollerObjects.setPreferredSize(new Dimension(140, 100));
+        
+        panelMoveMode.add(scrollerAgents);
+        panelMoveMode.add(scrollerObjects);
         
         panelCreateMode = new SimPanel(I18n.getString("ClickEffect.Create"));
         panelUpRight.add(panelCreateMode);
@@ -130,16 +140,14 @@ public class PanelClickEffect extends SimPanel {
         switch(actionCommand){
         case "ClickEffect.Create":
             System.out.println("create mode");
-            listEntityTypes.setVisible(true);
-            listAgents.setVisible(false);
-            listObjects.setVisible(false);
+            GUIHelper.cascadeEnable(panelMoveMode, false);
+            GUIHelper.cascadeEnable(panelCreateMode, true);
             envPanel.setClickEffect(EnvironmentPanel.ClickEffect.CREATE);
             break;
         case "ClickEffect.Move":
             System.out.println("move mode");
-            listEntityTypes.setVisible(true);
-            listAgents.setVisible(false);
-            listObjects.setVisible(false);
+            GUIHelper.cascadeEnable(panelMoveMode, true);
+            GUIHelper.cascadeEnable(panelCreateMode, false);
             envPanel.setClickEffect(EnvironmentPanel.ClickEffect.MOVE);
             break;
         }

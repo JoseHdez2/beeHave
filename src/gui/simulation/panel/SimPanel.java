@@ -1,5 +1,6 @@
 package gui.simulation.panel;
 
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,7 +14,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import gui.i18n.GUI_Helper;
+import gui.i18n.I18n_Helper;
 
 /**
  * Class that may or may not be deleted.
@@ -39,7 +40,7 @@ public class SimPanel extends JPanel{
      * @return Created JLabel that was already added into the Component hierarchy of this SimPanel.
      */
     public JLabel addNewJLabel(String str){
-        JLabel label = GUI_Helper.createJLabel(str);
+        JLabel label = I18n_Helper.createJLabel(str);
         this.add(label);
         return label;
     }
@@ -58,7 +59,7 @@ public class SimPanel extends JPanel{
      * @return Created JLabel that was already added into the Component hierarchy of this SimPanel.
      */
     public JButton addNewJButton(String str){
-        JButton button = GUI_Helper.createJButton(str);
+        JButton button = I18n_Helper.createJButton(str);
         this.add(button);
         return button;
     }
@@ -68,7 +69,7 @@ public class SimPanel extends JPanel{
      * @return Created JRadioButton that was already added into the Component hierarchy of this SimPanel.
      */
     public JRadioButton addNewJRadioButton(String str, int mnemonic){
-        JRadioButton radioButton = GUI_Helper.createJRadioButton(str);
+        JRadioButton radioButton = I18n_Helper.createJRadioButton(str);
         radioButton.setMnemonic(mnemonic);
         this.add(radioButton);
         return radioButton;

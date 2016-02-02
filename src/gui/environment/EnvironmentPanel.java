@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
 
 import gui.util.ColorHelper;
@@ -13,6 +14,7 @@ import model.entity.Entity;
 import model.entity.EntityTypeMapper;
 import model.entity.agent.Agent;
 import model.entity.object.EnvObject;
+import model.entity.object.ObjectFlower;
 import model.environment.EnvironmentModel;
 import util.typedef.Matrix;
 import util.typedef.Position;
@@ -194,11 +196,19 @@ public class EnvironmentPanel extends JLayeredPane {
                 // Erase previous frame.
                 envLabels.get(i, j).setIcon(null);
                 
-                for (EnvObject o : env.getObjects())
-                    if (new Position(i,j).equals(o.getPos())) envLabels.get(i, j).setIcon(o.getIcon());
+                for (EnvObject o : env.getObjects()){
+                    if (new Position(i,j).equals(o.getPos()))
+                        envLabels.get(i, j).setIcon(o.getIcon());
+                        // TODO messy override
+                        if (o.getEntityType() == Entity.type.OBJECT_FLOWER)
+                            if (((ObjectFlower)o).getPollen() <= 0)
+                                envLabels.get(i, j).setIcon(new ImageIcon("res/image/daisyDead.png"));
+                }
+                    
                 
                 for (Agent a : env.getAgents())
                     if (new Position(i,j).equals(a.getPos())) envLabels.get(i, j).setIcon(a.getIcon());
+                    
                 
                 // TODO show hive up front
                 EnvObject hive = env.getObjects().get(0);

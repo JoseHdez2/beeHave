@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import gui.environment.EnvironmentPanel;
-import gui.i18n.GUI_Helper;
+import gui.i18n.I18n_Helper;
 import gui.i18n.I18n;
 
 public class PanelTimeControl extends SimPanel {
@@ -41,7 +41,7 @@ public class PanelTimeControl extends SimPanel {
 
         simTimer = new Timer(simTimer.getDelay(), simulationTimerListener);
         
-        JButton stepButton = GUI_Helper.createJButton("SimTime.SimStep");
+        JButton stepButton = I18n_Helper.createJButton("SimTime.SimStep");
         stepButton.addActionListener(simulationTimerListener);
         this.add(stepButton, BorderLayout.SOUTH);
         

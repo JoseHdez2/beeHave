@@ -62,6 +62,9 @@ public class AgentBee extends Agent{
     @Override
     public void simulationStep(EnvironmentModel environment) {
         moveAgent(environment);
+        // TODO: dirty code
+        unloadPollen((ObjectBeehive)environment.getObjects().get(0)); // will only unload if on same pos
+        communicate((ObjectBeehive)environment.getObjects().get(0)); // same
     }
     
     public void getPollen(ObjectFlower flower){
@@ -97,6 +100,7 @@ public class AgentBee extends Agent{
     }
     
     public void unloadPollen(ObjectBeehive hive){
+        if (!pos.equals(hive.getPos())) return;
         if (getPollenCarried() > 0) {
             hive.setPollenInHive(getPollenCarried());
             setPollenCarried(ZERO);
@@ -105,7 +109,7 @@ public class AgentBee extends Agent{
     }
     
     public void communicate(ObjectBeehive hive){
-        
+        if (!pos.equals(hive.getPos())) return;
         if (!hive.getBeesInside().isEmpty()) {
             for ( AgentBee beeInHive : hive.getBeesInside()) {
                 if (beeInHive.getBestFlower() == null){
