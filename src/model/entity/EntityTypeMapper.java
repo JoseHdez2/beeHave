@@ -71,7 +71,7 @@ public abstract class EntityTypeMapper {
         // Super bad fix for demo, remove ASAP
         // Tell bees where their hive is (hive must be first object created ever)
         if (entityType == Entity.type.AGENT_BEE) 
-            ((AgentBee)env.getAgents().get(last)).setHivePos(env.getObjects().get(0).getPos());
+            ((AgentBee)env.getAgents().get(last)).setHiveName(env.getObjects().get(0).getName());
         
     }
     

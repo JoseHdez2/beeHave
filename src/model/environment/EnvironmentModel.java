@@ -72,6 +72,10 @@ public class EnvironmentModel {
      * Special handmade getters
      */
     
+    /**
+     * @param entityName Name of the entity that we want.
+     * @return Entity or null
+     */
     public Entity getEntity(String entityName){
         for (Entity e : objects)
             if(entityName.equals(e.getName())) return e;
@@ -81,7 +85,7 @@ public class EnvironmentModel {
     }
     
     /**
-     * @param pos
+     * @param pos Position of which we want all entities.
      * @return All entities that are in that position.
      */
     public ArrayList<Entity> getEntities(Position pos){
@@ -91,6 +95,19 @@ public class EnvironmentModel {
         for (Entity e : agents)
             if(pos.equals(e.getPos())) entitiesInPos.add(e);
         return entitiesInPos;
+    }
+    
+    /**
+     * @param entityType
+     * @return All entities in the environment of type entityType. 
+     */
+    public ArrayList<Entity> getEntities(Entity.type entityType){
+        ArrayList<Entity> entitiesOfType = new ArrayList<Entity>();
+        for (Entity e : objects)
+            if(e.getEntityType() == entityType) entitiesOfType.add(e);
+        for (Entity e : agents)
+            if(e.getEntityType() == entityType) entitiesOfType.add(e);
+        return entitiesOfType;
     }
     
     /*

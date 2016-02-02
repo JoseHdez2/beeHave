@@ -19,10 +19,18 @@ public class Position {
 		p = new Point(x,y);
 	}
 	
+	public String toString(){
+	    return String.format("(%3d,%3d)", p.x, p.y);
+	}
+    
+    /*
+     * Handmade getters and setters.
+     */
+	
 	public void setLocation(Integer x, Integer y){
 		p.setLocation(x, y);
 	}
-	
+
 	public Integer getX(){
 	    return (int)p.getX();
 	}

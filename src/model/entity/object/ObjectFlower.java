@@ -40,10 +40,8 @@ public class ObjectFlower extends EnvObject {
         
         setPollen(getPollen() - pollenToRemoveActual);
         
-        /*
         if (pollen <= ZERO)
             this.icon = new ImageIcon("res/image/daisyDead.png");
-        */
         
         System.out.println(String.format("stole %d! %d left.", pollenToRemoveActual, getPollen()));
         

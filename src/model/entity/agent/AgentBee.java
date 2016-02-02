@@ -48,13 +48,16 @@ public class AgentBee extends Agent{
         
         setPollenCarried(new Integer(ZERO));
         setPathToHive(new ArrayList<Position>());
-        bestFlowerPos = null;
-        bestFlowerPollen = null;
+        bestFlowerPos = new Position(0,0);
+        bestFlowerPollen = 0;
+        bestFlowerName = "Flowey";
         setPathToFlower(new ArrayList<Position>());
     }
     
     public AgentBee(Position pos){
         this(pos, defaultInitialBehaviour);
+        // TODO: mess
+        this.searchAlgorithm = new AStar(10, 10);
     }
     
     public AgentBee(Position pos, String hiveName){
@@ -64,7 +67,7 @@ public class AgentBee extends Agent{
     
     @Override
     public void simulationStep(EnvironmentModel env) {
-//        moveAgent(env);
+        moveAgent(env);
         // TODO: dirty code
 //        if(pos.equals(bestFlowerPos))
 //            getPollen(env, (ObjectFlower)env.getEntity(bestFlowerName));
@@ -72,89 +75,50 @@ public class AgentBee extends Agent{
 //            unloadPollen((ObjectBeehive)env.getEntity(hiveName)); // will only unload if on same pos
 //            communicate(env, (ObjectBeehive)env.getEntity(hiveName)); // same
 //        }
-//       
-//        for (EnvObject f : objects){
-        for (EnvObject f : env.getObjects()){
-//            if (f.getEntityType() != Entity.type.OBJECT_FLOWER) return;
-            if (f.getEntityType() != Entity.type.OBJECT_FLOWER) return;
-//            ObjectFlower flower = (ObjectFlower)f;
+
+        // For each flower in the environment
+        for (Entity f : env.getEntities(type.OBJECT_FLOWER)){
             ObjectFlower flower = (ObjectFlower)f;
-//            if (flower.getPos().equals(bee.getPos()) && bee.getBehaviour() != AgentBee.behaviourType.RETURN) {
+            // If this bee is on the flower
             if (this.pos.equals(flower.getPos()) && this.behaviour != behaviourType.RETURN) {
-//                if (flower.getPollen() != 0) {
+                // If the flower has any pollen.
                 if (flower.getPollen() != 0) {
-//                    bee.getPollen(flower);
+                // Get pollen from the flower and head back to the hive.
                 getPollen(flower);
-//                    bee.setBehaviour(AgentBee.behaviourType.RETURN);
                 behaviour = behaviourType.RETURN;
-//                    searchAlgorithm.knowledgeInit(bee.getPos(), ((ObjectBeehive)objects.get(0)).getPos());
+                System.out.println(String.format("My pos is %s", pos));
+                System.out.println(String.format("My hive is called %s", hiveName));
                 searchAlgorithm.knowledgeInit(this.pos, env.getEntity(hiveName).getPos());
-//                    bee.setPathToHive(searchAlgorithm.run(bee.getPos(), ((ObjectBeehive)objects.get(0)).getPos()));
                 pathToHive = searchAlgorithm.run(this.pos, env.getEntity(hiveName).getPos());
-//                    break;
                 break;
-//                }
                 }
-//                else {
                 else {
-//                    bee.setBehaviour(AgentBee.behaviourType.SCOUT);
                     this.behaviour = behaviourType.SCOUT;
-//                    break;
                     break;
-//                }   
                 }
-//            }
             }
-//        }
         }
-//        if (bee.getBehaviour().equals(AgentBee.behaviourType.IDLE)) {
         if (this.behaviour == behaviourType.IDLE)
             this.communicate(env, (ObjectBeehive)env.getEntity(hiveName));
-//            bee.communicate((ObjectBeehive)objects.get(0));
-//        }
-//        if (bee.getBestFlower().getPollen() == 0 && (bee.getBehaviour().equals(AgentBee.behaviourType.IDLE) || bee.getBehaviour().equals(AgentBee.behaviourType.GO_TO_POINT) &&
         if (this.bestFlowerPollen == 0 && this.behaviour == behaviourType.IDLE || this.behaviour == behaviourType.GO_TO_POINT &&
-//                objects.get(0).getPos().equals(bee.getPos()))) {
                 this.pos.equals(env.getEntity(hiveName).getPos()))
-//            bee.setBehaviour(AgentBee.behaviourType.SCOUT);
             this.behaviour = behaviourType.SCOUT;
-//        }
-//        if (bee.getBehaviour() == AgentBee.behaviourType.IDLE && ((ObjectBeehive)objects.get(0)).getBeesInside().contains(bee) && ((ObjectBeehive)objects.get(0)).getBeesInside().size() >= 2) {
         ArrayList<String> beesInsideHive = ((ObjectBeehive)env.getEntity(hiveName)).getNamesOfBeesInside();
         if (this.behaviour == behaviourType.IDLE && (beesInsideHive.contains(this.name) && beesInsideHive.size() >= 2)){
-//            searchAlgorithm.knowledgeInit(bee.getPos(), bee.getBestFlower().getPos());
             searchAlgorithm.knowledgeInit(this.pos, bestFlowerPos);
-//            bee.setPathToFlower(searchAlgorithm.run(bee.getPos(), bee.getBestFlower().getPos()));
             pathToFlower = searchAlgorithm.run(this.pos, bestFlowerPos);
-//            bee.setBehaviour(AgentBee.behaviourType.GO_TO_POINT);
             behaviour = behaviourType.GO_TO_POINT;
-//            ((ObjectBeehive)objects.get(0)).getBeesInside().remove(bee);
             ((ObjectBeehive)env.getEntity(hiveName)).getNamesOfBeesInside().remove(this.name);
-//            break;
-//            break;
-//        }
         }
-//        
-//        if (((ObjectBeehive)objects.get(0)).getPos().equals(bee.getPos()) && (bee.getBehaviour().equals(AgentBee.behaviourType.RETURN))) {
-         if (this.pos.equals((env.getEntity(hiveName).getPos())) && this.behaviour == behaviourType.RETURN) {
-//            bee.setBehaviour(AgentBee.behaviourType.IDLE);
+        if (this.behaviour == behaviourType.RETURN && this.pos.equals((env.getEntity(hiveName).getPos()))) {
              this.behaviour = behaviourType.IDLE;
-//            if (!((ObjectBeehive)objects.get(0)).getBeesInside().contains(bee)) {
              if (!((ObjectBeehive)env.getEntity(hiveName)).getNamesOfBeesInside().contains(this.name))
-//                ((ObjectBeehive)objects.get(0)).getBeesInside().add(bee);
                  ((ObjectBeehive)env.getEntity(hiveName)).getNamesOfBeesInside().add(this.name);
-//            }
-//            bee.unloadPollen(((ObjectBeehive)objects.get(0)));
              this.unloadPollen(((ObjectBeehive)env.getEntity(hiveName)));
-//        }
          }
-//        if (bee.getBehaviour() == AgentBee.behaviourType.GO_TO_POINT && bee.getPathToFlower().isEmpty()) {
          if (this.behaviour == behaviourType.GO_TO_POINT && this.pathToFlower.isEmpty()) {
-//            searchAlgorithm.knowledgeInit(bee.getPos(), bee.getBestFlower().getPos());
              searchAlgorithm.knowledgeInit(this.pos, bestFlowerPos);
-//            bee.setPathToFlower(searchAlgorithm.run(bee.getPos(), bee.getBestFlower().getPos())); 
              this.pathToFlower = searchAlgorithm.run(this.pos, bestFlowerPos);
-//        }
         }
     }
     
@@ -282,7 +246,7 @@ public class AgentBee extends Agent{
         return hiveName;
     }
 
-    public void setHivePos(String hiveName) {
+    public void setHiveName(String hiveName) {
         this.hiveName = hiveName;
     }
 

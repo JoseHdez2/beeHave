@@ -212,9 +212,11 @@ public class EnvironmentPanel extends JLayeredPane {
                     if (new Position(i,j).equals(o.getPos())){
                         envLabels.get(i, j).setIcon(o.getIcon());
                         // TODO messy override
+                        /*
                         if (o.getEntityType() == Entity.type.OBJECT_FLOWER)
                             if (((ObjectFlower)o).getPollen() <= 0)
                                 envLabels.get(i, j).setIcon(new ImageIcon("res/image/daisyDead.png"));
+                                */
                     }
                     
                 
