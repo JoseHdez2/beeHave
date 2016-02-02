@@ -4,7 +4,6 @@ import javax.swing.ImageIcon;
 
 import model.entity.agent.Agent;
 import model.entity.agent.AgentBee;
-import model.entity.agent.AgentBee;
 import model.entity.agent.AgentWasp;
 import model.entity.object.EnvObject;
 import model.entity.object.ObjectBeehive;

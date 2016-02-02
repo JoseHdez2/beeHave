@@ -60,7 +60,6 @@ public class EnvironmentModel {
     public void simulationStep(){
         for(Agent a : agents)
             a.simulationStep(this);
-        checkBeeFlower();
     }
     
     /**
@@ -69,58 +68,6 @@ public class EnvironmentModel {
     public Position randomPosition(){
         return new Position(RandomNum.randInt(0, width-1), RandomNum.randInt(0, height-1));
     }
-    
-    // TODO
-    private void checkBeeFlower(){
-        for (Agent a : agents) {
-            if (a.getEntityType() != Entity.type.AGENT_BEE) return;
-            AgentBee bee = (AgentBee)a;
-            for (EnvObject f : objects){
-                if (f.getEntityType() != Entity.type.OBJECT_FLOWER) return;
-                ObjectFlower flower = (ObjectFlower)f;
-                if (flower.getPos().equals(bee.getPos()) && bee.getBehaviour() != AgentBee.behaviourType.RETURN) {
-                    if (flower.getPollen() != 0) {
-                        bee.getPollen(flower);
-                        bee.setBehaviour(AgentBee.behaviourType.RETURN);
-                        searchAlgorithm.knowledgeInit(bee.getPos(), ((ObjectBeehive)objects.get(0)).getPos());
-                        bee.setPathToHive(searchAlgorithm.run(bee.getPos(), ((ObjectBeehive)objects.get(0)).getPos()));
-                        break;
-                    }
-                    else {
-                        bee.setBehaviour(AgentBee.behaviourType.SCOUT);
-                        break;
-                    }   
-                }
-            }
-            if (bee.getBehaviour().equals(AgentBee.behaviourType.IDLE)) {
-                bee.communicate((ObjectBeehive)objects.get(0));
-            }
-            if (bee.getBestFlower().getPollen() == 0 && (bee.getBehaviour().equals(AgentBee.behaviourType.IDLE) || bee.getBehaviour().equals(AgentBee.behaviourType.GO_TO_POINT) &&
-                    objects.get(0).getPos().equals(bee.getPos()))) {
-                bee.setBehaviour(AgentBee.behaviourType.SCOUT);
-            }
-            if (bee.getBehaviour() == AgentBee.behaviourType.IDLE && ((ObjectBeehive)objects.get(0)).getBeesInside().contains(bee) && ((ObjectBeehive)objects.get(0)).getBeesInside().size() >= 2) {
-                searchAlgorithm.knowledgeInit(bee.getPos(), bee.getBestFlower().getPos());
-                bee.setPathToFlower(searchAlgorithm.run(bee.getPos(), bee.getBestFlower().getPos())); 
-                bee.setBehaviour(AgentBee.behaviourType.GO_TO_POINT);
-                ((ObjectBeehive)objects.get(0)).getBeesInside().remove(bee);
-                break;
-            }
-            
-            if (((ObjectBeehive)objects.get(0)).getPos().equals(bee.getPos()) && (bee.getBehaviour().equals(AgentBee.behaviourType.RETURN))) {
-                bee.setBehaviour(AgentBee.behaviourType.IDLE);
-                if (!((ObjectBeehive)objects.get(0)).getBeesInside().contains(bee)) {
-                    ((ObjectBeehive)objects.get(0)).getBeesInside().add(bee);
-                }
-                bee.unloadPollen(((ObjectBeehive)objects.get(0)));
-            }
-            if (bee.getBehaviour() == AgentBee.behaviourType.GO_TO_POINT && bee.getPathToFlower().isEmpty()) {
-                searchAlgorithm.knowledgeInit(bee.getPos(), bee.getBestFlower().getPos());
-                bee.setPathToFlower(searchAlgorithm.run(bee.getPos(), bee.getBestFlower().getPos())); 
-            }
-        }
-    }
-    
     /*
      * Special handmade getters
      */
