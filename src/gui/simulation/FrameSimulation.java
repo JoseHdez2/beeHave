@@ -31,7 +31,7 @@ public class FrameSimulation extends JFrame {
     
     public FrameSimulation(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("beeHave test");
+        setTitle("beeHave");
         setSize(1200, 600);
         setLayout(new GridLayout(1,2));
         

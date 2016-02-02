@@ -12,6 +12,8 @@ public class PanelEntityInspector extends SimPanel {
     JLabel nameLabel;
     JLabel posLabel;
     
+    SimPanel typeSpecific;
+    
     PanelEntityInspector(){
         super("Inspector");
         setLayout(new GridLayout(0,2));
