@@ -128,7 +128,7 @@ public class PanelClickEffect extends SimPanel {
         panelUpRight.add(panelCreateMode);
         panelCreateMode.add(listEntityTypes);
         
-        panelInspector = new PanelEntityInspector();
+        panelInspector = new PanelEntityInspector(envPanel);
         panelInspector.updateEntity(envPanel.getEnv().getAgents().get(0));
         this.add(panelInspector);
     }
