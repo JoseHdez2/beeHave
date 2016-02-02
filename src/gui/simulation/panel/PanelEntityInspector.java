@@ -8,19 +8,25 @@ import model.entity.Entity;
 import model.entity.agent.AgentBee;
 
 public class PanelEntityInspector extends SimPanel {
-
-    PanelEntityInspector(Entity ent){
+    
+    JLabel nameLabel;
+    JLabel posLabel;
+    
+    PanelEntityInspector(){
         super("Inspector");
         setLayout(new GridLayout(0,2));
 
+        nameLabel = new JLabel("---");
+        posLabel = new JLabel("---");
+
         add(new JLabel("Name:"));
-        add(new JLabel(ent.getName())); 
+        add(nameLabel);
        
-        add(new JLabel("PosX:"));
-        add(new JLabel(ent.getPosX().toString()));
-        add(new JLabel("PosY:"));
-        add(new JLabel(ent.getPosY().toString()));
-           
+        add(new JLabel("Pos:"));
+        add(posLabel);
+    }
+    
+    public void updateEntity(Entity ent){
         switch(ent.getEntityType()){
         case AGENT_BEE:
             AgentBee ent2 = (AgentBee)ent;

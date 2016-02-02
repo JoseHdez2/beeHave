@@ -8,6 +8,7 @@ import javax.swing.JTextField;
 
 import gui.environment.EnvironmentPanel;
 import gui.i18n.I18n;
+import model.entity.Entity;
 
 /**
  * Food generation panel.
@@ -34,7 +35,7 @@ public class PanelFoodGen extends SimPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int n = Integer.parseInt(foodField.getText());
-                for (int i = 0; i < n; i++) envPanel.generateFoodPortion();
+                envPanel.generateEntities(n, Entity.type.OBJECT_FLOWER);
                 envPanel.repaint();
             }
         };

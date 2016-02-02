@@ -29,7 +29,7 @@ public class PanelClickEffect extends SimPanel {
     JList listEntityTypes; // List of all existing entity types. For creation.
     SimPanel panelMoveMode;
     SimPanel panelCreateMode;
-    SimPanel panelInspector; // Inspector panel for inspecting.
+    PanelEntityInspector panelInspector; // Inspector panel for inspecting.
     JScrollPane scrollerAgents;
     JScrollPane scrollerObjects;
     
@@ -75,7 +75,8 @@ public class PanelClickEffect extends SimPanel {
             public void valueChanged(ListSelectionEvent e) {
                 System.out.println(String.format("Selected value: %s", listAgents.getSelectedValue()));
                 envPanel.setSelectedEntityName(((Entity)listAgents.getSelectedValue()).getName());
-                updateInspector(envPanel);
+                System.out.println(String.format("envPanel: my selected entity is called %s", envPanel.getSelectedEntity().getName()));
+                panelInspector.updateEntity(envPanel.getSelectedEntity());
 //                listObjects.clearSelection();
             }
             
@@ -87,7 +88,8 @@ public class PanelClickEffect extends SimPanel {
             public void valueChanged(ListSelectionEvent e) {
                 System.out.println(String.format("Selected value: %s", listObjects.getSelectedValue()));
                 envPanel.setSelectedEntityName(((Entity)listObjects.getSelectedValue()).getName());
-                updateInspector(envPanel);
+                System.out.println(String.format("envPanel: my selected entity is called %s", envPanel.getSelectedEntity().getName()));
+                panelInspector.updateEntity(envPanel.getSelectedEntity());
 //                listAgents.clearSelection();
             }
             
@@ -126,7 +128,8 @@ public class PanelClickEffect extends SimPanel {
         panelUpRight.add(panelCreateMode);
         panelCreateMode.add(listEntityTypes);
         
-        panelInspector = new PanelEntityInspector(envPanel.getEnv().getAgents().get(0));
+        panelInspector = new PanelEntityInspector();
+        panelInspector.updateEntity(envPanel.getEnv().getAgents().get(0));
         this.add(panelInspector);
     }
     
@@ -180,12 +183,6 @@ public class PanelClickEffect extends SimPanel {
             envPanel.setClickEffect(EnvironmentPanel.ClickEffect.SELECT);
             break;
         }
-    }
-    
-    private void updateInspector(EnvironmentPanel envPanel){
-        
-        panelInspector = 
-                new PanelEntityInspector(envPanel.getEnv().getObjects().get(listObjects.getSelectedIndex()));
     }
     
     /**

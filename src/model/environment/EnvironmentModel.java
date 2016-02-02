@@ -77,6 +77,7 @@ public class EnvironmentModel {
      * @return Entity or null
      */
     public Entity getEntity(String entityName){
+        if (entityName == null) return null;
         for (Entity e : objects)
             if(entityName.equals(e.getName())) return e;
         for (Entity e : agents)

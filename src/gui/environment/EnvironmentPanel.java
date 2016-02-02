@@ -1,12 +1,15 @@
 package gui.environment;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
 
 import gui.util.ColorHelper;
@@ -14,7 +17,6 @@ import model.entity.Entity;
 import model.entity.EntityTypeMapper;
 import model.entity.agent.Agent;
 import model.entity.object.EnvObject;
-import model.entity.object.ObjectFlower;
 import model.environment.EnvironmentModel;
 import util.typedef.Matrix;
 import util.typedef.Position;
@@ -47,10 +49,15 @@ public class EnvironmentPanel extends JLayeredPane {
     
     public Matrix<EnvironmentLabel> envLabels;  // JLabels that will have entities as icons. 
     
+    private EnvironmentLabel highlightedTile; // TODO: uninitialized; it initializes soon enough. but be careful...
+    
+    // Cursor stuff. Thanks to http://stackoverflow.com/a/4274653/3399416.
+    
+    
     private EnvironmentPanel(){
-        clickEffect = ClickEffect.CREATE;
         selectedEntityType = Entity.type.OBJECT_FLOWER;
         selectedEntityName = null;
+        setClickEffect(ClickEffect.CREATE);
     }
     
     public EnvironmentPanel(int width, int height){
@@ -64,6 +71,8 @@ public class EnvironmentPanel extends JLayeredPane {
         setLayout(new GridLayout(width,height));
         
         this.envLabels = new Matrix<EnvironmentLabel>(new EnvironmentLabel[x][y]);
+        
+//        setCursorImage("res/image/meat.png");
         
         // Add tiles
         for (int j = 0; j < envLabels.height(); j++){
@@ -121,10 +130,11 @@ public class EnvironmentPanel extends JLayeredPane {
     }
     
     /**
-     * Create a single food item randomly in the environment.
+     * Create N entities in random positions.
      */
-    public void generateFoodPortion(){
-        EntityTypeMapper.createEntityInto(env, Entity.type.OBJECT_FLOWER, env.randomPosition());
+    public void generateEntities(int n, Entity.type entityType){
+        for (int i = 0; i < n; i++)
+            EntityTypeMapper.createEntityInto(env, entityType, env.randomPosition());
     }
     
     /**
@@ -165,23 +175,29 @@ public class EnvironmentPanel extends JLayeredPane {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            if (clickEffect == ClickEffect.SELECT){
-                clickEffect = ClickEffect.GRABBING_ENTITY;
-            }
+            mouseClicked(e);
+            EnvironmentLabel el = ((EnvironmentLabel)e.getSource());
+            System.out.println(String.format("old pos: %s", new Position(el.x,el.y)));
+            if (clickEffect == ClickEffect.SELECT)
+                setClickEffect(ClickEffect.GRABBING_ENTITY);
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            EnvironmentLabel el = ((EnvironmentLabel)e.getSource());
+            
             if (clickEffect == ClickEffect.GRABBING_ENTITY){
-                getSelectedEntity().setPos(new Position(el.x,el.y));
-                clickEffect = ClickEffect.SELECT;
+                EnvironmentLabel ht = highlightedTile;
+                getSelectedEntity().setPos(new Position(ht.x,ht.y));
+                System.out.println(String.format("new pos: %s", new Position(ht.x,ht.y)));
+                setClickEffect(ClickEffect.SELECT);
             }
+            repaint();
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
             ((EnvironmentLabel)e.getSource()).setHighlighted(true);
+            highlightedTile = ((EnvironmentLabel)e.getSource());
         }
 
         @Override
@@ -218,7 +234,8 @@ public class EnvironmentPanel extends JLayeredPane {
                                 envLabels.get(i, j).setIcon(new ImageIcon("res/image/daisyDead.png"));
                                 */
                     }
-                    
+                
+                // TODO: 
                 
                 for (Agent a : env.getAgents())
                     if (new Position(i,j).equals(a.getPos())) envLabels.get(i, j).setIcon(a.getIcon());
@@ -231,6 +248,23 @@ public class EnvironmentPanel extends JLayeredPane {
         }
         super.paint(g);
     }
+    
+    private void setCursorImage(Image image){
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Cursor c = toolkit.createCustomCursor(image, new Point(this.getX(), 
+                   this.getY()), "img");
+        this.setCursor (c);
+    }
+    
+    private void setCursorImage(String imagePath){
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image image = toolkit.getImage(imagePath);
+        setCursorImage(image);
+    }
+    
+    private void setCursorImage(){
+        setCursor(Cursor.getDefaultCursor());
+    }
 
     /**
      * Using the internal selectedEntityName, find and return the currently selected entity.
@@ -240,16 +274,32 @@ public class EnvironmentPanel extends JLayeredPane {
         return env.getEntity(selectedEntityName);
     }
     
+
+    /**
+     * Set both the click effect and the cursor to display over the environment.
+     * @param clickEffect
+     */
+    public void setClickEffect(ClickEffect clickEffect) {
+        this.clickEffect = clickEffect;
+        switch(clickEffect){
+        case CREATE:
+            setCursorImage("res/image/star.png"); break;
+        case GRABBING_ENTITY:
+            setCursorImage(getSelectedEntity().getIcon().getImage()); break;
+        case SELECT:
+            setCursorImage(); break;
+        default:
+            break;
+        
+        }
+    }
+    
     /*
      * Getters and setters.
      */
     
     public Matrix<EnvironmentLabel> getEnvLabels() {
         return envLabels;
-    }
-
-    public void setClickEffect(ClickEffect clickEffect) {
-        this.clickEffect = clickEffect;
     }
 
     public EnvironmentModel getEnv() {
