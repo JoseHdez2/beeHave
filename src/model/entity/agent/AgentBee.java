@@ -80,20 +80,20 @@ public class AgentBee extends Agent{
     public void moveAgent(EnvironmentModel model){
         
         // The pathfinding module decides the next step and executes it.
-        System.out.println(this.toString());
+//        System.out.println(this.toString());
         if (getBehaviour() == behaviourType.RETURN) {
-            System.out.println("return");       
+//            System.out.println("return");       
             returnToHive();
         }
         if (getBehaviour() == behaviourType.IDLE){
-            System.out.println("idle");     
+//            System.out.println("idle");     
             }
         else if (getBehaviour() == behaviourType.SCOUT){
-            System.out.println("scout");
+//            System.out.println("scout");
             getPathFinding().nextMove(this, model);
         }
         if (getBehaviour() == behaviourType.GO_TO_POINT){
-            System.out.println("point");
+//            System.out.println("point");
             moveToPoint(getPathToFlower());
         }
 

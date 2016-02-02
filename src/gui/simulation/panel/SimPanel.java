@@ -1,6 +1,5 @@
 package gui.simulation.panel;
 
-import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Iterator;

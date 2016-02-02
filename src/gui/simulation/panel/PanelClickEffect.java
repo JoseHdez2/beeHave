@@ -1,6 +1,5 @@
 package gui.simulation.panel;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -70,20 +69,44 @@ public class PanelClickEffect extends SimPanel {
         listAgents = initializeList(listAgents);
         listObjects = initializeList(listObjects);
         
-        ListSelectionListener listener = new ListSelectionListener(){
+        ListSelectionListener listAgentsListener = new ListSelectionListener(){
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                updateFromLists(envPanel, e.getSource());
+                System.out.println(String.format("Selected value: %s", listAgents.getSelectedValue()));
+                envPanel.setSelectedEntityName(((Entity)listAgents.getSelectedValue()).getName());
+                updateInspector(envPanel);
+//                listObjects.clearSelection();
+            }
+            
+        };
+        
+        ListSelectionListener listObjectsListener = new ListSelectionListener(){
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                System.out.println(String.format("Selected value: %s", listObjects.getSelectedValue()));
+                envPanel.setSelectedEntityName(((Entity)listObjects.getSelectedValue()).getName());
+                updateInspector(envPanel);
+//                listAgents.clearSelection();
+            }
+            
+        };
+        
+        ListSelectionListener listEntityTypesListener = new ListSelectionListener(){
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                envPanel.setSelectedEntityType((type)listEntityTypes.getSelectedValue());
             }
             
         };
         
         listEntityTypes = new JList(Entity.type.values());
         
-        listAgents.addListSelectionListener(listener);
-        listObjects.addListSelectionListener(listener);
-        listEntityTypes.addListSelectionListener(listener);
+        listAgents.addListSelectionListener(listAgentsListener);
+        listObjects.addListSelectionListener(listObjectsListener);
+        listEntityTypes.addListSelectionListener(listEntityTypesListener);
         
         scrollerAgents = new JScrollPane(listAgents);
         scrollerAgents.setPreferredSize(new Dimension(140, 100));
@@ -153,19 +176,17 @@ public class PanelClickEffect extends SimPanel {
         }
     }
     
-    private void updateFromLists(EnvironmentPanel envPanel, Object source){
-        if (source == listAgents){
-            envPanel.setClickEffectPointerAgent(listAgents.getSelectedIndex());
-            envPanel.setAgent(true);
-            panelInspector = 
-                    new PanelEntityInspector(envPanel.getEnv().getAgents().get(listAgents.getSelectedIndex()));
-        } else if (source == listObjects){
-            envPanel.setClickEffectPointerAgent(listObjects.getSelectedIndex());
-            envPanel.setAgent(false);
-            panelInspector = 
-                    new PanelEntityInspector(envPanel.getEnv().getObjects().get(listObjects.getSelectedIndex()));
-        } else if (source == listEntityTypes){
-            envPanel.setClickEffectEntity((type)listEntityTypes.getSelectedValue());
-        }
+    private void updateInspector(EnvironmentPanel envPanel){
+        
+        panelInspector = 
+                new PanelEntityInspector(envPanel.getEnv().getObjects().get(listObjects.getSelectedIndex()));
+    }
+    
+    /**
+     * Simulate Action events for the interface so that something is selected on startup
+     * (and the model corresponds to it).
+     */
+    private void initialInterfaceConfiguration(){
+        
     }
 }

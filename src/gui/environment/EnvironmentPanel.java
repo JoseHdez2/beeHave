@@ -38,10 +38,9 @@ public class EnvironmentPanel extends JLayeredPane {
     }
     
     private ClickEffect clickEffect; // Effect that clicking on a tile will have.
-    private Entity.type clickEffectEntity; // For when creating an entity.
-    private int clickEffectPointerAgent; // Currently selected agent, to inspect or modify.
-    private int clickEffectPointerObject; // Currently selected object, to inspect of modify.
-    private boolean isAgent; // Whether clickEffect will move/inspect an agent or object.
+    private Entity.type selectedEntityType; // For when creating an entity.
+    
+    private String selectedEntityName; // Currently selected entity, to inspect or modify.
     
     private EnvironmentModel env;   // Environment model this interface will represent. 
     
@@ -49,10 +48,8 @@ public class EnvironmentPanel extends JLayeredPane {
     
     private EnvironmentPanel(){
         clickEffect = ClickEffect.CREATE;
-        clickEffectEntity = Entity.type.OBJECT_FLOWER;
-        clickEffectPointerAgent = 0;
-        clickEffectPointerObject = 0;
-        isAgent = true;
+        selectedEntityType = Entity.type.OBJECT_FLOWER;
+        selectedEntityName = null;
     }
     
     public EnvironmentPanel(int width, int height){
@@ -138,13 +135,17 @@ public class EnvironmentPanel extends JLayeredPane {
     private void clickEffect(int x, int y){
         switch(clickEffect){
         case CREATE:
-            EntityTypeMapper.createEntityInto(env, clickEffectEntity, new Position(x,y)); break;
+            EntityTypeMapper.createEntityInto(env, selectedEntityType, new Position(x,y)); break;
         case MOVE:
-            if (isAgent)
-                env.getAgents().get(clickEffectPointerAgent).setPos(new Position(x,y));
-            if (!isAgent)
-                env.getObjects().get(clickEffectPointerObject).setPos(new Position(x,y));
+            // If there's an entity in (x,y), select it.
+            // Agents take precedence over objects, newly created take precedence over older.
+            for (Entity e : env.getObjects())
+                if(new Position(x,y).equals(e.getPos())) selectedEntityName = e.getName();
+            for (Entity e : env.getAgents())
+                if(new Position(x,y).equals(e.getPos())) selectedEntityName = e.getName();
             break;
+        default:
+             System.out.println("probably dragging"); break;
         }
     }
     
@@ -196,14 +197,14 @@ public class EnvironmentPanel extends JLayeredPane {
                 // Erase previous frame.
                 envLabels.get(i, j).setIcon(null);
                 
-                for (EnvObject o : env.getObjects()){
-                    if (new Position(i,j).equals(o.getPos()))
+                for (EnvObject o : env.getObjects())
+                    if (new Position(i,j).equals(o.getPos())){
                         envLabels.get(i, j).setIcon(o.getIcon());
                         // TODO messy override
                         if (o.getEntityType() == Entity.type.OBJECT_FLOWER)
                             if (((ObjectFlower)o).getPollen() <= 0)
                                 envLabels.get(i, j).setIcon(new ImageIcon("res/image/daisyDead.png"));
-                }
+                    }
                     
                 
                 for (Agent a : env.getAgents())
@@ -218,6 +219,18 @@ public class EnvironmentPanel extends JLayeredPane {
         super.paint(g);
     }
 
+    /**
+     * Using the internal selectedEntityName, find and return the currently selected entity.
+     * @return Currently selected entity.
+     */
+    public Entity getSelectedEntity(){
+        for (Entity e : env.getObjects())
+            if(selectedEntityName.equals(e.getName())) return e;
+        for (Entity e : env.getAgents())
+            if(selectedEntityName.equals(e.getName())) return e;
+        return null;
+    }
+    
     /*
      * Getters and setters.
      */
@@ -228,22 +241,6 @@ public class EnvironmentPanel extends JLayeredPane {
 
     public void setClickEffect(ClickEffect clickEffect) {
         this.clickEffect = clickEffect;
-    }
-
-    public Entity.type getClickEffectEntity() {
-        return clickEffectEntity;
-    }
-
-    public void setClickEffectEntity(Entity.type clickEffectEntity) {
-        this.clickEffectEntity = clickEffectEntity;
-    }
-
-    public int getClickEffectPointerAgent() {
-        return clickEffectPointerAgent;
-    }
-
-    public void setClickEffectPointerAgent(int clickEffectPointer) {
-        this.clickEffectPointerAgent = clickEffectPointer;
     }
 
     public EnvironmentModel getEnv() {
@@ -275,24 +272,12 @@ public class EnvironmentPanel extends JLayeredPane {
         this.tileColorTerrain = tileColorTerrain;
         recolorTiles();
     }
-    
-    public Agent getSelectedAgent(){
-        return env.getAgents().get(clickEffectPointerAgent);
-    }
-    
-    public Object getSelectedObject(){
-        return env.getObjects().get(clickEffectPointerAgent);
+
+    public void setSelectedEntityType(Entity.type selectedEntityType) {
+        this.selectedEntityType = selectedEntityType;
     }
 
-    public int getClickEffectPointerObject() {
-        return clickEffectPointerObject;
-    }
-
-    public void setClickEffectPointerObject(int clickEffectPointerObject) {
-        this.clickEffectPointerObject = clickEffectPointerObject;
-    }
-
-    public void setAgent(boolean isAgent) {
-        this.isAgent = isAgent;
+    public void setSelectedEntityName(String selectedEntityName) {
+        this.selectedEntityName = selectedEntityName;
     }
 }

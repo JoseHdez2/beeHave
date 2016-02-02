@@ -23,7 +23,7 @@ public class PanelMovement extends SimPanel {
 //                    return;
                 switch(e.getActionCommand()){
                 case "MoveType.Random":
-                    envPanel.getSelectedAgent().setPathFinding(new RandomMove());
+//                    envPanel.getSelectedAgent().setPathFinding(new RandomMove());
                     break;
                 case "MoveType.AStar":
 //                    envPanel.getSelectedAgent().setPathFinding(new AS());
