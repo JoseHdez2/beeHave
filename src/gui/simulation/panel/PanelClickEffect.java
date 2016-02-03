@@ -79,7 +79,7 @@ public class PanelClickEffect extends SimPanel {
         panelUp.add(panelUpRight);
         
         panelMoveMode = new SimPanel(I18n.getString("ClickEffect.Select"));
-        panelUpRight.add(panelMoveMode);
+//        panelUpRight.add(panelMoveMode);
         
         updateLists(envPanel);
 
