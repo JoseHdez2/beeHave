@@ -22,16 +22,22 @@ public class EnvironmentLabel extends JLabel{
     
     public int x = 0, y = 0;    // Tile of environment this JLabel represents.
     
-    private int highlightOffset; // How much lighter/darker will this label become when highlighted. 
-    private boolean highlighted; // Whether or not this JLabel is highlighted (cursor).
+    // TODO: Use colors instead of offsets/grays. More flexible.
+    
+    private int highlightOffsetCursor; // How much lighter/darker will this label become when highlighted. 
+    private boolean highlightedCursor; // Whether or not this JLabel is highlighted (cursor).
+    
+    private int highlightOffsetInspector; // How much lighter/darker will this label become when highlighted. 
+    private boolean highlightedInspector; // Whether or not this JLabel is highlighted (inspector).
     
     private Color trueColor; // True color regardless of highlighted state.
     
     public EnvironmentLabel(){
         super("", SwingConstants.CENTER);
         this.setOpaque(true);
-        highlighted = false;
-        highlightOffset = 20;
+        highlightedCursor = false;
+        highlightOffsetCursor = 20;
+        highlightOffsetInspector = -40;
     }
     
     public EnvironmentLabel(int i, int j){
@@ -46,14 +52,26 @@ public class EnvironmentLabel extends JLabel{
         trueColor = bg;
     }
     
+    
+    public void updateDisplayColor(){
+        Color displayColor = trueColor;
+        if (highlightedCursor) displayColor = ColorHelper.offsetColor(displayColor, highlightOffsetCursor);
+        if (highlightedInspector) displayColor = ColorHelper.offsetColor(displayColor, highlightOffsetInspector);
+        super.setBackground(displayColor);
+    }
+    
     /*
-     * Getters and setters.
+     * Handmade, special getters and setters.
      */
     
-    public void setHighlighted(boolean highlighted) {
-        this.highlighted = highlighted;
-        Color displayColor = highlighted ? ColorHelper.offsetColor(trueColor, highlightOffset) : trueColor;
-        super.setBackground(displayColor);
+    public void setHighlightedCursor(boolean highlightedCursor) {
+        this.highlightedCursor = highlightedCursor;
+        updateDisplayColor();
+    }
+    
+    public void setHighlightedInspector(boolean highlightedInspector) {
+        this.highlightedInspector = highlightedInspector;
+        updateDisplayColor();
     }
 
 }

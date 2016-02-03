@@ -49,7 +49,8 @@ public class EnvironmentPanel extends JLayeredPane {
     
     public Matrix<EnvironmentLabel> envLabels;  // JLabels that will have entities as icons. 
     
-    private EnvironmentLabel highlightedTile; // TODO: uninitialized; it initializes soon enough. but be careful...
+    private EnvironmentLabel highlightedTileCursor; // TODO: uninitialized; it initializes soon enough. but be careful...
+    private EnvironmentLabel highlightedTileInspector;
     
     // Cursor stuff. Thanks to http://stackoverflow.com/a/4274653/3399416.
     
@@ -150,6 +151,7 @@ public class EnvironmentPanel extends JLayeredPane {
         case SELECT:
             // If there's an entity in (x,y), select it.
             // Agents take precedence over objects, newly created take precedence over older.
+            // TODO: select(highlight) object in list when selected in the environment.
             for (Entity e : env.getObjects())
                 if(new Position(x,y).equals(e.getPos())) selectedEntityName = e.getName();
             for (Entity e : env.getAgents())
@@ -186,8 +188,8 @@ public class EnvironmentPanel extends JLayeredPane {
         public void mouseReleased(MouseEvent e) {
             
             if (clickEffect == ClickEffect.GRABBING_ENTITY){
-                EnvironmentLabel ht = highlightedTile;
-                getSelectedEntity().setPos(new Position(ht.x,ht.y));
+                EnvironmentLabel ht = highlightedTileCursor;
+                if (getSelectedEntity() != null) getSelectedEntity().setPos(new Position(ht.x,ht.y));
                 System.out.println(String.format("new pos: %s", new Position(ht.x,ht.y)));
                 setClickEffect(ClickEffect.SELECT);
             }
@@ -196,13 +198,13 @@ public class EnvironmentPanel extends JLayeredPane {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            ((EnvironmentLabel)e.getSource()).setHighlighted(true);
-            highlightedTile = ((EnvironmentLabel)e.getSource());
+            ((EnvironmentLabel)e.getSource()).setHighlightedCursor(true);
+            highlightedTileCursor = ((EnvironmentLabel)e.getSource());
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            ((EnvironmentLabel)e.getSource()).setHighlighted(false);
+            ((EnvironmentLabel)e.getSource()).setHighlightedCursor(false);
         }
         
     };
@@ -224,6 +226,8 @@ public class EnvironmentPanel extends JLayeredPane {
                 // Erase previous frame.
                 envLabels.get(i, j).setIcon(null);
                 
+                // TODO: this way of painting works but is not optimal.
+                
                 for (EnvObject o : env.getObjects())
                     if (new Position(i,j).equals(o.getPos())){
                         envLabels.get(i, j).setIcon(o.getIcon());
@@ -234,8 +238,6 @@ public class EnvironmentPanel extends JLayeredPane {
                                 envLabels.get(i, j).setIcon(new ImageIcon("res/image/daisyDead.png"));
                                 */
                     }
-                
-                // TODO: 
                 
                 for (Agent a : env.getAgents())
                     if (new Position(i,j).equals(a.getPos())) envLabels.get(i, j).setIcon(a.getIcon());
@@ -295,6 +297,17 @@ public class EnvironmentPanel extends JLayeredPane {
     }
     
     /*
+     * Special getters and setters.
+     */
+
+    public void setSelectedEntityName(String selectedEntityName) {
+        this.selectedEntityName = selectedEntityName;
+        int i = getSelectedEntity().getPosX();
+        int j = getSelectedEntity().getPosY();
+        envLabels.get(i, j).setHighlightedInspector(true);
+    }
+    
+    /*
      * Getters and setters.
      */
     
@@ -334,9 +347,5 @@ public class EnvironmentPanel extends JLayeredPane {
 
     public void setSelectedEntityType(Entity.type selectedEntityType) {
         this.selectedEntityType = selectedEntityType;
-    }
-
-    public void setSelectedEntityName(String selectedEntityName) {
-        this.selectedEntityName = selectedEntityName;
     }
 }

@@ -1,6 +1,11 @@
 package model.entity.agent;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
+
+import javax.swing.ImageIcon;
 
 import model.entity.Entity;
 import model.entity.object.EnvObject;
@@ -64,6 +69,22 @@ public class AgentBee extends Agent{
         this(pos);
         this.hiveName = hiveName;
     }
+    /*
+    @Override
+    protected void initializeIcon() {
+//        super.initializeIcon();
+        try {
+            Enumeration<URL> e = ClassLoader.getSystemResources("bee.png");
+            while(e.hasMoreElements()){
+                URL param = (URL) e.nextElement();
+                System.out.println(param);
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        this.icon = new ImageIcon(ClassLoader.getSystemResource("beeHave/res/image/bee.png"));
+    }*/
     
     @Override
     public void simulationStep(EnvironmentModel env) {

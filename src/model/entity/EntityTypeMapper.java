@@ -1,5 +1,8 @@
 package model.entity;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.swing.ImageIcon;
 
 import model.entity.agent.Agent;
@@ -75,17 +78,29 @@ public abstract class EntityTypeMapper {
         
     }
     
+//    public static URL asd = getClass().getResource("res/image/bee.png");
+    
     /**
      * @param entityType    Type of Entity.
      * @return  ImageIcon that represents the specified type of Entity.
      */
     public static ImageIcon getIcon(Entity.type entityType){
+//    public ImageIcon getIcon(Entity.type entityType){
         switch(entityType){
         case AGENT_BEE: return new ImageIcon("res/image/bee.png");
-        case AGENT_WASP: return new ImageIcon("res/image/meat.png");
+//        case AGENT_BEE: return new ImageIcon(ClassLoader.getResource("res/image/bee.png"));
+//        case AGENT_BEE: try {
+//                return new ImageIcon(new URL("jar:file:app.jar!/res/image/bee.png"));
+//            } catch (MalformedURLException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+        case AGENT_WASP: return new ImageIcon("res/image/wasp3.png");
         case OBJECT_BEEHIVE: return new ImageIcon("res/image/beehive2.png");
         case OBJECT_FLOWER: return new ImageIcon("res/image/daisy.png");
         }
         return null;
     }
+    
+    
 }

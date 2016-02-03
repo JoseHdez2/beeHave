@@ -1,6 +1,5 @@
 package gui.simulation.panel;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -8,9 +7,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -33,8 +35,23 @@ public class PanelClickEffect extends SimPanel {
     JScrollPane scrollerAgents;
     JScrollPane scrollerObjects;
     
+    // TODO: messy workaround
+    // The EnvPanel can't see this panel so it can't really notify changes in entities.
+    Timer listRefreshTimer;
+    
     public PanelClickEffect(EnvironmentPanel envPanel){
         super("Hacer algo");
+        
+        listRefreshTimer = new Timer(1000, // every second.
+                new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("updating lists!");
+                    updateLists(envPanel);
+                }
+            });
+        
+        listRefreshTimer.start();
         
         ActionListener clickEffectButtonListener = new ActionListener(){
             @Override
@@ -117,9 +134,7 @@ public class PanelClickEffect extends SimPanel {
                 .valueChanged(new ListSelectionEvent(listEntityTypes, 0, 0, false));*/
         
         scrollerAgents = new JScrollPane(listAgents);
-        scrollerAgents.setPreferredSize(new Dimension(140, 100));
         scrollerObjects = new JScrollPane(listObjects);
-        scrollerObjects.setPreferredSize(new Dimension(140, 100));
         
         panelMoveMode.add(scrollerAgents);
         panelMoveMode.add(scrollerObjects);
@@ -135,8 +150,7 @@ public class PanelClickEffect extends SimPanel {
     
     private JList initializeList(JList list){
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        list.setVisibleRowCount(-1);
+        list.setVisibleRowCount(4);
         return list;
     }
     
@@ -148,15 +162,25 @@ public class PanelClickEffect extends SimPanel {
         
         // Re-read entities from EnvironmentPanel. 
         
-        ArrayList<Agent> a = envPanel.getEnv().getAgents();
-        Agent[] agents = envPanel.getEnv().getAgents().toArray(new Agent[a.size()]);
-          
-        listAgents = new JList(agents);
+//        ArrayList<Agent> a = envPanel.getEnv().getAgents();
+//        ListModel<Agent> agents = (ListModel<Agent>) envPanel.getEnv().getAgents();
+        
+        DefaultListModel<Agent> model = new DefaultListModel<Agent>();
+        for(Agent val : envPanel.getEnv().getAgents())
+            model.addElement(val);
+        
+        listAgents = new JList<Agent>(model);
+        listAgents = initializeList(listAgents);
 
-        ArrayList<EnvObject> o = envPanel.getEnv().getObjects();
-        EnvObject[] objects = envPanel.getEnv().getObjects().toArray(new EnvObject[o.size()]);
+        DefaultListModel<EnvObject> model2 = new DefaultListModel<EnvObject>();
+        for(EnvObject val : envPanel.getEnv().getObjects())
+            model2.addElement(val);
+        
+//        ArrayList<EnvObject> o = envPanel.getEnv().getObjects();
+//        EnvObject[] objects = envPanel.getEnv().getObjects().toArray(new EnvObject[o.size()]);
           
-        listObjects = new JList(objects);
+        listObjects = new JList(model2);
+        listObjects = initializeList(listObjects);
         this.repaint();
     }
     

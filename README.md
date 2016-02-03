@@ -7,6 +7,7 @@ Make sure you're on the `master` branch.
 
 2. Extract .zip.
 3. Execute .jar.
+  * _If images don't show up, run from terminal (Linux) and make sure the .jar is in the project's root folder, as it is by default._
 
 #### Usage instructions
 
@@ -20,6 +21,8 @@ Make sure you're on the `master` branch.
   * Select Mode:
     * Select entities from the lists or environment.
     * Drag and drop entities in the environment.
+* Inspector panel
+  * Inspect the attributes of the currently selected entity.
 * Time control panel
   * Play/stop the simulation.
   * Change the step time of the simulation.
@@ -34,6 +37,7 @@ Make sure you're on the `master` branch.
 
 2. Extraer .zip.
 3. Ejecutar .jar.
+  * _Si no se muestran las imágenes, correr desde terminal (Linux) asegurándose de que el .jar está en la carpeta raíz del proyecto, como lo está por defecto._
 
 #### Instrucciones de uso
 
@@ -47,6 +51,8 @@ Make sure you're on the `master` branch.
   * Modo Seleccionar:
     * Seleccionar una entidad del entorno o las listas.
     * Arrastrar y recolocar una entidad del entorno.
+* Panel de inspección
+  * Inspeccionar los atributos de la entidad seleccionada.
 * Panel de control de tiempo
   * Correr/parar la simulación.
   * Cambiar la duración de paso de la simulación.

@@ -33,7 +33,7 @@ public abstract class Entity {
     protected Entity(Entity.type entityType, Position pos){
         this.pos = pos;
         this.entityType = entityType;
-        this.icon = EntityTypeMapper.getIcon(entityType);
+        initializeIcon();
         this.name = entityName() + "x";
     }
     
@@ -48,6 +48,11 @@ public abstract class Entity {
         String className = this.getClass().getName();
         className = className.substring(className.lastIndexOf('.') + 1, className.length());
         return className;
+    }
+    
+    // TODO: Will having as an override-able function ever help in the future?
+    protected void initializeIcon(){
+        this.icon = EntityTypeMapper.getIcon(entityType);
     }
     
     /*
